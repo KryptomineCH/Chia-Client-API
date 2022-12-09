@@ -3,18 +3,44 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chia-Client-API", "Chia-Client-API\Chia-Client-API.csproj", "{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chia-Client-API", "Chia-Client-API\Chia-Client-API.csproj", "{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC", "..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj", "{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{526CF41B-BDFD-4372-AA2F-30EC2F302F03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Debug|x64.Build.0 = Debug|Any CPU
 		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Release|x64.ActiveCfg = Release|Any CPU
+		{2894FFB0-A167-4C72-BD9C-B2E490B1CDB8}.Release|x64.Build.0 = Release|Any CPU
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Debug|x64.ActiveCfg = Debug|x64
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Debug|x64.Build.0 = Debug|x64
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Release|x64.ActiveCfg = Release|x64
+		{3C309D36-7F40-4BD1-8D89-0D2D0422B0EE}.Release|x64.Build.0 = Release|x64
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Debug|x64.Build.0 = Debug|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Release|x64.ActiveCfg = Release|Any CPU
+		{526CF41B-BDFD-4372-AA2F-30EC2F302F03}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
