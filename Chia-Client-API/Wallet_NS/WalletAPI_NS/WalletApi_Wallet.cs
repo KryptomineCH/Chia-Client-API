@@ -139,7 +139,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             SignMessage_Response success = JsonSerializer.Deserialize<SignMessage_Response>(response);
             return success;
         }
-        public async static Task<> VerifySignature (VerifySignature_RPC verifySignature_RPC)
+        public async static Task VerifySignature (VerifySignature_RPC verifySignature_RPC)
         {
             throw new NotImplementedException("due to incomplete documentation, this function is not yet implemented");
         }

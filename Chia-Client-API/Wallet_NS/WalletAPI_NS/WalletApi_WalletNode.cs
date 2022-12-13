@@ -1,5 +1,5 @@
-﻿using Chia_Client_API.Objects_NS.SpendBundle_NS;
-using Chia_Client_API.Wallet_NS.WalletApiResponses_NS;
+﻿using Chia_Client_API.Wallet_NS.WalletApiResponses_NS;
+using CHIA_RPC.Objects;
 using System.Text.Json;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
