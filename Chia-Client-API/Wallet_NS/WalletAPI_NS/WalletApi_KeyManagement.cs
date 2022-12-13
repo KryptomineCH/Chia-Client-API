@@ -28,7 +28,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// Show all public key fingerprints stored in the OS keyring. Note that the keyring must be unlocked in order to run this RPC
+        /// Show all public key fingerprints (main wallets) stored in the OS keyring. Note that the keyring must be unlocked in order to run this RPC
         /// </summary>
         /// <returns></returns>
         public async static Task<GetPublicKeys_Response> GetPublicKeys()
