@@ -6,7 +6,7 @@ using CHIA_RPC.General;
 
 namespace UnitTests.Wallet_RPC_NS
 {
-    [Collection("Test collection")]
+    [Collection("Testnet")]
     public class WalletAPI_KeyManagement
     {
         /// <summary>

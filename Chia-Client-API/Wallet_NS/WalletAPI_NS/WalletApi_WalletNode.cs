@@ -1,32 +1,46 @@
-﻿using Chia_Client_API.Wallet_NS.WalletApiResponses_NS;
-using CHIA_RPC.Objects;
+﻿using CHIA_RPC.Objects;
+using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
 {
     public static partial class WalletApi
     {
-        public async static Task<get_sync_status> GetSyncStatus()
+        /// <summary>
+        /// Show whether the current wallet is syncing or synced
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<GetSyncStatus_Response> GetSyncStatus()
         {
             string response = await SendCustomMessage("get_sync_status");
-            get_sync_status json = JsonSerializer.Deserialize<get_sync_status>(response);
-            return json;
-        }
-        public async static Task<get_height_info> GetHeightInfo()
-        {
-            string response = await SendCustomMessage("get_height_info");
-            get_height_info json = JsonSerializer.Deserialize<get_height_info>(response);
+            GetSyncStatus_Response json = JsonSerializer.Deserialize<GetSyncStatus_Response>(response);
             return json;
         }
         /// <summary>
-        /// due to insufficient documentation, this request point is not implemented yet
+        /// Show the block height to which the current wallet is synced
         /// </summary>
+        /// <returns></returns>
+        public async static Task<GetHeightInfo_Response> GetHeightInfo()
+        {
+            string response = await SendCustomMessage("get_height_info");
+            GetHeightInfo_Response json = JsonSerializer.Deserialize<GetHeightInfo_Response>(response);
+            return json;
+        }
+        /// <summary>
+        /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.
+        /// </summary>
+        /// <remarks>
+        /// due to insufficient documentation, this request point may not be implemented correctly
+        /// </remarks>
         /// <param name="bundle"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async static Task<bool> PushTx(SpendBundle bundle)
+        public async static Task<PushTx_Response> PushTx(SpendBundle spendBundle)
         {
-            throw new NotImplementedException("due to insufficient documentation, this request point is not implemented yet");
+            PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
+            string response = await SendCustomMessage("push_tx", rpc.ToString());
+            PushTx_Response json = JsonSerializer.Deserialize<PushTx_Response>(response);
+            return json;
         }
         /// <summary>
         /// due to insufficient documentation, this request point is not implemented yet
@@ -34,14 +48,21 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="bundles"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async static Task<bool> PushTransactions(SpendBundle[] bundles)
+        public async static Task<PushTx_Response> PushTransactions(SpendBundle[] bundles)
         {
-            throw new NotImplementedException("due to insufficient documentation, this request point is not implemented yet");
+            PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
+            string response = await SendCustomMessage("push_tx", rpc.ToString());
+            PushTx_Response json = JsonSerializer.Deserialize<PushTx_Response>(response);
+            return json;
         }
-        public async static Task<get_network_info> GetNetworkInfo()
+        /// <summary>
+        /// Show the current network (eg mainnet) and network prefix (eg XCH)
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<GetNetworkInfo_Response> GetNetworkInfo()
         {
             string response = await SendCustomMessage("get_network_info");
-            get_network_info json = JsonSerializer.Deserialize<get_network_info>(response);
+            GetNetworkInfo_Response json = JsonSerializer.Deserialize<GetNetworkInfo_Response>(response);
             return json;
         }
     }
