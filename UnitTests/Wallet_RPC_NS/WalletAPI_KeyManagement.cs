@@ -2,11 +2,11 @@
 using Xunit;
 using Chia_Client_API.Wallet_NS.WalletAPI_NS;
 using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
-using System.Threading.Tasks;
 using CHIA_RPC.General;
 
 namespace UnitTests.Wallet_RPC_NS
 {
+    [Collection("Test collection")]
     public class WalletAPI_KeyManagement
     {
         /// <summary>

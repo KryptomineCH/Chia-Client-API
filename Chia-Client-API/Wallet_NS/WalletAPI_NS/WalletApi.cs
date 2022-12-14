@@ -23,7 +23,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public static async Task<string> SendCustomMessage(string function, string json = " { } ")
         {
-            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://localhost:9256/" + function))
+            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://"+GlobalVar.API_TargetIP+":9256/" + function))
             {
                 request.Content = new StringContent(json);
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
