@@ -4,9 +4,6 @@ namespace Chia_Client_API
 {
     internal class CertificateLoader
     {
-        internal static string CertificatesFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
         internal static X509Certificate2 GetCertificate(Endpoint endpoint)
         {
             X509Certificate2 certificate = null;
@@ -14,7 +11,7 @@ namespace Chia_Client_API
             {
                 return certificate;
             }
-            DirectoryInfo endpointCertificateDirectory = new DirectoryInfo(Path.Combine(CertificatesFolder, endpoint.ToString()));
+            DirectoryInfo endpointCertificateDirectory = new DirectoryInfo(Path.Combine(GlobalVar.API_CertificateFolder, endpoint.ToString()));
             FileInfo[] files = endpointCertificateDirectory.GetFiles();
             FileInfo certFile = null;
             FileInfo keyFile = null;
