@@ -1,5 +1,5 @@
 ﻿
-using Chia_Client_API.Objects_NS;
+using CHIA_RPC.Objects_NS;
 
 namespace Chia_Client_API.Wallet_NS.WalletApiResponses_NS
 {

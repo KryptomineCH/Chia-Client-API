@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
@@ -31,6 +32,21 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsStringAsync(); ;
             }
+        }
+        public static async Task<bool> AwaitWalletSync_Async(CancellationToken cancellation)
+        {
+            bool success = false;
+            while(!cancellation.IsCancellationRequested)
+            {
+                GetSyncStatus_Response syncStatus = await WalletApi.GetSyncStatus();
+                if (!syncStatus.success || (!syncStatus.syncing && !syncStatus.synced))
+                {
+                    throw new Exception("Error while obtaining sync status!");
+                }
+                if (syncStatus.synced) return true;
+                await Task.Delay(1000); // wait 1 second
+            }
+            return success;
         }
     }
 }
