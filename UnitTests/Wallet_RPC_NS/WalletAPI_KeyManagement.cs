@@ -81,17 +81,41 @@ namespace UnitTests.Wallet_RPC_NS
         [Fact]
         public void DeleteAllKeys()
         {
-            throw new Exception("This test is to dangerous to execute! only do this if you are really sure!");
-            WalletApi.DeleteAllKeys(I_AM_SURE: true).Wait();
-            GetPublicKeys_Response keys = WalletApi.GetPublicKeys().Result;
-            if (!keys.success)
+            bool areYouSure = false;
+            if (areYouSure)
             {
-                throw new Exception("failed to check if keys got deleted!");
+                WalletApi.DeleteAllKeys(I_AM_SURE: areYouSure).Wait();
+                GetPublicKeys_Response keys = WalletApi.GetPublicKeys().Result;
+                if (!keys.success)
+                {
+                    throw new Exception("failed to check if keys got deleted!");
+                }
+                if (keys.public_key_fingerprints.Length > 0)
+                {
+                    throw new Exception("not all Keys have been deleted!");
+                }
             }
-            if (keys.public_key_fingerprints.Length > 0)
+            else
             {
-                throw new Exception("not all Keys have been deleted!");
-            }
+                try
+                {
+                    WalletApi.DeleteAllKeys(I_AM_SURE: areYouSure).Wait();
+                    throw new Exception("Oh Oh!");
+                }
+                catch (Exception ex)
+                {
+
+                }
+                GetPublicKeys_Response keys = WalletApi.GetPublicKeys().Result;
+                if (!keys.success)
+                {
+                    throw new Exception("failed to check if keys got deleted!");
+                }
+                if (keys.public_key_fingerprints.Length <= 0)
+                {
+                    throw new Exception("all Keys have been deleted!");
+                }
+            }  
         }
     }
 }
