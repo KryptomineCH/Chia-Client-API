@@ -33,15 +33,32 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 return await response.Content.ReadAsStringAsync(); ;
             }
         }
-        public static async Task<bool> AwaitWalletSync_Async(CancellationToken cancellation)
+        public static async Task<bool> AwaitWalletSync_Async(CancellationToken cancellation, 
+            double timeoutSeconds = 60.0)
         {
+            TimeSpan timeOut = TimeSpan.FromSeconds(timeoutSeconds);
+            DateTime timeOutTracker = DateTime.Now;
             bool success = false;
             while(!cancellation.IsCancellationRequested)
             {
                 GetSyncStatus_Response syncStatus = await WalletApi.GetSyncStatus();
-                if (!syncStatus.success || (!syncStatus.syncing && !syncStatus.synced))
+                if (!syncStatus.success)
                 {
                     throw new Exception("Error while obtaining sync status!");
+                }
+                else if(!syncStatus.syncing && !syncStatus.synced)
+                {
+                    // not synced and not syncing, check timeout
+                    if (timeOutTracker + timeOut < DateTime.Now)
+                    {
+                        return false;
+                    }
+                    // timeout is not met, wait for the wallet to start syncing
+                }
+                else if(syncStatus.success && (syncStatus.syncing || syncStatus.synced))
+                {
+                    // currently syncing, so we want to extend the timeout
+                    timeOutTracker = DateTime.Now;
                 }
                 if (syncStatus.synced) return true;
                 await Task.Delay(1000); // wait 1 second

@@ -1,6 +1,5 @@
-﻿
-using Chia_Client_API.Wallet_NS.WalletApiResponses_NS;
-using CHIA_RPC.General;
+﻿using CHIA_RPC.General;
+using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using System.Text.Json;
 
@@ -73,6 +72,38 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             string response = await SendCustomMessage("send_transaction", wallet_Send_XCH_RPC.ToString());
             GetTransaction_Response json = JsonSerializer.Deserialize<GetTransaction_Response>(response);
             return json;
+        }
+        public static Task<GetTransaction_Response> AwaitTransactionToComplete(
+            Transaction transaction,
+            CancellationToken cancellation, double timeoutInMinutes = 5)
+        {
+            TransactionID_RPC transactionID_RPC = new TransactionID_RPC
+            {
+                transaction_id = transaction.name
+            };
+            return AwaitTransactionToComplete(transactionID_RPC, cancellation, timeoutInMinutes);
+        }
+        public async static Task<GetTransaction_Response> AwaitTransactionToComplete(
+            TransactionID_RPC transactionID_RPC,
+            CancellationToken cancellation, double timeoutInMinutes = 5)
+        {
+            DateTime startTime = DateTime.Now;
+            TimeSpan timeOut = TimeSpan.FromMinutes(timeoutInMinutes);
+            GetTransaction_Response response = null;
+            while (!cancellation.IsCancellationRequested)
+            {
+                response = GetTransaction(transactionID_RPC).Result;
+                if (response.success && response.transaction.confirmed)
+                {
+                    return response;
+                }
+                Task.Delay(1000, cancellation);
+                if (DateTime.Now > startTime + timeOut)
+                {
+                    break;
+                }
+            }
+            return response;
         }
         /// <summary>
         /// not well documented. pleas use custom rpc
