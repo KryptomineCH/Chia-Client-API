@@ -6,7 +6,7 @@ This repository contains a C# wrapper for the Chia blockchain API. It allows you
 
 This library is also available on NuGet. You can find it by searching for "ChiaClientAPI" in the NuGet Package Manager or by using the following command in the Package Manager Console:
 ```
-Install-Package ChiaClientAPI
+Install-Package Chia-Client-API
 ```
 ## Features
 A simple, easy-to-use interface for accessing the Chia API
