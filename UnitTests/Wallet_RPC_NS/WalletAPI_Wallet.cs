@@ -342,8 +342,12 @@ namespace UnitTests.Wallet_RPC_NS
             { }
             VerifySignature_RPC verifySignature_RPC = new VerifySignature_RPC
             {
-
+                address= adress,
+                message = "this is a test",
+                pubkey = response.pubkey,
+                signature = response.signature
             };
+            //WalletApi.VerifySignature(verifySignature_RPC);
         }
         /// <summary>
         /// Sign a message using a DID or NFT ID without incurring an on-chain transaction
