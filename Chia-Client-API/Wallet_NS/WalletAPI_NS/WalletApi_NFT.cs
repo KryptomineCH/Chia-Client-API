@@ -8,15 +8,15 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
     {
         /// <summary>
         /// This method asynchronously sends an "nft_mint_nft" message to mint an nft. 
-        /// It then deserializes the response into an NFTMintNFT_Response object and returns it. 
-        /// It takes an NFTMintNFT_RPC object as an argument.
+        /// It then deserializes the response into an NftMintNFT_Response object and returns it. 
+        /// It takes an NftMintNFT_RPC object as an argument.
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public async static Task<NftMintNFT_Response> NftMintNft(NftMintNFT_RPC rpc)
         {
             string response = await SendCustomMessage("nft_mint_nft", rpc.ToString());
-            CHIA_RPC.Wallet_RPC_NS.NFT.NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
+            NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
         }
         /// <summary>

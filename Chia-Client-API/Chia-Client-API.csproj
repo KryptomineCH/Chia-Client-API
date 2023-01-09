@@ -36,4 +36,8 @@
     <PackageReference Include="CHIA-RPC" Version="1.6.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
+  </ItemGroup>
+
 </Project>
