@@ -12,8 +12,8 @@ namespace UnitTests.Wallet_RPC_NS
         public void GetNFTs_Test()
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;
-            WalletID_Response nftWallet = WalletApi.NftGetByDID(new DidID_RPC { did_id = didWallet }).Result;
-            NftGetNfts_Response response = WalletApi.NftGetNfts(
+            WalletID_Response nftWallet = WalletApi.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
+            NftGetNfts_Response response = WalletApi.NftGetNfts_Async(
                 new WalletID_RPC { wallet_id = nftWallet.wallet_id }).Result;
             { }
         }
@@ -37,7 +37,7 @@ namespace UnitTests.Wallet_RPC_NS
                 royaltyFee: 190,
                 royaltyAddress: CommonTestFunctions.TestAdress,
                 mintingFee_Mojos: 0);
-            NftMintNFT_Response response = WalletApi.NftMintNft(rpc).Result;
+            NftMintNFT_Response response = WalletApi.NftMintNft_Async(rpc).Result;
             if (!response.success)
             {
                 throw new System.Exception(response.error);

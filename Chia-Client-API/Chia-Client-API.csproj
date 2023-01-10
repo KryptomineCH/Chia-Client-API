@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CHIA-RPC" Version="1.6.1.2" />
+    <PackageReference Include="CHIA-RPC" Version="1.6.1.3" />
   </ItemGroup>
 
   <ItemGroup>

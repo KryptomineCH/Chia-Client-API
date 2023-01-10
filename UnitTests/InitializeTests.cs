@@ -16,10 +16,10 @@ namespace UnitTests
         public Testnet()
         {
             // ... initialize ...
-            Chia_Client_API.GlobalVar.API_TargetIP = "192.168.1.132";
-            Chia_Client_API.GlobalVar.API_CertificateFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".testnet\ssl\");
+            //Chia_Client_API.GlobalVar.API_TargetIP = "192.168.1.132";
+            //Chia_Client_API.GlobalVar.API_CertificateFolder = Path.Combine(
+            //Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+            //@".testnet\ssl\");
             // close all old wallets (if more than 1 are open)
             GetWallets_Response pre_wallets = WalletApi.GetWallets().Result;
             if (pre_wallets.success)

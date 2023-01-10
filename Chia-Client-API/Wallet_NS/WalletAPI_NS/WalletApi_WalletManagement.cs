@@ -13,7 +13,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         public async static Task<GetWallets_Response> GetWallets(bool includeData = true)
         {
             GetWallets_RPC rpc = new GetWallets_RPC { include_data= includeData };
-            string response = await SendCustomMessage("get_wallets", rpc.ToString());
+            string response = await SendCustomMessage_Async("get_wallets", rpc.ToString());
             GetWallets_Response json = JsonSerializer.Deserialize<GetWallets_Response>(response);
             return json;
         }
@@ -23,19 +23,19 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public async static Task<CreateNewWallet_Response> CreateNewCatWallet(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
-            string response = await SendCustomMessage("create_new_wallet ", createNewCatWallet_RPC.ToString());
+            string response = await SendCustomMessage_Async("create_new_wallet ", createNewCatWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
         public async static Task<CreateNewWallet_Response> ModifyCatWallet(ModifyCatWallet_RPC modifyCatWallet_RPC)
         {
-            string response = await SendCustomMessage("create_new_wallet ", modifyCatWallet_RPC.ToString());
+            string response = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
         public async static Task<CreateNewWallet_Response> CreateNewDidWallet(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
-            string response = await SendCustomMessage("create_new_wallet ", createNewDIDWallet_RPC.ToString());
+            string response = await SendCustomMessage_Async("create_new_wallet ", createNewDIDWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
@@ -48,7 +48,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public async static Task<CreateNewWallet_Response> CreateNewNftWallet(CreateNewNFTWallet_RPC createNewNFTWallet_RPC)
         {
-            string response = await SendCustomMessage("create_new_wallet ", createNewNFTWallet_RPC.ToString());
+            string response = await SendCustomMessage_Async("create_new_wallet ", createNewNFTWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }

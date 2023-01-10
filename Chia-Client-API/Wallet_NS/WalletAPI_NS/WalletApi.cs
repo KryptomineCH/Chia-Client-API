@@ -22,7 +22,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="function"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        public static async Task<string> SendCustomMessage(string function, string json = " { } ")
+        public static async Task<string> SendCustomMessage_Async(string function, string json = " { } ")
         {
             using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://"+GlobalVar.API_TargetIP+":9256/" + function))
             {
@@ -32,6 +32,12 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsStringAsync(); ;
             }
+        }
+        public static string SendCustomMessage_Sync(string function, string json = " { } ")
+        {
+            Task<string> data = Task.Run(() => SendCustomMessage_Async(function,json));
+            data.Wait();
+            return data.Result;
         }
         public static async Task<bool> AwaitWalletSync_Async(CancellationToken cancellation, 
             double timeoutSeconds = 60.0)

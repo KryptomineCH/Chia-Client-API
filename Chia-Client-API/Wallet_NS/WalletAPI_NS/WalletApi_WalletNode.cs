@@ -12,7 +12,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public async static Task<GetSyncStatus_Response> GetSyncStatus()
         {
-            string response = await SendCustomMessage("get_sync_status");
+            string response = await SendCustomMessage_Async("get_sync_status");
             GetSyncStatus_Response json = JsonSerializer.Deserialize<GetSyncStatus_Response>(response);
             return json;
         }
@@ -22,7 +22,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public async static Task<GetHeightInfo_Response> GetHeightInfo()
         {
-            string response = await SendCustomMessage("get_height_info");
+            string response = await SendCustomMessage_Async("get_height_info");
             GetHeightInfo_Response json = JsonSerializer.Deserialize<GetHeightInfo_Response>(response);
             return json;
         }
@@ -38,7 +38,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         public async static Task<PushTx_Response> PushTx(SpendBundle spendBundle)
         {
             PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
-            string response = await SendCustomMessage("push_tx", rpc.ToString());
+            string response = await SendCustomMessage_Async("push_tx", rpc.ToString());
             PushTx_Response json = JsonSerializer.Deserialize<PushTx_Response>(response);
             return json;
         }
@@ -51,7 +51,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         public async static Task<PushTx_Response> PushTransactions(SpendBundle[] bundles)
         {
             PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
-            string response = await SendCustomMessage("push_tx", rpc.ToString());
+            string response = await SendCustomMessage_Async("push_tx", rpc.ToString());
             PushTx_Response json = JsonSerializer.Deserialize<PushTx_Response>(response);
             return json;
         }
@@ -61,7 +61,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <returns></returns>
         public async static Task<GetNetworkInfo_Response> GetNetworkInfo()
         {
-            string response = await SendCustomMessage("get_network_info");
+            string response = await SendCustomMessage_Async("get_network_info");
             GetNetworkInfo_Response json = JsonSerializer.Deserialize<GetNetworkInfo_Response>(response);
             return json;
         }
