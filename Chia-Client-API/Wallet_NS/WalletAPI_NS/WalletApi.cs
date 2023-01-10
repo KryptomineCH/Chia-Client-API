@@ -44,6 +44,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 GetSyncStatus_Response syncStatus = await WalletApi.GetSyncStatus();
                 if (!syncStatus.success)
                 {
+                    if (syncStatus.error == "wallet state manager not assigned")
+                    {
+                        throw new Exception("no wallet is logged in!");
+                    }
                     throw new Exception("Error while obtaining sync status!");
                 }
                 else if(!syncStatus.syncing && !syncStatus.synced)

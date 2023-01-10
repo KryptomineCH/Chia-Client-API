@@ -1,10 +1,6 @@
 ﻿using Chia_Client_API.Wallet_NS.WalletAPI_NS;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
 
 namespace UnitTests
 {
@@ -27,6 +23,38 @@ namespace UnitTests
             };
             GetNextAddress_Response adressResponse = WalletApi.GetNextAddress(same_address).Result;
             return adressResponse.address.ToString();
+        }
+        public static Wallets_info TestDidWallet
+        {
+            get
+            {
+                GetWallets_Response wallets = WalletApi.GetWallets().Result;
+                foreach (var wallet in wallets.wallets)
+                {
+                    if (wallet.type == CHIA_RPC.Objects_NS.WalletType.did_wallet)
+                    {
+                        return wallet;
+                    }
+                        
+                }
+                return null;
+            }
+        }
+        public static Wallets_info TestNftWallet
+        {
+            get
+            {
+                GetWallets_Response wallets = WalletApi.GetWallets().Result;
+                foreach (var wallet in wallets.wallets)
+                {
+                    if (wallet.type == CHIA_RPC.Objects_NS.WalletType.nft_wallet)
+                    {
+                        return wallet;
+                    }
+
+                }
+                return null;
+            }
         }
     }
 }

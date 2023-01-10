@@ -5,6 +5,7 @@ using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
 using System;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -19,11 +20,22 @@ namespace UnitTests
             Chia_Client_API.GlobalVar.API_CertificateFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             @".testnet\ssl\");
-            // close all old wallets
+            // close all old wallets (if more than 1 are open)
             GetWallets_Response pre_wallets = WalletApi.GetWallets().Result;
-            if (pre_wallets.success && pre_wallets.wallets.Length > 1)
+            if (pre_wallets.success)
             {
-                WalletApi.DeleteAllKeys(I_AM_SURE: true);
+                int walletAmount = 0;
+                foreach (Wallets_info wallet in pre_wallets.wallets)
+                {
+                    if (wallet.type == CHIA_RPC.Objects_NS.WalletType.ChiaWallet)
+                    {
+                        walletAmount++;
+                    }
+                }
+                if (walletAmount > 1)
+                {
+                    WalletApi.DeleteAllKeys(I_AM_SURE: true);
+                }
             }
             // create wallet or login with existing
             if (!File.Exists("testwallet.rpc"))
@@ -47,9 +59,9 @@ namespace UnitTests
                 LogIn_Response response = WalletApi.AddKey(addKey).Result;
                 { }
             }
-            Task.Delay(1000).Wait();
+            Task.Delay(5000).Wait();
             WalletApi.LogIn(login_rpc).Wait();
-            Task.Delay(10000).Wait();
+            _ = WalletApi.AwaitWalletSync_Async(CancellationToken.None).Result;
         }
 
         public void Dispose()

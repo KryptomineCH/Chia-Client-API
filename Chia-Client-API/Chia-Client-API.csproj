@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>chia;blockchain;api;rpc;websocket;rest;http</PackageTags>
-    <PackageReleaseNotes>update references</PackageReleaseNotes>
+    <PackageReleaseNotes>update references, added nft endpoint</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
   </PropertyGroup>
