@@ -1,5 +1,6 @@
 ﻿using CHIA_RPC.General;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
+using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
@@ -46,10 +47,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftGetByDID_Response> NftGetByDID(NftGetByDID_RPC rpc)
+        public async static Task<WalletID_Response> NftGetByDID(DidID_RPC rpc)
         {
             string response = await SendCustomMessage("nft_get_by_did", rpc.ToString());
-            NftGetByDID_Response json = JsonSerializer.Deserialize<NftGetByDID_Response>(response);
+            WalletID_Response json = JsonSerializer.Deserialize<WalletID_Response>(response);
             return json;
         }
         /// <summary>
@@ -57,10 +58,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftGetWalletDID_Response> NftGetWalletDID(NftGetWalletDID_RPC rpc)
+        public async static Task<DidID_Response> NftGetWalletDID(WalletID_RPC rpc)
         {
             string response = await SendCustomMessage("nft_get_wallet_did", rpc.ToString());
-            NftGetWalletDID_Response json = JsonSerializer.Deserialize<NftGetWalletDID_Response>(response);
+            DidID_Response json = JsonSerializer.Deserialize<DidID_Response>(response);
             return json;
         }
         /// <summary>
@@ -68,9 +69,9 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftGetWalletsWithDIDs_Response> NftGetWalletsWithDIDs(NftGetWalletsWithDIDs_RPC rpc)
+        public async static Task<NftGetWalletsWithDIDs_Response> NftGetWalletsWithDIDs()
         {
-            string response = await SendCustomMessage("nft_get_wallets_with_dids", rpc.ToString());
+            string response = await SendCustomMessage("nft_get_wallets_with_dids");
             NftGetWalletsWithDIDs_Response json = JsonSerializer.Deserialize<NftGetWalletsWithDIDs_Response>(response);
             return json;
         }
@@ -79,10 +80,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftSetNftStatus_Response> NftSetNftStatus(NftSetNftStatus_RPC rpc)
+        public async static Task<Success_Response> NftSetNftStatus(NftSetNftStatus_RPC rpc)
         {
             string response = await SendCustomMessage("nft_set_nft_status", rpc.ToString());
-            NftSetNftStatus_Response json = JsonSerializer.Deserialize<NftSetNftStatus_Response>(response);
+            Success_Response json = JsonSerializer.Deserialize<Success_Response>(response);
             return json;
         }
         /// <summary>
@@ -90,10 +91,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftTransferNft_Response> NftTransferNft(NftTransferNft_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftTransferNft(NftTransferNft_RPC rpc)
         {
             string response = await SendCustomMessage("nft_transfer_nft", rpc.ToString());
-            NftTransferNft_Response json = JsonSerializer.Deserialize<NftTransferNft_Response>(response);
+            NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
         }
         /// <summary>
@@ -112,10 +113,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftAddURI_Response> NftAddURI(NftAddURI_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftAddURI(NftAddURI_RPC rpc)
         {
             string response = await SendCustomMessage("nft_add_uri", rpc.ToString());
-            NftAddURI_Response json = JsonSerializer.Deserialize<NftAddURI_Response>(response);
+            NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
         }
         /// <summary>
@@ -136,10 +137,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftMintBulk_Response> NftMintBulk(NftMintBulk_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftMintBulk(NftMintBulk_RPC rpc)
         {
             string response = await SendCustomMessage("nft_mint_bulk", rpc.ToString());
-            NftMintBulk_Response json = JsonSerializer.Deserialize<NftMintBulk_Response>(response);
+            NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
         }
     }
