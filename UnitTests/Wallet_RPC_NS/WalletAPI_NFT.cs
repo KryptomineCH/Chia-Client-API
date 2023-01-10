@@ -13,6 +13,8 @@ namespace UnitTests.Wallet_RPC_NS
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;
             WalletID_Response nftWallet = WalletApi.NftGetByDID(new DidID_RPC { did_id = didWallet }).Result;
+            NftGetNfts_Response response = WalletApi.NftGetNfts(
+                new WalletID_RPC { wallet_id = nftWallet.wallet_id }).Result;
             { }
         }
         [Fact]
@@ -36,6 +38,10 @@ namespace UnitTests.Wallet_RPC_NS
                 royaltyAddress: CommonTestFunctions.TestAdress,
                 mintingFee_Mojos: 0);
             NftMintNFT_Response response = WalletApi.NftMintNft(rpc).Result;
+            if (!response.success)
+            {
+                throw new System.Exception(response.error);
+            }
             { }
         }
     }
