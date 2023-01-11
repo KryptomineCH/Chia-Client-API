@@ -21,7 +21,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetWalletBalance_Response response = WalletApi.GetWalletBalance(id).Result;
+            GetWalletBalance_Response response = WalletApi.GetWalletBalance_Async(id).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -44,9 +44,9 @@ namespace UnitTests.Wallet_RPC_NS
                 throw new Exception("wallet could not be synced!");
             }
             WalletID_RPC id = new WalletID_RPC { wallet_id = 1 };
-            GetTransactions_Response all_transactions = WalletApi.GetTransactions(id).Result;
+            GetTransactions_Response all_transactions = WalletApi.GetTransactions_Async(id).Result;
             TransactionID_RPC transID = new TransactionID_RPC { transaction_id = all_transactions.transactions[0].name };
-            GetTransaction_Response response = WalletApi.GetTransaction(transID).Result;
+            GetTransaction_Response response = WalletApi.GetTransaction_Async(transID).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -68,7 +68,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetTransactions_Response response = WalletApi.GetTransactions(id).Result;
+            GetTransactions_Response response = WalletApi.GetTransactions_Async(id).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -90,7 +90,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetTransactionCount_Response response = WalletApi.GetTransactionCount(id).Result;
+            GetTransactionCount_Response response = WalletApi.GetTransactionCount_Async(id).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -111,12 +111,12 @@ namespace UnitTests.Wallet_RPC_NS
                 new_address = false,
                 wallet_id = 1
             };
-            GetNextAddress_Response response1 = WalletApi.GetNextAddress(same_address).Result;
+            GetNextAddress_Response response1 = WalletApi.GetNextAddress_Async(same_address).Result;
             if (!response1.success)
             {
                 throw new Exception(response1.error);
             }
-            GetNextAddress_Response response2 = WalletApi.GetNextAddress(same_address).Result;
+            GetNextAddress_Response response2 = WalletApi.GetNextAddress_Async(same_address).Result;
             if (!response2.success)
             {
                 throw new Exception(response2.error);
@@ -130,7 +130,7 @@ namespace UnitTests.Wallet_RPC_NS
                 new_address = true,
                 wallet_id = 1
             };
-            GetNextAddress_Response response3 = WalletApi.GetNextAddress(new_address).Result;
+            GetNextAddress_Response response3 = WalletApi.GetNextAddress_Async(new_address).Result;
             if (!response3.success)
             {
                 throw new Exception(response3.error);
@@ -154,12 +154,12 @@ namespace UnitTests.Wallet_RPC_NS
                 memos = new[] { "this is a testmemo1", "this is a testmemo2" },
                 wallet_id = 1
             };
-            GetTransaction_Response response = WalletApi.SendTransaction(rpc).Result;
+            GetTransaction_Response response = WalletApi.SendTransaction_Async(rpc).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
             }
-            GetTransaction_Response result = WalletApi.AwaitTransactionToComplete(response.transaction,CancellationToken.None,10.0).Result;
+            GetTransaction_Response result = WalletApi.AwaitTransactionToComplete_Async(response.transaction,CancellationToken.None,10.0).Result;
             { }
             if (!result.success)
             {
@@ -185,7 +185,7 @@ namespace UnitTests.Wallet_RPC_NS
         [Fact]
         public void GetFarmedAmount()
         {
-            GetFarmedAmount_Response response = WalletApi.GetFarmedAmount().Result;
+            GetFarmedAmount_Response response = WalletApi.GetFarmedAmount_Async().Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -211,7 +211,7 @@ namespace UnitTests.Wallet_RPC_NS
                 new_address = false,
                 wallet_id = 1
             };
-            GetNextAddress_Response adressResponse = WalletApi.GetNextAddress(same_address).Result;
+            GetNextAddress_Response adressResponse = WalletApi.GetNextAddress_Async(same_address).Result;
             SendXCH_RPC rpc = new SendXCH_RPC
             {
                 address = adressResponse.address,
@@ -220,8 +220,8 @@ namespace UnitTests.Wallet_RPC_NS
                 memos = new[] { "this is a testmemo1", "this is a testmemo2" },
                 wallet_id = 1
             };
-            GetTransaction_Response response = WalletApi.SendTransaction(rpc).Result;
-            Success_Response success = WalletApi.DeleteUnconfirmedTransactions(1).Result;
+            GetTransaction_Response response = WalletApi.SendTransaction_Async(rpc).Result;
+            Success_Response success = WalletApi.DeleteUnconfirmedTransactions_Async(1).Result;
             if (!success.success)
             {
                 throw new Exception(success.error);
@@ -238,7 +238,7 @@ namespace UnitTests.Wallet_RPC_NS
                 amount = 1000000,
                 wallet_id = 1
             };
-            SelectCoins_Response response = WalletApi.SelectCoins(select).Result;
+            SelectCoins_Response response = WalletApi.SelectCoins_Async(select).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -254,7 +254,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 wallet_id = 1
             };
-            GetSpendableCoins_Response response = WalletApi.GetSpendableCoins(rpc).Result;
+            GetSpendableCoins_Response response = WalletApi.GetSpendableCoins_Async(rpc).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -271,7 +271,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 names = new[] { "0xeb17e80fcb72f15bfb28924f0bcd684df626646dca282bc88098cb0d59ffe1bb" }
             };
-            GetCoinRecordsByNames_Response response = WalletApi.GetCoinRecordsByNames(rpc).Result;
+            GetCoinRecordsByNames_Response response = WalletApi.GetCoinRecordsByNames_Async(rpc).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -334,7 +334,7 @@ namespace UnitTests.Wallet_RPC_NS
                 address = adress,
                 message = "this is a test"
             };
-            SignMessage_Response response = WalletApi.SignMessageByAddress(rpc).Result;
+            SignMessage_Response response = WalletApi.SignMessageByAddress_Async(rpc).Result;
             if(!response.success)
             {
                 throw new Exception(response.error);
