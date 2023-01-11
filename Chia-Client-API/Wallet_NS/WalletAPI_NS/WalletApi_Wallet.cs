@@ -18,13 +18,17 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetWalletBalance_Response json = JsonSerializer.Deserialize<GetWalletBalance_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Obtain the balance (and related info) from a wallet
+        /// </summary>
+        /// <param name="walletID_RPC"></param>
+        /// <returns></returns>
         public static GetWalletBalance_Response GetWalletBalance_Sync(WalletID_RPC walletID_RPC)
         {
             Task<GetWalletBalance_Response> data = Task.Run(() => GetWalletBalance_Async(walletID_RPC));
             data.Wait();
             return data.Result;
         }
-
         /// <summary>
         /// Get a transaction's details from its ID
         /// </summary>
@@ -36,6 +40,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetTransaction_Response json = JsonSerializer.Deserialize<GetTransaction_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Get a transaction's details from its ID
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <returns></returns>
         public static GetTransaction_Response GetTransaction_Sync(TransactionID_RPC transactionID_RPC)
         {
             Task<GetTransaction_Response> data = Task.Run(() => GetTransaction_Async(transactionID_RPC));
@@ -53,6 +62,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetTransactions_Response json = JsonSerializer.Deserialize<GetTransactions_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Get all transactions for a given wallet
+        /// </summary>
+        /// <param name="walletID_RPC"></param>
+        /// <returns></returns>
         public static GetTransactions_Response GetTransactions_Sync(WalletID_RPC walletID_RPC)
         {
             Task<GetTransactions_Response> data = Task.Run(() => GetTransactions_Async(walletID_RPC));
@@ -70,6 +84,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetTransactionCount_Response json = JsonSerializer.Deserialize<GetTransactionCount_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Obtain the number of transactions for a wallet
+        /// </summary>
+        /// <param name="walletID_RPC"></param>
+        /// <returns></returns>
         public static GetTransactionCount_Response GetTransactionCount_Sync(WalletID_RPC walletID_RPC)
         {
             Task<GetTransactionCount_Response> data = Task.Run(() => GetTransactionCount_Async(walletID_RPC));
@@ -87,6 +106,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetNextAddress_Response json = JsonSerializer.Deserialize<GetNextAddress_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Get the next address in the HD tree, with the option to show the latest address
+        /// </summary>
+        /// <param name="getNextAddress_RPC"></param>
+        /// <returns></returns>
         public static GetNextAddress_Response GetNextAddress_Sync(GetNextAddress_RPC getNextAddress_RPC)
         {
             Task<GetNextAddress_Response> data = Task.Run(() => GetNextAddress_Async(getNextAddress_RPC));
@@ -104,12 +128,24 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetTransaction_Response json = JsonSerializer.Deserialize<GetTransaction_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Send a (chia) transaction
+        /// </summary>
+        /// <param name="wallet_Send_XCH_RPC"></param>
+        /// <returns></returns>
         public static GetTransaction_Response SendTransaction_Sync(SendXCH_RPC wallet_Send_XCH_RPC)
         {
             Task<GetTransaction_Response> data = Task.Run(() => SendTransaction_Async(wallet_Send_XCH_RPC));
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
         public static Task<GetTransaction_Response> AwaitTransactionToComplete_Async(
             Transaction transaction,
             CancellationToken cancellation, double timeoutInMinutes = 5)
@@ -120,6 +156,13 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             };
             return AwaitTransactionToComplete_Async(transactionID_RPC, cancellation, timeoutInMinutes);
         }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
         public static GetTransaction_Response AwaitTransactionToComplete_Sync(
             Transaction transaction, 
             CancellationToken cancellation, double timeoutInMinutes = 5)
@@ -128,6 +171,13 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
         public async static Task<GetTransaction_Response> AwaitTransactionToComplete_Async(
             TransactionID_RPC transactionID_RPC,
             CancellationToken cancellation, double timeoutInMinutes = 5)
@@ -150,6 +200,13 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             }
             return response;
         }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
         public static GetTransaction_Response AwaitTransactionToComplete_Sync(
             TransactionID_RPC transactionID_RPC, 
             CancellationToken cancellation, double timeoutInMinutes = 5)
@@ -171,6 +228,12 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetTransactions_Response json = JsonSerializer.Deserialize<GetTransactions_Response>(response);
             return json;
         }
+        /// <summary>
+        /// not well documented. pleas use custom rpc
+        /// </summary>
+        /// <param name="wallet_Send_XCH_RPC"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static GetTransactions_Response SendTransactionMulti_Sync(SendXCH_RPC wallet_Send_XCH_RPC)
         {
             Task<GetTransactions_Response> data = Task.Run(() => SendTransactionMulti_Async(wallet_Send_XCH_RPC));
@@ -297,6 +360,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetCoinRecordsByNames_Response json = JsonSerializer.Deserialize<GetCoinRecordsByNames_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Obtain coin records from a list of coin names
+        /// </summary>
+        /// <param name="getCoinRecordsByNames_RPC"></param>
+        /// <returns></returns>
         public static GetCoinRecordsByNames_Response GetCoinRecordsByNames_Sync(GetCoinRecordsByNames_RPC getCoinRecordsByNames_RPC)
         {
             Task<GetCoinRecordsByNames_Response> data = Task.Run(() => GetCoinRecordsByNames_Async(getCoinRecordsByNames_RPC));
@@ -313,6 +381,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetCurrentDerivationIndec_Response json = JsonSerializer.Deserialize<GetCurrentDerivationIndec_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Obtain the current derivation index for the current wallet
+        /// </summary>
+        /// <returns></returns>
         public static GetCurrentDerivationIndec_Response GetCurrentDerivationIndex_Sync()
         {
             Task<GetCurrentDerivationIndec_Response> data = Task.Run(() => GetCurrentDerivationIndex_Async());
@@ -330,6 +402,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             ExtendDerivationIndex_Response json = JsonSerializer.Deserialize<ExtendDerivationIndex_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Increase the derivation index
+        /// </summary>
+        /// <param name="extendDerivationIndex_RPC"></param>
+        /// <returns></returns>
         public static ExtendDerivationIndex_Response ExtendDerivationIndex_Sync(ExtendDerivationIndex_RPC extendDerivationIndex_RPC)
         {
             Task<ExtendDerivationIndex_Response> data = Task.Run(() => ExtendDerivationIndex_Async(extendDerivationIndex_RPC));
@@ -349,6 +426,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetNotifications_Response json = JsonSerializer.Deserialize<GetNotifications_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Obtain current notifications
+        /// </summary>
+        /// <param name="getNotifications_RPC"></param>
+        /// <returns></returns>
         public static GetNotifications_Response GetNotifications_Sync(GetNotifications_RPC getNotifications_RPC = null)
         {
             Task<GetNotifications_Response> data = Task.Run(() => GetNotifications_Async(getNotifications_RPC));
@@ -368,6 +450,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             Success_Response json = JsonSerializer.Deserialize<Success_Response>(response);
             return json;
         }
+        /// <summary>
+        /// Delete notifications, with the option to specify IDs from which to delete
+        /// </summary>
+        /// <param name="deleteNotifications_RPC"></param>
+        /// <returns></returns>
         public static Success_Response DeleteNotifications_Sync(DeleteNotifications_RPC deleteNotifications_RPC = null)
         {
             Task<Success_Response> data = Task.Run(() => DeleteNotifications_Async(deleteNotifications_RPC));
@@ -385,6 +472,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             SendNotification_Response success = JsonSerializer.Deserialize<SendNotification_Response>(response);
             return success;
         }
+        /// <summary>
+        /// Send a notification to a specified puzzle hash
+        /// </summary>
+        /// <param name="sendNotification_RPC"></param>
+        /// <returns></returns>
         public static SendNotification_Response SendNotification_Sync(SendNotification_RPC sendNotification_RPC)
         {
             Task<SendNotification_Response> data = Task.Run(() => SendNotification_Async(sendNotification_RPC));
@@ -402,6 +494,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             SignMessage_Response success = JsonSerializer.Deserialize<SignMessage_Response>(response);
             return success;
         }
+        /// <summary>
+        /// Sign a message using an XCH address without incurring an on-chain transaction
+        /// </summary>
+        /// <param name="signMessageByAddress_RPC"></param>
+        /// <returns></returns>
         public static SignMessage_Response SignMessageByAddress_Sync(SignMessageByAddress_RPC signMessageByAddress_RPC)
         {
             Task<SignMessage_Response> data = Task.Run(() => SignMessageByAddress_Async(signMessageByAddress_RPC));
@@ -419,6 +516,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             SignMessage_Response success = JsonSerializer.Deserialize<SignMessage_Response>(response);
             return success;
         }
+        /// <summary>
+        /// Sign a message using a DID or NFT ID without incurring an on-chain transaction
+        /// </summary>
+        /// <param name="signMessageByID_RPC"></param>
+        /// <returns></returns>
         public static SignMessage_Response SignMessageByID_Sync(SignMessageByID_RPC signMessageByID_RPC)
         {
             Task<SignMessage_Response> data = Task.Run(() => SignMessageByID_Async(signMessageByID_RPC));
@@ -435,6 +537,12 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         {
             throw new NotImplementedException("due to incomplete documentation, this function is not yet implemented");
         }
+        /// <summary>
+        /// Given a public key, message and signature, verify if it is valid.
+        /// </summary>
+        /// <param name="verifySignature_RPC"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public static void VerifySignature_Sync(VerifySignature_RPC verifySignature_RPC)
         {
             Task.Run(() => VerifySignature_Async(verifySignature_RPC)).Wait();

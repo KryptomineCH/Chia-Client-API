@@ -33,12 +33,25 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 return await response.Content.ReadAsStringAsync(); ;
             }
         }
+        /// <summary>
+        /// with this function you can execute any RPC against the wallet api. it is internally used by the library
+        /// </summary>
+        /// <param name="function"></param>
+        /// <param name="json"></param>
+        /// <returns></returns>
         public static string SendCustomMessage_Sync(string function, string json = " { } ")
         {
             Task<string> data = Task.Run(() => SendCustomMessage_Async(function,json));
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// waits until the wallet is fully synced with the blockchain
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutSeconds"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public static async Task<bool> AwaitWalletSync_Async(CancellationToken cancellation, 
             double timeoutSeconds = 60.0)
         {
@@ -47,7 +60,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             bool success = false;
             while(!cancellation.IsCancellationRequested)
             {
-                GetSyncStatus_Response syncStatus = await WalletApi.GetSyncStatus();
+                GetSyncStatus_Response syncStatus = await WalletApi.GetSyncStatus_Async();
                 if (!syncStatus.success)
                 {
                     if (syncStatus.error == "wallet state manager not assigned")
@@ -74,6 +87,19 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 await Task.Delay(1000); // wait 1 second
             }
             return success;
+        }
+        /// <summary>
+        /// waits until the wallet is fully synced with the blockchain
+        /// </summary>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutSeconds"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static bool AwaitWalletSync_Sync(double timeoutSeconds = 60.0)
+        {
+            Task<bool> data = Task.Run(() => AwaitWalletSync_Async(CancellationToken.None,timeoutSeconds));
+            data.Wait();
+            return data.Result;
         }
     }
 }

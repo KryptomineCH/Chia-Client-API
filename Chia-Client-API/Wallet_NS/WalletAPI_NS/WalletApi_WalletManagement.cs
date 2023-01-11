@@ -17,6 +17,11 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             GetWallets_Response json = JsonSerializer.Deserialize<GetWallets_Response>(response);
             return json;
         }
+        /// <summary>
+        /// returns all subwallets of the currently logged in wallet
+        /// </summary>
+        /// <param name="includeData">Set to true to include all coin info for this wallet</param>
+        /// <returns></returns>
         public static GetWallets_Response GetWallets_Sync(bool includeData = true)
         {
             Task<GetWallets_Response> data = Task.Run(() => GetWallets_Async(includeData));
@@ -33,30 +38,54 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
+        /// <summary>
+        /// create a new subwallet
+        /// </summary>
+        /// <returns></returns>
         public static CreateNewWallet_Response CreateNewCatWallet_Sync(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
             Task<CreateNewWallet_Response> data = Task.Run(() => CreateNewCatWallet_Async(createNewCatWallet_RPC));
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// modify a cat wallet
+        /// </summary>
+        /// <param name="modifyCatWallet_RPC"></param>
+        /// <returns></returns>
         public async static Task<CreateNewWallet_Response> ModifyCatWallet_Async(ModifyCatWallet_RPC modifyCatWallet_RPC)
         {
             string response = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
+        /// <summary>
+        /// modify a cat wallet
+        /// </summary>
+        /// <param name="modifyCatWallet_RPC"></param>
+        /// <returns></returns>
         public static CreateNewWallet_Response ModifyCatWallet_Sync(ModifyCatWallet_RPC modifyCatWallet_RPC)
         {
             Task<CreateNewWallet_Response> data = Task.Run(() => ModifyCatWallet_Async(modifyCatWallet_RPC));
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// create a new digital identity
+        /// </summary>
+        /// <param name="createNewDIDWallet_RPC"></param>
+        /// <returns></returns>
         public async static Task<CreateNewWallet_Response> CreateNewDidWallet_Async(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
             string response = await SendCustomMessage_Async("create_new_wallet ", createNewDIDWallet_RPC.ToString());
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
+        /// <summary>
+        /// create a new digital identity
+        /// </summary>
+        /// <param name="createNewDIDWallet_RPC"></param>
+        /// <returns></returns>
         public static CreateNewWallet_Response CreateNewDidWallet_Sync(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
             Task<CreateNewWallet_Response> data = Task.Run(() => CreateNewDidWallet_Async(createNewDIDWallet_RPC));
@@ -76,6 +105,13 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
             return json;
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name">eg My NFT WAllet</param>
+        /// <param name="didID">eg did:chia:1ypvxg7t327m4hsmgzrlhnuk4448nqc20crnnmzzd52lk7dvdza9s8qp8q6</param>
+        /// <param name="networkFeeMojos"> eg 1000</param>
+        /// <returns></returns>
         public static CreateNewWallet_Response CreateNewNftWallet_Sync(CreateNewNFTWallet_RPC createNewNFTWallet_RPC)
         {
             Task<CreateNewWallet_Response> data = Task.Run(() => CreateNewNftWallet_Async(createNewNFTWallet_RPC));
