@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.6.1.4</Version>
+    <Version>1.6.1.6</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,9 +16,22 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>chia;blockchain;api;rpc;websocket;rest;http</PackageTags>
-    <PackageReleaseNotes>implemented Async/sync code (sync code non deadlocking)</PackageReleaseNotes>
+    <PackageReleaseNotes>- successpully added symbols
+- reference fix
+- added symbols for sub-assemblies</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,11 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CHIA-RPC" Version="1.6.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
+    <PackageReference Include="CHIA-RPC" Version="1.6.1.5" />
   </ItemGroup>
 
 </Project>
