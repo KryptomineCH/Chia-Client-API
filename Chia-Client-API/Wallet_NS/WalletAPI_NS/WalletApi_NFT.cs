@@ -136,44 +136,69 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftMintNFT_Response> NftTransferNft(NftTransferNft_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftTransferNft_Async(NftTransferNft_RPC rpc)
         {
             string response = await SendCustomMessage_Async("nft_transfer_nft", rpc.ToString());
             NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
         }
+        public static NftMintNFT_Response NftTransferNft_Sync(NftTransferNft_RPC rpc)
+        {
+            Task<NftMintNFT_Response> data = Task.Run(() => NftTransferNft_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+
         /// <summary>
         /// Get info about an NFT
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftGetInfo_Response> NftGetInfo(NftGetInfo_RPC rpc)
+        public async static Task<NftGetInfo_Response> NftGetInfo_Async(NftGetInfo_RPC rpc)
         {
             string response = await SendCustomMessage_Async("nft_get_info", rpc.ToString());
             NftGetInfo_Response json = JsonSerializer.Deserialize<NftGetInfo_Response>(response);
             return json;
+        }
+        public static NftGetInfo_Response NftGetInfo_Sync(NftGetInfo_RPC rpc)
+        {
+            Task<NftGetInfo_Response> data = Task.Run(() => NftGetInfo_Async(rpc));
+            data.Wait();
+            return data.Result;
         }
         /// <summary>
         /// Add a new URI to the location URI list
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftMintNFT_Response> NftAddURI(NftAddURI_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftAddURI_Async(NftAddURI_RPC rpc)
         {
             string response = await SendCustomMessage_Async("nft_add_uri", rpc.ToString());
             NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
+        }
+        public static NftMintNFT_Response NftAddURI_Sync(NftAddURI_RPC rpc)
+        {
+            Task<NftMintNFT_Response> data = Task.Run(() => NftAddURI_Async(rpc));
+            data.Wait();
+            return data.Result;
         }
         /// <summary>
         /// Given one or more NFTs to be exchanged for one or more fungible assets, calculate the correct royalty payments.
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftCalculateRoyalties_Response> NftCalculateRoyalties(NftCalculateRoyalties_RPC rpc)
+        public async static Task<NftCalculateRoyalties_Response> NftCalculateRoyalties_Async(NftCalculateRoyalties_RPC rpc)
         {
             string response = await SendCustomMessage_Async("nft_calculate_royalties", rpc.ToString());
             NftCalculateRoyalties_Response json = JsonSerializer.Deserialize<NftCalculateRoyalties_Response>(response);
             return json;
+        }
+        public static NftCalculateRoyalties_Response NftCalculateRoyalties_Sync(NftCalculateRoyalties_RPC rpc)
+        {
+            Task<NftCalculateRoyalties_Response> data = Task.Run(() => NftCalculateRoyalties_Async(rpc));
+            data.Wait();
+            return data.Result;
         }
         /// <summary>
         /// Create a spend bundle to mint multiple NFTs. (all the same)
@@ -182,11 +207,17 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// </summary>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async static Task<NftMintNFT_Response> NftMintBulk(NftMintBulk_RPC rpc)
+        public async static Task<NftMintNFT_Response> NftMintBulk_Async(NftMintBulk_RPC rpc)
         {
             string response = await SendCustomMessage_Async("nft_mint_bulk", rpc.ToString());
             NftMintNFT_Response json = JsonSerializer.Deserialize<NftMintNFT_Response>(response);
             return json;
+        }
+        public static NftMintNFT_Response NftMintBulk_Sync(NftMintBulk_RPC rpc)
+        {
+            Task<NftMintNFT_Response> data = Task.Run(() => NftMintBulk_Async(rpc));
+            data.Wait();
+            return data.Result;
         }
     }
 }
