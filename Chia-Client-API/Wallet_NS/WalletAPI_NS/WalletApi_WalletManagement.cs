@@ -8,6 +8,9 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <summary>
         /// returns all subwallets of the currently logged in wallet
         /// </summary>
+        /// <remarks>
+        /// if you want to obtain all main wallets, use `GetPublicKeys` instead
+        /// </remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
         public async static Task<GetWallets_Response> GetWallets_Async(bool includeData = true)
@@ -20,6 +23,9 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <summary>
         /// returns all subwallets of the currently logged in wallet
         /// </summary>
+        /// <remarks>
+        /// if you want to obtain all main wallets, use `GetPublicKeys` instead
+        /// </remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
         public static GetWallets_Response GetWallets_Sync(bool includeData = true)
