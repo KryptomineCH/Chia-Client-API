@@ -9,6 +9,18 @@ namespace UnitTests.Wallet_RPC_NS
     public class WalletAPI_NFT
     {
         [Fact]
+        public void GetNftInfo()
+        {
+            string didWallet = CommonTestFunctions.TestDidWallet.name;
+            WalletID_Response nftWallet = WalletApi.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
+            NftGetInfo_Response info = WalletApi.NftGetInfo_Async(new NftGetInfo_RPC
+            {
+                wallet_id= nftWallet.wallet_id,
+                coin_id = "0x76ccbfe8323435d23d37cb7e2f09c5b6a0fdaa372bd5601635f4a0d1e01777a7"
+            }).Result;
+            { }
+        }
+        [Fact]
         public void GetNFTs_Test()
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;
