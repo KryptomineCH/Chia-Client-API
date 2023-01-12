@@ -21,18 +21,10 @@ namespace UnitTests
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             @".testnet\ssl\");
             // close all old wallets (if more than 1 are open)
-            GetWallets_Response pre_wallets = WalletApi.GetWallets_Async().Result;
+            GetPublicKeys_Response pre_wallets = WalletApi.GetPublicKeys_Async().Result;
             if (pre_wallets.success)
             {
-                int walletAmount = 0;
-                foreach (Wallets_info wallet in pre_wallets.wallets)
-                {
-                    if (wallet.type == CHIA_RPC.Objects_NS.WalletType.ChiaWallet)
-                    {
-                        walletAmount++;
-                    }
-                }
-                if (walletAmount > 1)
+                if (pre_wallets.public_key_fingerprints.Length > 1)
                 {
                     WalletApi.DeleteAllKeys_Async(I_AM_SURE: true);
                 }
