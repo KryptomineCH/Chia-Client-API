@@ -235,7 +235,7 @@ namespace UnitTests.Wallet_RPC_NS
         {
             SelectCoins_RPC select = new SelectCoins_RPC
             {
-                amount = 1000000,
+                amount = 100,
                 wallet_id = 1
             };
             SelectCoins_Response response = WalletApi.SelectCoins_Async(select).Result;
