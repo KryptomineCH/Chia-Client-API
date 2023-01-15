@@ -33,13 +33,13 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             };
             // check if mint has been completed sucessfully
             bool firstSearchComplete = false;
-            GetCoinRecordsByNames_Response response;
+            GetCoinRecordsByNames_Response response = new GetCoinRecordsByNames_Response();
             while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
             {
                 // only search what hasnt been searched before
                 GetHeightInfo_Response heightInfo = await WalletApi.GetHeightInfo_Async();
                 // check if coin exists
-                GetCoinRecordsByNames_Response response = await WalletApi.GetCoinRecordsByNames_Async(rpc);
+                response = await WalletApi.GetCoinRecordsByNames_Async(rpc);
                 
                 if (response.success)
                 {
@@ -64,7 +64,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         public async static Task<GetCoinRecordsByNames_Response> NftAwaitMintComplete_Sync(
             NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
         {
-            Task<NftMintNFT_Response> data = Task.Run(() => NftAwaitMintComplete(nftMint, cancel, timeOutInMinutes));
+            Task<GetCoinRecordsByNames_Response> data = Task.Run(() => NftAwaitMintComplete_Async(nftMint, cancel, timeOutInMinutes));
             data.Wait();
             return data.Result;
         }
