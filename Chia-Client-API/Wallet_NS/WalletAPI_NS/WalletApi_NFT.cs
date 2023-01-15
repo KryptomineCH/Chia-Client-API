@@ -20,8 +20,8 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
         /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
         /// <returns>A boolean indicating the success or failure of the operation</returns>
-        public async static Task<bool> NftAwaitMintComplete_Async(
-            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 5.0)
+        public async static Task<GetCoinRecordsByNames_Response> NftAwaitMintComplete_Async(
+            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
         {
             // set timeout
             DateTime timeOut = DateTime.Now + TimeSpan.FromMinutes(timeOutInMinutes);
@@ -33,6 +33,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             };
             // check if mint has been completed sucessfully
             bool firstSearchComplete = false;
+            GetCoinRecordsByNames_Response response;
             while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
             {
                 // only search what hasnt been searched before
@@ -42,12 +43,30 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 
                 if (response.success)
                 {
-                    return true;
+                    return response;
                 }
                 rpc.start_height = heightInfo.height;
                 await Task.Delay(1000);
             }
-            return false;
+            return response;
+        }
+        /// <summary>
+        /// This function is used to check if an NFT minting operation has completed successfully. 
+        /// The function repeatedly checks the status of the minting operation by calling 
+        /// the GetCoinRecordsByNames_Async method and comparing it to the original mintCoinInfo. 
+        /// If the minting is successful or the timeout is reached, 
+        /// the function will return a boolean indicating the success or failure of the operation.
+        /// </summary>
+        /// <param name="nftMint">The response from the NFT minting operation</param>
+        /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
+        /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
+        /// <returns>A boolean indicating the success or failure of the operation</returns>
+        public async static Task<GetCoinRecordsByNames_Response> NftAwaitMintComplete_Sync(
+            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
+        {
+            Task<NftMintNFT_Response> data = Task.Run(() => NftAwaitMintComplete(nftMint, cancel, timeOutInMinutes));
+            data.Wait();
+            return data.Result;
         }
         /// <summary>
         /// This method asynchronously sends an "nft_mint_nft" message to mint an nft. 

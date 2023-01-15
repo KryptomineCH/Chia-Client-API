@@ -1,6 +1,7 @@
 ﻿using Chia_Client_API.Wallet_NS.WalletAPI_NS;
 using CHIA_RPC.General;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
+using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using Xunit;
 
 namespace UnitTests.Wallet_RPC_NS
@@ -54,8 +55,11 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 throw new System.Exception(response.error);
             }
-            bool success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
-            { }
+            GetCoinRecordsByNames_Response success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
+            if(!success.success)
+            {
+                throw new System.Exception(success.error);
+            }
         }
     }
 }
