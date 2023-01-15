@@ -1,12 +1,54 @@
 ﻿using CHIA_RPC.General;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+using System;
 using System.Text.Json;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
 {
     public static partial class WalletApi
     {
+        /// <summary>
+        /// This function is used to check if an NFT minting operation has completed successfully. 
+        /// The function repeatedly checks the status of the minting operation by calling 
+        /// the GetCoinRecordsByNames_Async method and comparing it to the original mintCoinInfo. 
+        /// If the minting is successful or the timeout is reached, 
+        /// the function will return a boolean indicating the success or failure of the operation.
+        /// </summary>
+        /// <param name="nftMint">The response from the NFT minting operation</param>
+        /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
+        /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
+        /// <returns>A boolean indicating the success or failure of the operation</returns>
+        public async static Task<bool> NftAwaitMintComplete_Async(
+            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 5.0)
+        {
+            // set timeout
+            DateTime timeOut = DateTime.Now + TimeSpan.FromMinutes(timeOutInMinutes);
+            // obtain request data to validate transaction
+            string mintCoinInfo = nftMint.spend_bundle.coin_solutions[0].coin.parent_coin_info;
+            GetCoinRecordsByNames_RPC rpc = new GetCoinRecordsByNames_RPC()
+            {
+                names = new[] { mintCoinInfo }
+            };
+            // check if mint has been completed sucessfully
+            bool firstSearchComplete = false;
+            while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
+            {
+                // only search what hasnt been searched before
+                GetHeightInfo_Response heightInfo = await WalletApi.GetHeightInfo_Async();
+                // check if coin exists
+                GetCoinRecordsByNames_Response response = await WalletApi.GetCoinRecordsByNames_Async(rpc);
+                
+                if (response.success)
+                {
+                    return true;
+                }
+                rpc.start_height = heightInfo.height;
+                await Task.Delay(1000);
+            }
+            return false;
+        }
         /// <summary>
         /// This method asynchronously sends an "nft_mint_nft" message to mint an nft. 
         /// It then deserializes the response into an NftMintNFT_Response object and returns it. 

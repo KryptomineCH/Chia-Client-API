@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CHIA-RPC" Version="1.6.2.1" />
+    <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
   </ItemGroup>
 
 </Project>

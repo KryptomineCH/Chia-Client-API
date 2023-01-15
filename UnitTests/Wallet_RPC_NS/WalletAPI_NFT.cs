@@ -48,12 +48,13 @@ namespace UnitTests.Wallet_RPC_NS
                 },
                 royaltyFee: 190,
                 royaltyAddress: CommonTestFunctions.TestAdress,
-                mintingFee_Mojos: 0);
+                mintingFee_Mojos: 1000);
             NftMintNFT_Response response = WalletApi.NftMintNft_Async(rpc).Result;
             if (!response.success)
             {
                 throw new System.Exception(response.error);
             }
+            bool success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
             { }
         }
     }
