@@ -1,4 +1,6 @@
-﻿using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+﻿using Chia_Client_API.FullNode_NS;
+using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+using CHIA_RPC.FullNode_RPC_NS;
 using CHIA_RPC.General;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
@@ -49,14 +51,43 @@ namespace UnitTests.Wallet_RPC_NS
                 },
                 royaltyFee: 190,
                 royaltyAddress: CommonTestFunctions.TestAdress,
-                mintingFee_Mojos: 1000);
+                mintingFee_Mojos: 10000);
             NftMintNFT_Response response = WalletApi.NftMintNft_Async(rpc).Result;
             if (!response.success)
             {
                 throw new System.Exception(response.error);
             }
-            GetCoinRecordsByNames_Response success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
+            
+            NftGetInfo_Response success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
             if(!success.success)
+            {
+                throw new System.Exception(success.error);
+            }
+        }
+        [Fact]
+        public void TestGetCoinInfo()
+        {
+            GetCoinRecordByName_RPC rpc = new GetCoinRecordByName_RPC()
+            {
+                name = "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932"
+            };
+            GetCoinRecordByName_Response success = FullNodeApi.GetCoinRecordByName_Async(rpc).Result;
+            if (!success.success)
+            {
+                throw new System.Exception(success.error);
+            }
+        }
+        [Fact]
+        public void TestGetCoinInfo2()
+        {
+            GetCoinRecordsByNames_RPC rpc = new GetCoinRecordsByNames_RPC()
+            {
+                names = new[] { "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932" },
+                include_spent_coins = true,
+            };
+            GetCoinRecordsByNames_Response success = FullNodeApi.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecordsByNames_Response success2 = WalletApi.GetCoinRecordsByNames_Async(rpc).Result;
+            if (!success.success)
             {
                 throw new System.Exception(success.error);
             }

@@ -1,4 +1,6 @@
-﻿using CHIA_RPC.General;
+﻿using Chia_Client_API.FullNode_NS;
+using CHIA_RPC.FullNode_RPC_NS;
+using CHIA_RPC.General;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
@@ -20,35 +22,49 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
         /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
         /// <returns>A boolean indicating the success or failure of the operation</returns>
-        public async static Task<GetCoinRecordsByNames_Response> NftAwaitMintComplete_Async(
+        public async static Task<NftGetInfo_Response> NftAwaitMintComplete_Async(
             NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
         {
             // set timeout
             DateTime timeOut = DateTime.Now + TimeSpan.FromMinutes(timeOutInMinutes);
             // obtain request data to validate transaction
-            string mintCoinInfo = nftMint.spend_bundle.coin_solutions[0].coin.parent_coin_info;
+            string coinID = nftMint.spend_bundle.coin_solutions[0].coin.GetCoinID();
+            
             GetCoinRecordsByNames_RPC rpc = new GetCoinRecordsByNames_RPC()
             {
-                names = new[] { mintCoinInfo }
+                names = new[] { coinID },
+                include_spent_coins = true
+            };
+            GetCoinRecordByName_RPC rpc2 = new GetCoinRecordByName_RPC()
+            {
+                name = coinID
             };
             // check if mint has been completed sucessfully
-            bool firstSearchComplete = false;
-            GetCoinRecordsByNames_Response response = new GetCoinRecordsByNames_Response();
+            NftGetInfo_Response nftInfo = new NftGetInfo_Response();
             while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
             {
-                // only search what hasnt been searched before
-                GetHeightInfo_Response heightInfo = await WalletApi.GetHeightInfo_Async();
-                // check if coin exists
-                response = await WalletApi.GetCoinRecordsByNames_Async(rpc);
+                nftInfo = await VerifyMint(nftMint);
                 
-                if (response.success)
+                if (nftInfo.success)
                 {
-                    return response;
+                    return nftInfo;
                 }
-                rpc.start_height = heightInfo.height;
+                //rpc.start_height = heightInfo.height;
                 await Task.Delay(1000);
             }
-            return response;
+            return nftInfo;
+        }
+        /// <summary>
+        /// this function takes a spend bundle, which is retiurned from NftMintNFT.
+        /// it converts the coin into a coin ID which can be used to draft an NftGetInfo_Requests.
+        /// 
+        /// </summary>
+        /// <param name="nftMint">spend bundle, which is retiurned from NftMintNFT</param>
+        /// <returns>It returns the NFT Info of the nft which was/is to be minted.</returns>
+        public static async Task<NftGetInfo_Response> VerifyMint(NftMintNFT_Response nftMint)
+        {
+            NftGetInfo_RPC nftRequest = nftMint.Get_NftGetInfo_Rpc();
+            return await WalletApi.NftGetInfo_Async(nftRequest);
         }
         /// <summary>
         /// This function is used to check if an NFT minting operation has completed successfully. 
@@ -61,10 +77,10 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
         /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
         /// <returns>A boolean indicating the success or failure of the operation</returns>
-        public async static Task<GetCoinRecordsByNames_Response> NftAwaitMintComplete_Sync(
+        public async static Task<NftGetInfo_Response> NftAwaitMintComplete_Sync(
             NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
         {
-            Task<GetCoinRecordsByNames_Response> data = Task.Run(() => NftAwaitMintComplete_Async(nftMint, cancel, timeOutInMinutes));
+            Task<NftGetInfo_Response> data = Task.Run(() => NftAwaitMintComplete_Async(nftMint, cancel, timeOutInMinutes));
             data.Wait();
             return data.Result;
         }
