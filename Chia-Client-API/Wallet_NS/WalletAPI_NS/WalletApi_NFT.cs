@@ -23,7 +23,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
         /// <returns>A boolean indicating the success or failure of the operation</returns>
         public async static Task<NftGetInfo_Response> NftAwaitMintComplete_Async(
-            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
+            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0, int refreshInterwallSeconds = 60)
         {
             // set timeout
             DateTime timeOut = DateTime.Now + TimeSpan.FromMinutes(timeOutInMinutes);
@@ -43,14 +43,14 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             NftGetInfo_Response nftInfo = new NftGetInfo_Response();
             while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
             {
-                nftInfo = await VerifyMint(nftMint);
+                nftInfo = await VerifyMint(nftMint).ConfigureAwait(false);
                 
                 if (nftInfo.success)
                 {
                     return nftInfo;
                 }
                 //rpc.start_height = heightInfo.height;
-                await Task.Delay(1000);
+                await Task.Delay(refreshInterwallSeconds * 1000).ConfigureAwait(false);
             }
             return nftInfo;
         }
