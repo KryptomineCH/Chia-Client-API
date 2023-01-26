@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
     <ProjectReference Include="..\Chia-Client-API\Chia-Client-API.csproj" />
   </ItemGroup>
 
