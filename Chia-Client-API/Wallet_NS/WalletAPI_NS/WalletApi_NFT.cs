@@ -50,7 +50,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                     return nftInfo;
                 }
                 //rpc.start_height = heightInfo.height;
-                await Task.Delay(refreshInterwallSeconds * 1000).ConfigureAwait(false);
+                await Task.Delay(refreshInterwallSeconds * 1000);
             }
             return nftInfo;
         }
