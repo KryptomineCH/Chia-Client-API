@@ -2,8 +2,10 @@
 using Chia_Client_API.Wallet_NS.WalletAPI_NS;
 using CHIA_RPC.FullNode_RPC_NS;
 using CHIA_RPC.General;
+using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace UnitTests.Wallet_RPC_NS
@@ -112,11 +114,19 @@ namespace UnitTests.Wallet_RPC_NS
                 throw new System.Exception(response.error);
             }
             
-            NftGetInfo_Response success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None).Result;
+            NftGetInfo_Response success = WalletApi.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None,refreshInterwallSeconds: 15).Result;
             if(!success.success)
             {
                 throw new System.Exception(success.error);
             }
+            Offer_RPC offer = new Offer_RPC();
+            offer.offer.Add("1", 1); // 0.25 xch
+            NftGetInfo_RPC nftInfoRequest = response.Get_NftGetInfo_Rpc();
+            NftGetInfo_Response nftInfoResponse = WalletApi.NftGetInfo_Async(nftInfoRequest).Result;
+            offer.offer.Add(nftInfoResponse.nft_info.launcher_id, -1);
+            OfferFile offerFile = WalletApi.CreateOfferForIds(offer).Result;
+            offerFile.Save("testoffer");
+            { }
         }
         [Fact]
         public void TestGetCoinInfo()
