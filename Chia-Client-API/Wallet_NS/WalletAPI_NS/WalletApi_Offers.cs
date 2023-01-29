@@ -17,9 +17,22 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
         public static async Task<OfferFile> CreateOfferForIds(Offer_RPC offer)
         {
             string response = await WalletApi.SendCustomMessage_Async("create_offer_for_ids", offer.ToString());
-            OfferFile json = JsonSerializer.Deserialize<OfferFile>(response);
-            return json;
-            { }
+            try
+            {
+                OfferFile json = JsonSerializer.Deserialize<OfferFile>(response);
+                return json;
+            }
+            catch(Exception ex)
+            {
+                if (response == null || response == "")
+                {
+                    throw new ArgumentNullException("offer response is null or empty!");
+                }
+                else
+                {
+                    throw new InvalidDataException($"offer response could not be deserialized{Environment.NewLine}{response}");
+                }
+            }
         }
     }
 }
