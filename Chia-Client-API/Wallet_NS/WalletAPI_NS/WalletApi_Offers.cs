@@ -1,6 +1,7 @@
 ﻿using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
@@ -19,6 +20,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
             string response = await WalletApi.SendCustomMessage_Async("create_offer_for_ids", offer.ToString());
             try
             {
+                File.WriteAllText("testoffer.offer", response);
                 OfferFile json = JsonSerializer.Deserialize<OfferFile>(response);
                 return json;
             }
@@ -30,7 +32,7 @@ namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
                 }
                 else
                 {
-                    throw new InvalidDataException($"offer response could not be deserialized{Environment.NewLine}{response}");
+                    throw new InvalidDataException($"offer response could not be deserialized, {ex.Message}{Environment.NewLine}{response}");
                 }
             }
         }
