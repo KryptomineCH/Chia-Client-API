@@ -5,6 +5,7 @@ using CHIA_RPC.General;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -120,7 +121,7 @@ namespace UnitTests.Wallet_RPC_NS
                 throw new System.Exception(success.error);
             }
             Offer_RPC offer = new Offer_RPC();
-            offer.offer.Add("1", 1); // 1 mojo
+            offer.offer.Add( "1", 1); // 1 mojo
             NftGetInfo_RPC nftInfoRequest = response.Get_NftGetInfo_Rpc();
             NftGetInfo_Response nftInfoResponse = WalletApi.NftGetInfo_Async(nftInfoRequest).Result;
             offer.offer.Add(nftInfoResponse.nft_info.launcher_id, -1);

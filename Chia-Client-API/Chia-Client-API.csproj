@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.6.2.10</Version>
+    <Version>1.6.2.13</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,8 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>chia;blockchain;api;rpc;websocket;rest;http</PackageTags>
-    <PackageReleaseNotes>fixed json deserialisation of dictionary with .net 6.0</PackageReleaseNotes>
+    <PackageReleaseNotes>updated chia metadata package, which now implements dictionary and hashtable for faster filtering and also supplies a new function
+Attrubute.AttributeMatchesFilter(Attribute)</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
     <IncludeSymbols>True</IncludeSymbols>
@@ -44,7 +45,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CHIA-RPC" Version="1.6.2.9" />
+    <PackageReference Include="CHIA-RPC" Version="1.6.2.13" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
   </ItemGroup>
 
