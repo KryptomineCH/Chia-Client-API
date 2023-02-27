@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
-namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
+namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
 {
     public static partial class WalletApi
     {

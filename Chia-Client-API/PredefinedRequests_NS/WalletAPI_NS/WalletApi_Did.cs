@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
+namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
 {
     public static partial class WalletApi
     {

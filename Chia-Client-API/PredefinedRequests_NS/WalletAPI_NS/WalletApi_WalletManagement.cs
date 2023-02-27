@@ -1,7 +1,7 @@
 ﻿using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
 using System.Text.Json;
 
-namespace Chia_Client_API.Wallet_NS.WalletAPI_NS
+namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
 {
     public static partial class WalletApi
     {
