@@ -1,12 +1,10 @@
 ﻿using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_RPC_NS.NFT;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
-namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
+namespace Chia_Client_API.WalletAPI_NS
 {
-    public static partial class WalletApi
+    public partial class Wallet_RPC_Client
     {
         /// <summary>
         /// this function takes a spend bundle, which is retiurned from NftMintNFT.
@@ -15,9 +13,9 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// </summary>
         /// <param name="nftMint">spend bundle, which is retiurned from NftMintNFT</param>
         /// <returns>It returns the NFT Info of the nft which was/is to be minted.</returns>
-        public static async Task<OfferFile> CreateOfferForIds(Offer_RPC offer)
+        public async Task<OfferFile> CreateOfferForIds(Offer_RPC offer)
         {
-            string response = await WalletApi.SendCustomMessage_Async("create_offer_for_ids", offer.ToString());
+            string response = await SendCustomMessage_Async("create_offer_for_ids", offer.ToString());
             try
             {
                 File.WriteAllText("testoffer.offer", response);

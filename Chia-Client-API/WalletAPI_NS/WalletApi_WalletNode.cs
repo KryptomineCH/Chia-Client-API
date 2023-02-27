@@ -2,15 +2,15 @@
 using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
 using System.Text.Json;
 
-namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
+namespace Chia_Client_API.WalletAPI_NS
 {
-    public static partial class WalletApi
+    public partial class Wallet_RPC_Client
     {
         /// <summary>
         /// Show whether the current wallet is syncing or synced
         /// </summary>
         /// <returns></returns>
-        public async static Task<GetSyncStatus_Response> GetSyncStatus_Async()
+        public async Task<GetSyncStatus_Response> GetSyncStatus_Async()
         {
             string response = await SendCustomMessage_Async("get_sync_status");
             GetSyncStatus_Response json = JsonSerializer.Deserialize<GetSyncStatus_Response>(response);
@@ -20,7 +20,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// Show whether the current wallet is syncing or synced
         /// </summary>
         /// <returns></returns>
-        public static GetSyncStatus_Response GetSyncStatus_Sync()
+        public GetSyncStatus_Response GetSyncStatus_Sync()
         {
             Task<GetSyncStatus_Response> data = Task.Run(() => GetSyncStatus_Async());
             data.Wait();
@@ -30,7 +30,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// Show the block height to which the current wallet is synced
         /// </summary>
         /// <returns></returns>
-        public async static Task<GetHeightInfo_Response> GetHeightInfo_Async()
+        public async Task<GetHeightInfo_Response> GetHeightInfo_Async()
         {
             string response = await SendCustomMessage_Async("get_height_info");
             GetHeightInfo_Response json = JsonSerializer.Deserialize<GetHeightInfo_Response>(response);
@@ -40,7 +40,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// Show the block height to which the current wallet is synced
         /// </summary>
         /// <returns></returns>
-        public static GetHeightInfo_Response GetHeightInfo_Sync()
+        public GetHeightInfo_Response GetHeightInfo_Sync()
         {
             Task<GetHeightInfo_Response> data = Task.Run(() => GetHeightInfo_Async());
             data.Wait();
@@ -55,7 +55,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// <param name="bundle"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async static Task<PushTx_Response> PushTx_Async(SpendBundle spendBundle)
+        public async Task<PushTx_Response> PushTx_Async(SpendBundle spendBundle)
         {
             PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
             string response = await SendCustomMessage_Async("push_tx", rpc.ToString());
@@ -71,7 +71,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// <param name="bundle"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static PushTx_Response PushTx_Sync(SpendBundle spendBundle)
+        public PushTx_Response PushTx_Sync(SpendBundle spendBundle)
         {
             Task<PushTx_Response> data = Task.Run(() => PushTx_Async(spendBundle));
             data.Wait();
@@ -83,7 +83,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// <param name="bundles"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async static Task<PushTx_Response> PushTransactions_Async(SpendBundle[] bundles)
+        public async Task<PushTx_Response> PushTransactions_Async(SpendBundle[] bundles)
         {
             PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
             string response = await SendCustomMessage_Async("push_tx", rpc.ToString());
@@ -96,7 +96,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// <param name="bundles"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public static PushTx_Response PushTransactions_Sync(SpendBundle[] bundles)
+        public PushTx_Response PushTransactions_Sync(SpendBundle[] bundles)
         {
             Task<PushTx_Response> data = Task.Run(() => PushTransactions_Async(bundles));
             data.Wait();
@@ -106,7 +106,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// Show the current network (eg mainnet) and network prefix (eg XCH)
         /// </summary>
         /// <returns></returns>
-        public async static Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
+        public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
         {
             string response = await SendCustomMessage_Async("get_network_info");
             GetNetworkInfo_Response json = JsonSerializer.Deserialize<GetNetworkInfo_Response>(response);
@@ -116,7 +116,7 @@ namespace Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS
         /// Show the current network (eg mainnet) and network prefix (eg XCH)
         /// </summary>
         /// <returns></returns>
-        public static GetNetworkInfo_Response GetNetworkInfo_Sync()
+        public GetNetworkInfo_Response GetNetworkInfo_Sync()
         {
             Task<GetNetworkInfo_Response> data = Task.Run(() => GetNetworkInfo_Async());
             data.Wait();
