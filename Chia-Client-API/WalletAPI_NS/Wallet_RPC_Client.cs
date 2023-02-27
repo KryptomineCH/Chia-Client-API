@@ -23,14 +23,26 @@ namespace Chia_Client_API.WalletAPI_NS
             }
         }
         private HttpClient _Client { get; set; }
+        /// <summary>
+        /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
+        /// </summary>
         public string TargetApiAddress { get; set; }
+        /// <summary>
+        /// the port which should be used. defaults to 9256
+        /// </summary>
         public int TargetApiPort { get; set;}
+        /// <summary>
+        /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
+        /// </summary>
         public string API_CertificateFolder 
         {
             get { return _API_CertificateFolder; } 
             set { _API_CertificateFolder = value; SetNewCerticifactes(); } 
         }
         private string _API_CertificateFolder;
+        /// <summary>
+        /// this function creates a new http cliet with the set certificates
+        /// </summary>
         private void SetNewCerticifactes()
         {
             if (_Client != null) _Client.Dispose();
