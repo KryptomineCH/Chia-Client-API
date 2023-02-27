@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Chia_Client_API.Clients_NS
 {
-    internal class RPC_Client
+    internal class Wallet_RPC_Client
     {
-        static RPC_Client()
+        static Wallet_RPC_Client()
         {
             //initialize http client with proper certificate
             var handler = new HttpClientHandler();
