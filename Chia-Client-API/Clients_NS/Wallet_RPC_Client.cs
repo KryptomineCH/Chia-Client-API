@@ -3,7 +3,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Chia_Client_API.Clients_NS
 {
-    internal class Wallet_RPC_Client
+    public class Wallet_RPC_Client
     {
         static Wallet_RPC_Client()
         {
