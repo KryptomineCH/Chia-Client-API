@@ -4,14 +4,14 @@ namespace Chia_Client_API
 {
     internal class CertificateLoader
     {
-        internal static X509Certificate2 GetCertificate(Endpoint endpoint)
+        internal static X509Certificate2 GetCertificate(Endpoint endpoint, string basePath)
         {
             X509Certificate2 certificate = null;
             if (Certificates.TryGetValue(endpoint, out certificate))
             {
                 return certificate;
             }
-            DirectoryInfo endpointCertificateDirectory = new DirectoryInfo(Path.Combine(GlobalVar.API_CertificateFolder, endpoint.ToString()));
+            DirectoryInfo endpointCertificateDirectory = new DirectoryInfo(Path.Combine(basePath, endpoint.ToString()));
             FileInfo[] files = endpointCertificateDirectory.GetFiles();
             FileInfo certFile = null;
             FileInfo keyFile = null;
@@ -37,9 +37,9 @@ namespace Chia_Client_API
         /// <param name="certPath">The full path the public cert (.crt)</param>
         /// <param name="keyPath">The full path to the RSA encoded private key (.key)</param>
         /// <returns>An ephemeral certificate that can be used for WebSocket authentication</returns>
-        public static X509Certificate2Collection GetCerts(Endpoint ed)
+        public static X509Certificate2Collection GetCerts(Endpoint ed, string basePath)
         {
-            using X509Certificate2 cert = GetCertificate(ed);
+            using X509Certificate2 cert = GetCertificate(ed, basePath);
             return new(cert);
         }
     }
