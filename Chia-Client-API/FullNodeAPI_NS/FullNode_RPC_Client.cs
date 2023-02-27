@@ -63,7 +63,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<string> SendCustomMessage_Async(string function, string json = " { } ")
         {
-            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://" + GlobalVar.API_TargetIP + ":8555/" + function))
+            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://" + TargetApiAddress + ":" + TargetApiPort.ToString() + "/" + function))
             {
                 request.Content = new StringContent(json);
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
