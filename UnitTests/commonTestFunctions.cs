@@ -1,4 +1,4 @@
-﻿using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+﻿using Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS;
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
 

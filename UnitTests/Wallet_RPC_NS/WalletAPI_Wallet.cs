@@ -2,7 +2,7 @@
 using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
 using System;
 using Xunit;
-using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+using Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS;
 using System.Threading;
 using System.Reflection.Metadata;
 

@@ -1,4 +1,4 @@
-﻿using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+﻿using Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS;
 using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
 using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
 using Xunit;

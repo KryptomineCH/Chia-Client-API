@@ -1,5 +1,5 @@
-﻿using Chia_Client_API.FullNode_NS;
-using Chia_Client_API.Wallet_NS.WalletAPI_NS;
+﻿using Chia_Client_API.Clients_NS;
+using Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
