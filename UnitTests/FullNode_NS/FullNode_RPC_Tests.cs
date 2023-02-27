@@ -1,10 +1,4 @@
-﻿using Chia_Client_API.Clients_NS;
-using Chia_Client_API.PredefinedRequests_NS.WalletAPI_NS;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Chia_Client_API.FullNodeAPI_NS;
 using Xunit;
 
 namespace UnitTests.FullNode_NS
@@ -15,7 +9,7 @@ namespace UnitTests.FullNode_NS
         [Fact]
         public void GetAllMempoolItems_Test()
         {
-            FullNode_RPC_Client.GetAllMempoolItems_Async().Wait();
+            Testnet.Fullnode_Client.GetAllMempoolItems_Async().Wait();
         }
     }
 }
