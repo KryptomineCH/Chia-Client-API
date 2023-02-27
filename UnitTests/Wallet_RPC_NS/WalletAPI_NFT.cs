@@ -136,7 +136,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 name = "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932"
             };
-            GetCoinRecordByName_Response success = FullNodeApi.GetCoinRecordByName_Async(rpc).Result;
+            GetCoinRecordByName_Response success = FullNode_RPC_Client.GetCoinRecordByName_Async(rpc).Result;
             if (!success.success)
             {
                 throw new System.Exception(success.error);
@@ -150,7 +150,7 @@ namespace UnitTests.Wallet_RPC_NS
                 names = new[] { "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932" },
                 include_spent_coins = true,
             };
-            GetCoinRecordsByNames_Response success = FullNodeApi.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecordsByNames_Response success = FullNode_RPC_Client.GetCoinRecordsByNames_Async(rpc).Result;
             GetCoinRecordsByNames_Response success2 = WalletApi.GetCoinRecordsByNames_Async(rpc).Result;
             if (!success.success)
             {

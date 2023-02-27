@@ -15,7 +15,7 @@ namespace UnitTests.FullNode_NS
         [Fact]
         public void GetAllMempoolItems_Test()
         {
-            FullNodeApi.GetAllMempoolItems_Async().Wait();
+            FullNode_RPC_Client.GetAllMempoolItems_Async().Wait();
         }
     }
 }

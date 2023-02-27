@@ -4,7 +4,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
-namespace Chia_Client_API.FullNode_NS
+namespace Chia_Client_API.Clients_NS
 {
     public static class FullNodeApi
     {
@@ -63,7 +63,7 @@ namespace Chia_Client_API.FullNode_NS
         /// </summary>
         public async static Task<GetCoinRecordByName_Response> GetCoinRecordByName_Async(GetCoinRecordByName_RPC name)
         {
-            string response = await SendCustomMessage_Async("get_coin_record_by_name",name.ToString());
+            string response = await SendCustomMessage_Async("get_coin_record_by_name", name.ToString());
             GetCoinRecordByName_Response json = JsonSerializer.Deserialize<GetCoinRecordByName_Response>(response);
             return json;
         }
