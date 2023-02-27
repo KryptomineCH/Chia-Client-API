@@ -6,9 +6,9 @@ using System.Text.Json;
 
 namespace Chia_Client_API.Clients_NS
 {
-    public static class FullNodeApi
+    public static class FullNode_RPC_Client
     {
-        static FullNodeApi()
+        static FullNode_RPC_Client()
         {
             //initialize http client with proper certificate
             var handler = new HttpClientHandler();
