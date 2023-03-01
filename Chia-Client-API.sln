@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC", "..\CHIA-RPC\CHI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chia-Metadata", "..\Chia-Metadata\Chia-Metadata\Chia-Metadata.csproj", "{317EDA09-E7EF-47C9-9A12-5F26D1EFD41B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC-Tests", "..\CHIA-RPC\CHIA-RPC-Tests\CHIA-RPC-Tests.csproj", "{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{317EDA09-E7EF-47C9-9A12-5F26D1EFD41B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{317EDA09-E7EF-47C9-9A12-5F26D1EFD41B}.Release|x64.ActiveCfg = Release|x64
 		{317EDA09-E7EF-47C9-9A12-5F26D1EFD41B}.Release|x64.Build.0 = Release|x64
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Debug|x64.Build.0 = Debug|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
