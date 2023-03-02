@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC", "..\CHIA-RPC\CHI
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Chia-Metadata", "..\Chia-Metadata\Chia-Metadata\Chia-Metadata.csproj", "{317EDA09-E7EF-47C9-9A12-5F26D1EFD41B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC-Tests", "..\CHIA-RPC\CHIA-RPC-Tests\CHIA-RPC-Tests.csproj", "{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA_RPC_Tests", "..\CHIA-RPC\CHIA-RPC-Tests\CHIA_RPC_Tests.csproj", "{CE2B6EFA-9E2F-47D1-B885-626056E1AE9C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
