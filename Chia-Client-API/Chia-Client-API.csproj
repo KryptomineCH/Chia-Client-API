@@ -51,4 +51,8 @@ both formats are compatible with the chia client</PackageReleaseNotes>
     <PackageReference Include="System.Net.Http.Json" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
+  </ItemGroup>
+
 </Project>
