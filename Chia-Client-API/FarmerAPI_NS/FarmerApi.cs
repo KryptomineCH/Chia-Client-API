@@ -2,7 +2,6 @@
 using CHIA_RPC.Farmer_NS.FarmerObjects_NS;
 using CHIA_RPC.General_NS;
 using System.Text.Json;
-using static System.Net.WebRequestMethods;
 
 namespace Chia_Client_API.FarmerAPI_NS
 {
