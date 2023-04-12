@@ -1,5 +1,6 @@
-﻿using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+﻿using CHIA_RPC.General_NS;
+using CHIA_RPC.Objects_NS;
+using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -10,19 +11,19 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Show whether the current wallet is syncing or synced
         /// </summary>
         /// <returns></returns>
-        public async Task<GetSyncStatus_Response> GetSyncStatus_Async()
+        public async Task<GetWalletSyncStatus_Response> GetSyncStatus_Async()
         {
             string response = await SendCustomMessage_Async("get_sync_status");
-            GetSyncStatus_Response json = JsonSerializer.Deserialize<GetSyncStatus_Response>(response);
+            GetWalletSyncStatus_Response json = JsonSerializer.Deserialize<GetWalletSyncStatus_Response>(response);
             return json;
         }
         /// <summary>
         /// Show whether the current wallet is syncing or synced
         /// </summary>
         /// <returns></returns>
-        public GetSyncStatus_Response GetSyncStatus_Sync()
+        public GetWalletSyncStatus_Response GetSyncStatus_Sync()
         {
-            Task<GetSyncStatus_Response> data = Task.Run(() => GetSyncStatus_Async());
+            Task<GetWalletSyncStatus_Response> data = Task.Run(() => GetSyncStatus_Async());
             data.Wait();
             return data.Result;
         }

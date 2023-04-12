@@ -1,5 +1,5 @@
-﻿using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
+﻿using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.KeyManagement;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -11,10 +11,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
         /// <returns>the logged in fingerprint</returns>
-        public async Task<LogIn_Response> LogIn_Async(FingerPrint_RPC fingerprint)
+        public async Task<FingerPrint_Response> LogIn_Async(FingerPrint_RPC fingerprint)
         {
             string response = await SendCustomMessage_Async("log_in", fingerprint.ToString());
-            LogIn_Response json = JsonSerializer.Deserialize<LogIn_Response>(response);
+            FingerPrint_Response json = JsonSerializer.Deserialize<FingerPrint_Response>(response);
             return json;
         }
         /// <summary>
@@ -22,9 +22,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
         /// <returns>the logged in fingerprint</returns>
-        public LogIn_Response LogIn_Sync(FingerPrint_RPC fingerprint)
+        public FingerPrint_Response LogIn_Sync(FingerPrint_RPC fingerprint)
         {
-            Task<LogIn_Response> data = Task.Run(() => LogIn_Async(fingerprint));
+            Task<FingerPrint_Response> data = Task.Run(() => LogIn_Async(fingerprint));
             data.Wait();
             return data.Result;
         }
@@ -32,19 +32,19 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Obtain the fingerprint of the wallet that is currently logged in
         /// </summary>
         /// <returns></returns>
-        public async Task<LogIn_Response> GetLoggedInFingerprint_Async()
+        public async Task<FingerPrint_Response> GetLoggedInFingerprint_Async()
         {
             string response = await SendCustomMessage_Async("get_logged_in_fingerprint");
-            LogIn_Response json = JsonSerializer.Deserialize<LogIn_Response>(response);
+            FingerPrint_Response json = JsonSerializer.Deserialize<FingerPrint_Response>(response);
             return json;
         }
         /// <summary>
         /// Obtain the fingerprint of the wallet that is currently logged in
         /// </summary>
         /// <returns></returns>
-        public LogIn_Response GetLoggedInFingerprint_Sync()
+        public FingerPrint_Response GetLoggedInFingerprint_Sync()
         {
-            Task<LogIn_Response> data = Task.Run(() => GetLoggedInFingerprint_Async());
+            Task<FingerPrint_Response> data = Task.Run(() => GetLoggedInFingerprint_Async());
             data.Wait();
             return data.Result;
         }
@@ -117,10 +117,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="mnemonic">24 word mnemonic passphrase</param>
         /// <returns></returns>
-        public async Task<LogIn_Response> AddKey_Async(AddKey_RPC mnemonic)
+        public async Task<FingerPrint_Response> AddKey_Async(AddKey_RPC mnemonic)
         {
             string response = await SendCustomMessage_Async("add_key", mnemonic.ToString());
-            LogIn_Response json = JsonSerializer.Deserialize<LogIn_Response>(response);
+            FingerPrint_Response json = JsonSerializer.Deserialize<FingerPrint_Response>(response);
             return json;
         }
         /// <summary>
@@ -128,9 +128,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="mnemonic">24 word mnemonic passphrase</param>
         /// <returns></returns>
-        public LogIn_Response AddKey_Sync(AddKey_RPC mnemonic)
+        public FingerPrint_Response AddKey_Sync(AddKey_RPC mnemonic)
         {
-            Task<LogIn_Response> data = Task.Run(() => AddKey_Async(mnemonic));
+            Task<FingerPrint_Response> data = Task.Run(() => AddKey_Async(mnemonic));
             data.Wait();
             return data.Result;
         }

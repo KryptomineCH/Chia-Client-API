@@ -1,4 +1,4 @@
-﻿using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+﻿using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
@@ -97,7 +97,7 @@ namespace Chia_Client_API.WalletAPI_NS
             bool success = false;
             while (!cancellation.IsCancellationRequested)
             {
-                GetSyncStatus_Response syncStatus = await GetSyncStatus_Async();
+                GetWalletSyncStatus_Response syncStatus = await GetSyncStatus_Async();
                 if (!syncStatus.success)
                 {
                     if (syncStatus.error == "wallet state manager not assigned")

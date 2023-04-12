@@ -1,8 +1,5 @@
-﻿using CHIA_RPC.FullNode_RPC_NS;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
-using System.Text.Json;
 
 namespace Chia_Client_API.FullNodeAPI_NS
 {

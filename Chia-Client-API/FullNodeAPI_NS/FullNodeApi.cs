@@ -1,7 +1,6 @@
 ﻿
-using CHIA_RPC.FullNode_RPC_NS;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
-using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+using CHIA_RPC.FullNode_NS;
+using CHIA_RPC.General_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.FullNodeAPI_NS
@@ -48,10 +47,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
             GetCoinRecordByName_Response json = JsonSerializer.Deserialize<GetCoinRecordByName_Response>(response);
             return json;
         }
-        public async Task<GetCoinRecordsByNames_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC name)
+        public async Task<GetCoinRecords_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC name)
         {
             string response = await SendCustomMessage_Async("get_coin_records_by_names", name.ToString());
-            GetCoinRecordsByNames_Response json = JsonSerializer.Deserialize<GetCoinRecordsByNames_Response>(response);
+            GetCoinRecords_Response json = JsonSerializer.Deserialize<GetCoinRecords_Response>(response);
             return json;
         }
     }

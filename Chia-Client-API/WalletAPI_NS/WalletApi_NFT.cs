@@ -1,7 +1,7 @@
-﻿using CHIA_RPC.FullNode_RPC_NS;
-using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.NFT;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+﻿using CHIA_RPC.FullNode_NS;
+using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.NFT_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -52,15 +52,20 @@ namespace Chia_Client_API.WalletAPI_NS
             return nftInfo;
         }
         /// <summary>
-        /// this function takes a spend bundle, which is retiurned from NftMintNFT.
+        /// this function takes a spend bundle, which is returned from NftMintNFT.
         /// it converts the coin into a coin ID which can be used to draft an NftGetInfo_Requests.
         /// 
         /// </summary>
-        /// <param name="nftMint">spend bundle, which is retiurned from NftMintNFT</param>
+        /// <param name="nftMint">spend bundle, which is returned from NftMintNFT</param>
         /// <returns>It returns the NFT Info of the nft which was/is to be minted.</returns>
         public async Task<NftGetInfo_Response> VerifyMint(NftMintNFT_Response nftMint)
         {
-            NftGetInfo_RPC nftRequest = nftMint.Get_NftGetInfo_Rpc();
+            string coinID = nftMint.spend_bundle.coin_solutions[0].coin.GetCoinID();
+            NftGetInfo_RPC nftRequest = new NftGetInfo_RPC
+            {
+                coin_id = coinID,
+                wallet_id = nftMint.wallet_id
+            };
             return await NftGetInfo_Async(nftRequest).ConfigureAwait(false);
         }
         /// <summary>

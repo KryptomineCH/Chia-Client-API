@@ -1,7 +1,6 @@
-﻿using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.DID_NS;
+﻿using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.DID_NS;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace Chia_Client_API.WalletAPI_NS
 {

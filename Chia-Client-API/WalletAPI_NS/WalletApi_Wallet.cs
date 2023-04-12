@@ -1,6 +1,6 @@
-﻿using CHIA_RPC.General;
+﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -122,7 +122,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="wallet_Send_XCH_RPC"></param>
         /// <returns></returns>
-        public async Task<GetTransaction_Response> SendTransaction_Async(SendXCH_RPC wallet_Send_XCH_RPC)
+        public async Task<GetTransaction_Response> SendTransaction_Async(SendTransaction_RPC wallet_Send_XCH_RPC)
         {
             string response = await SendCustomMessage_Async("send_transaction", wallet_Send_XCH_RPC.ToString());
             GetTransaction_Response json = JsonSerializer.Deserialize<GetTransaction_Response>(response);
@@ -133,7 +133,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="wallet_Send_XCH_RPC"></param>
         /// <returns></returns>
-        public GetTransaction_Response SendTransaction_Sync(SendXCH_RPC wallet_Send_XCH_RPC)
+        public GetTransaction_Response SendTransaction_Sync(SendTransaction_RPC wallet_Send_XCH_RPC)
         {
             Task<GetTransaction_Response> data = Task.Run(() => SendTransaction_Async(wallet_Send_XCH_RPC));
             data.Wait();
@@ -147,7 +147,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="timeoutInMinutes"></param>
         /// <returns></returns>
         public async Task<GetTransaction_Response> AwaitTransactionToComplete_Async(
-            Transaction transaction,
+            Transaction_DictMemos transaction,
             CancellationToken cancellation, double timeoutInMinutes = 5)
         {
             TransactionID_RPC transactionID_RPC = new TransactionID_RPC
@@ -164,7 +164,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="timeoutInMinutes"></param>
         /// <returns></returns>
         public GetTransaction_Response AwaitTransactionToComplete_Sync(
-            Transaction transaction, 
+            Transaction_DictMemos transaction, 
             CancellationToken cancellation, double timeoutInMinutes = 5)
         {
             Task<GetTransaction_Response> data = Task.Run(() => AwaitTransactionToComplete_Async(transaction, cancellation, timeoutInMinutes));
@@ -221,7 +221,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="wallet_Send_XCH_RPC"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task<GetTransactions_Response> SendTransactionMulti_Async(SendXCH_RPC wallet_Send_XCH_RPC)
+        public async Task<GetTransactions_Response> SendTransactionMulti_Async(SendTransaction_RPC wallet_Send_XCH_RPC)
         {
             throw new NotImplementedException("not implemented yet due to documentation uncertainties. Please use SendTransaction instead");
             string response = await SendCustomMessage_Async("send_transaction", wallet_Send_XCH_RPC.ToString());
@@ -234,7 +234,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="wallet_Send_XCH_RPC"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public GetTransactions_Response SendTransactionMulti_Sync(SendXCH_RPC wallet_Send_XCH_RPC)
+        public GetTransactions_Response SendTransactionMulti_Sync(SendTransaction_RPC wallet_Send_XCH_RPC)
         {
             Task<GetTransactions_Response> data = Task.Run(() => SendTransactionMulti_Async(wallet_Send_XCH_RPC));
             data.Wait();
@@ -354,10 +354,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="getCoinRecordsByNames_RPC"></param>
         /// <returns></returns>
-        public async Task<GetCoinRecordsByNames_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC getCoinRecordsByNames_RPC)
+        public async Task<GetCoinRecords_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC getCoinRecordsByNames_RPC)
         {
             string response = await SendCustomMessage_Async("get_coin_records_by_names", getCoinRecordsByNames_RPC.ToString());
-            GetCoinRecordsByNames_Response json = JsonSerializer.Deserialize<GetCoinRecordsByNames_Response>(response);
+            GetCoinRecords_Response json = JsonSerializer.Deserialize<GetCoinRecords_Response>(response);
             return json;
         }
         /// <summary>
@@ -365,9 +365,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="getCoinRecordsByNames_RPC"></param>
         /// <returns></returns>
-        public GetCoinRecordsByNames_Response GetCoinRecordsByNames_Sync(GetCoinRecordsByNames_RPC getCoinRecordsByNames_RPC)
+        public GetCoinRecords_Response GetCoinRecordsByNames_Sync(GetCoinRecordsByNames_RPC getCoinRecordsByNames_RPC)
         {
-            Task<GetCoinRecordsByNames_Response> data = Task.Run(() => GetCoinRecordsByNames_Async(getCoinRecordsByNames_RPC));
+            Task<GetCoinRecords_Response> data = Task.Run(() => GetCoinRecordsByNames_Async(getCoinRecordsByNames_RPC));
             data.Wait();
             return data.Result;
         }
@@ -375,19 +375,19 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Obtain the current derivation index for the current wallet
         /// </summary>
         /// <returns></returns>
-        public async Task<GetCurrentDerivationIndec_Response> GetCurrentDerivationIndex_Async()
+        public async Task<Index_Response> GetCurrentDerivationIndex_Async()
         {
             string response = await SendCustomMessage_Async("get_current_derivation_index");
-            GetCurrentDerivationIndec_Response json = JsonSerializer.Deserialize<GetCurrentDerivationIndec_Response>(response);
+            Index_Response json = JsonSerializer.Deserialize<Index_Response>(response);
             return json;
         }
         /// <summary>
         /// Obtain the current derivation index for the current wallet
         /// </summary>
         /// <returns></returns>
-        public GetCurrentDerivationIndec_Response GetCurrentDerivationIndex_Sync()
+        public Index_Response GetCurrentDerivationIndex_Sync()
         {
-            Task<GetCurrentDerivationIndec_Response> data = Task.Run(() => GetCurrentDerivationIndex_Async());
+            Task<Index_Response> data = Task.Run(() => GetCurrentDerivationIndex_Async());
             data.Wait();
             return data.Result;
         }
@@ -396,10 +396,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="extendDerivationIndex_RPC"></param>
         /// <returns></returns>
-        public async Task<ExtendDerivationIndex_Response> ExtendDerivationIndex_Async(ExtendDerivationIndex_RPC extendDerivationIndex_RPC)
+        public async Task<Index_Response> ExtendDerivationIndex_Async(Index_RPC extendDerivationIndex_RPC)
         {
             string response = await SendCustomMessage_Async("extend_derivation_index", extendDerivationIndex_RPC.ToString());
-            ExtendDerivationIndex_Response json = JsonSerializer.Deserialize<ExtendDerivationIndex_Response>(response);
+            Index_Response json = JsonSerializer.Deserialize<Index_Response>(response);
             return json;
         }
         /// <summary>
@@ -407,9 +407,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <param name="extendDerivationIndex_RPC"></param>
         /// <returns></returns>
-        public ExtendDerivationIndex_Response ExtendDerivationIndex_Sync(ExtendDerivationIndex_RPC extendDerivationIndex_RPC)
+        public Index_Response ExtendDerivationIndex_Sync(Index_RPC extendDerivationIndex_RPC)
         {
-            Task<ExtendDerivationIndex_Response> data = Task.Run(() => ExtendDerivationIndex_Async(extendDerivationIndex_RPC));
+            Task<Index_Response> data = Task.Run(() => ExtendDerivationIndex_Async(extendDerivationIndex_RPC));
             data.Wait();
             return data.Result;
         }

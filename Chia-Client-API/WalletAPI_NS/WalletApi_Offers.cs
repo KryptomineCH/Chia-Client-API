@@ -1,5 +1,6 @@
 ﻿using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using CHIA_RPC.Wallet_NS.Offer_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
