@@ -1,8 +1,8 @@
 ﻿using System;
 using Xunit;
 using Chia_Client_API.WalletAPI_NS;
-using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
-using CHIA_RPC.General;
+using CHIA_RPC.Wallet_NS.KeyManagement;
+using CHIA_RPC.General_NS;
 
 namespace UnitTests.Wallet_RPC_NS
 {
@@ -20,11 +20,11 @@ namespace UnitTests.Wallet_RPC_NS
             // generate test wallets
             GenerateMnemonic_Response generatedWallet1 = Testnet.Wallet_Client.GenerateMnemonic_Async().Result;
             if (!generatedWallet1.success) throw new Exception("wallet1 mnemonics couldnt be created!");
-            LogIn_Response response1 = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedWallet1.mnemonic }).Result;
+            FingerPrint_Response response1 = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedWallet1.mnemonic }).Result;
             if (!response1.success) throw new Exception("wallet1 couldnt be added!");
             GenerateMnemonic_Response generatedWallet2 = Testnet.Wallet_Client.GenerateMnemonic_Async().Result;
             if (!generatedWallet2.success) throw new Exception("wallet2 mnemonics couldnt be created!");
-            LogIn_Response response2 = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedWallet2.mnemonic }).Result;
+            FingerPrint_Response response2 = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedWallet2.mnemonic }).Result;
             if (!response2.success) throw new Exception("wallet2 couldnt be added!");
             // wallets have been added, create fingerprint rpcs
             FingerPrint_RPC fingerprint1 = new FingerPrint_RPC { fingerprint = response1.fingerprint };
@@ -33,8 +33,8 @@ namespace UnitTests.Wallet_RPC_NS
             try
             {
                 // test adding wallet 1
-                LogIn_Response test1 = Testnet.Wallet_Client.LogIn_Async(fingerprint1).Result;
-                LogIn_Response login1 = Testnet.Wallet_Client.GetLoggedInFingerprint_Async().Result;
+                FingerPrint_Response test1 = Testnet.Wallet_Client.LogIn_Async(fingerprint1).Result;
+                FingerPrint_Response login1 = Testnet.Wallet_Client.GetLoggedInFingerprint_Async().Result;
                 if (login1.fingerprint != response1.fingerprint)
                 {
                     throw new Exception("Login1 Failed!");
@@ -42,8 +42,8 @@ namespace UnitTests.Wallet_RPC_NS
                 // test getting private key for 1
                 GetPrivateKey_Response privateKey1 = Testnet.Wallet_Client.GetPrivateKey_Async(fingerprint1).Result;
                 // test adding wallet 2
-                LogIn_Response test2 = Testnet.Wallet_Client.LogIn_Async(fingerprint2).Result;
-                LogIn_Response login2 = Testnet.Wallet_Client.GetLoggedInFingerprint_Async().Result;
+                FingerPrint_Response test2 = Testnet.Wallet_Client.LogIn_Async(fingerprint2).Result;
+                FingerPrint_Response login2 = Testnet.Wallet_Client.GetLoggedInFingerprint_Async().Result;
                 if (login2.fingerprint != response2.fingerprint)
                 {
                     throw new Exception("Login1 Failed!");

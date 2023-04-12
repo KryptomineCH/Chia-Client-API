@@ -1,10 +1,9 @@
-﻿using Chia_Client_API.FullNodeAPI_NS;
-using Chia_Client_API.WalletAPI_NS;
-using CHIA_RPC.FullNode_RPC_NS;
-using CHIA_RPC.General;
+﻿using CHIA_RPC.FullNode_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_RPC_NS.NFT;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+using CHIA_RPC.Wallet_NS.NFT_NS;
+using CHIA_RPC.Wallet_NS.Offer_NS;
+
 using Xunit;
 
 namespace UnitTests.Wallet_RPC_NS
@@ -37,8 +36,8 @@ namespace UnitTests.Wallet_RPC_NS
                 targetAddress: "xch1e426jf55z7npqnw7ae7h9ap0gez7wrljvqqeskx97p928jshfapq2w7p5l",
                 mintingFee_Mojos: 2441556
                 );
-            rpc.Save("NftMintNft_SaveLoadRPC");
-            NftMintNFT_RPC loadedRpc = NftMintNFT_RPC.Load("NftMintNft_SaveLoadRPC");
+            rpc.SaveRpcToFile("NftMintNft_SaveLoadRPC");
+            NftMintNFT_RPC loadedRpc = NftMintNFT_RPC.LoadRpcFromFile("NftMintNft_SaveLoadRPC");
             if (rpc.wallet_id != loadedRpc.wallet_id)
             {
                 throw new System.Exception("Wallet Ids do not match!");
@@ -120,11 +119,11 @@ namespace UnitTests.Wallet_RPC_NS
             }
             Offer_RPC offer = new Offer_RPC();
             offer.offer.Add( "1", 1); // 1 mojo
-            NftGetInfo_RPC nftInfoRequest = response.Get_NftGetInfo_Rpc();
+            NftGetInfo_RPC nftInfoRequest = response.Get_NftGetInfo_RPC();
             NftGetInfo_Response nftInfoResponse = Testnet.Wallet_Client.NftGetInfo_Async(nftInfoRequest).Result;
             offer.offer.Add(nftInfoResponse.nft_info.launcher_id, -1);
             OfferFile offerFile = Testnet.Wallet_Client.CreateOfferForIds(offer).Result;
-            offerFile.Save("testoffer");
+            offerFile.SaveObjectToFile("testoffer");
             { }
         }
         [Fact]
@@ -148,8 +147,8 @@ namespace UnitTests.Wallet_RPC_NS
                 names = new[] { "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932" },
                 include_spent_coins = true,
             };
-            GetCoinRecordsByNames_Response success = Testnet.Fullnode_Client.GetCoinRecordsByNames_Async(rpc).Result;
-            GetCoinRecordsByNames_Response success2 = Testnet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecords_Response success = Testnet.Fullnode_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecords_Response success2 = Testnet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
             if (!success.success)
             {
                 throw new System.Exception(success.error);

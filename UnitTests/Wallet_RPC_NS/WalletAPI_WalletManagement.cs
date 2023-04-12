@@ -1,7 +1,8 @@
 ﻿using Chia_Client_API.WalletAPI_NS;
-using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
-using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
+using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.DID_NS;
+using CHIA_RPC.Wallet_NS.KeyManagement;
+using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System;
 using System.Threading;
 using Xunit;
@@ -31,9 +32,9 @@ namespace UnitTests.Wallet_RPC_NS
         {
             // create empty main wallet and log in
             GenerateMnemonic_Response generatedMainWallet = Testnet.Wallet_Client.GenerateMnemonic_Async().Result;
-            LogIn_Response mainWalletFinger = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedMainWallet.mnemonic }).Result;
+            FingerPrint_Response mainWalletFinger = Testnet.Wallet_Client.AddKey_Async(new AddKey_RPC { mnemonic = generatedMainWallet.mnemonic }).Result;
             FingerPrint_RPC fingerprint1 = new FingerPrint_RPC { fingerprint = mainWalletFinger.fingerprint };
-            LogIn_Response test1 = Testnet.Wallet_Client.LogIn_Async(fingerprint1).Result;
+            FingerPrint_Response test1 = Testnet.Wallet_Client.LogIn_Async(fingerprint1).Result;
             Testnet.Wallet_Client.AwaitWalletSync_Async(CancellationToken.None).Wait();
             // generate DID recovery Wallet
             try

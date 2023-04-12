@@ -1,5 +1,6 @@
 ﻿using Chia_Client_API.WalletAPI_NS;
-using CHIA_RPC.Wallet_RPC_NS.WalletNode_NS;
+using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using Xunit;
 
 namespace UnitTests.Wallet_RPC_NS
@@ -18,7 +19,7 @@ namespace UnitTests.Wallet_RPC_NS
         [Fact]
         public void GetSyncStatus_Test()
         {
-            GetSyncStatus_Response info = Testnet.Wallet_Client.GetSyncStatus_Async().Result;
+            GetWalletSyncStatus_Response info = Testnet.Wallet_Client.GetSyncStatus_Async().Result;
             if (!info.success) throw new System.Exception("api call was uncucessful!");
             if (!info.genesis_initialized) throw new System.Exception("genesis is not initialized!");
             if (info.synced && info.syncing) throw new System.Exception("cannot be synced and syncing at the same time!");

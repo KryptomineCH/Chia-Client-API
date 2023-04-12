@@ -1,7 +1,7 @@
 ﻿using Chia_Client_API.FullNodeAPI_NS;
 using Chia_Client_API.WalletAPI_NS;
-using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.KeyManagement;
+using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.KeyManagement;
 using System;
 using System.IO;
 using System.Linq;
@@ -36,21 +36,21 @@ namespace UnitTests
             {
                 GenerateMnemonic_Response generatedWallet = Wallet_Client.GenerateMnemonic_Async().Result;
                 AddKey_RPC addKey = new AddKey_RPC { mnemonic = generatedWallet.mnemonic };
-                addKey.Save("testwallet.rpc");
+                addKey.SaveRpcToFile("testwallet.rpc");
             }
             if (!File.Exists("testfingerprint.rpc"))
             {
-                AddKey_RPC addKey = AddKey_RPC.Load("testwallet.rpc");
-                LogIn_Response response = Wallet_Client.AddKey_Async(addKey).Result;
-                FingerPrint_RPC fingerprint = new FingerPrint_RPC { fingerprint = response.fingerprint };
-                fingerprint.Save("testfingerprint.rpc");
+                AddKey_RPC addKey = AddKey_RPC.LoadRpcFromFile("testwallet.rpc");
+                FingerPrint_Response response = Wallet_Client.AddKey_Async(addKey).Result;
+                FingerPrint_RPC fingerprint = response.Get_RPC();
+                fingerprint.SaveRpcToFile("testfingerprint.rpc");
             }
-            FingerPrint_RPC login_rpc = FingerPrint_RPC.Load("testfingerprint.rpc");
+            FingerPrint_RPC login_rpc = FingerPrint_RPC.LoadRpcFromFile("testfingerprint.rpc");
             GetPublicKeys_Response wallets = Wallet_Client.GetPublicKeys_Async().Result;
             if (!wallets.public_key_fingerprints.Contains(login_rpc.fingerprint))
             {
-                AddKey_RPC addKey = AddKey_RPC.Load("testwallet.rpc");
-                LogIn_Response response = Wallet_Client.AddKey_Async(addKey).Result;
+                AddKey_RPC addKey = AddKey_RPC.LoadRpcFromFile("testwallet.rpc");
+                FingerPrint_Response response = Wallet_Client.AddKey_Async(addKey).Result;
                 { }
             }
             Task.Delay(5000).Wait();

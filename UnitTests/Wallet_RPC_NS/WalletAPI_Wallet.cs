@@ -1,5 +1,5 @@
-﻿using CHIA_RPC.General;
-using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
+﻿using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System;
 using Xunit;
 using Chia_Client_API.WalletAPI_NS;
@@ -146,7 +146,7 @@ namespace UnitTests.Wallet_RPC_NS
         [Fact]
         public void SendTransaction()
         {
-            SendXCH_RPC rpc = new SendXCH_RPC
+            SendTransaction_RPC rpc = new SendTransaction_RPC
             {
                 address = CommonTestFunctions.TestAdress,
                 amount = 1000,
@@ -177,7 +177,7 @@ namespace UnitTests.Wallet_RPC_NS
         public void SendTransactionMulti()
         {
             throw new NotImplementedException();
-            SendXCH_RPC wallet_Send_XCH_RPC;
+            SendTransaction_RPC wallet_Send_XCH_RPC;
         }
         /// <summary>
         /// Show the total amount that has been farmed
@@ -212,7 +212,7 @@ namespace UnitTests.Wallet_RPC_NS
                 wallet_id = 1
             };
             GetNextAddress_Response adressResponse = Testnet.Wallet_Client.GetNextAddress_Async(same_address).Result;
-            SendXCH_RPC rpc = new SendXCH_RPC
+            SendTransaction_RPC rpc = new SendTransaction_RPC
             {
                 address = adressResponse.address,
                 amount = 1000,
@@ -271,7 +271,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 names = new[] { "0xeb17e80fcb72f15bfb28924f0bcd684df626646dca282bc88098cb0d59ffe1bb" }
             };
-            GetCoinRecordsByNames_Response response = Testnet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecords_Response response = Testnet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
             if (!response.success)
             {
                 throw new Exception(response.error);
@@ -293,7 +293,7 @@ namespace UnitTests.Wallet_RPC_NS
         public void ExtendDerivationIndex()
         {
             throw new NotImplementedException();
-            ExtendDerivationIndex_RPC extendDerivationIndex_RPC;
+            Index_RPC extendDerivationIndex_RPC;
         }
         /// <summary>
         /// Obtain current notifications

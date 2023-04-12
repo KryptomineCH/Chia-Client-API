@@ -1,5 +1,5 @@
-﻿using CHIA_RPC.Wallet_RPC_NS.Wallet_NS;
-using CHIA_RPC.Wallet_RPC_NS.WalletManagement_NS;
+﻿using CHIA_RPC.Wallet_NS.Wallet_NS;
+using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 namespace UnitTests
 {
