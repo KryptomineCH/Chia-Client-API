@@ -474,9 +474,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetNotifications_Response> GetNotifications_Async(GetNotifications_RPC rpc = null)
         {
-            string responseJson;
-            if (getNotifications_RPC != null) { responseJson = await SendCustomMessage_Async("get_notifications", rpc.ToString()); }
-            else { responseJson = await SendCustomMessage_Async("get_notifications"); }
+            string responseJson = await SendCustomMessage_Async("get_notifications", rpc.ToString());
             GetNotifications_Response deserializedObject = JsonSerializer.Deserialize<GetNotifications_Response>(responseJson);
             return deserializedObject;
         }
@@ -498,11 +496,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#delete_notifications"/></remarks>
         /// <param name="deleteNotifications_RPC"></param>
         /// <returns></returns>
-        public async Task<Success_Response> DeleteNotifications_Async(DeleteNotifications_RPC rpc = null)
+        public async Task<Success_Response> DeleteNotifications_Async(DeleteNotifications_RPC rpc)
         {
-            string responseJson;
-            if (deleteNotifications_RPC != null) { responseJson = await SendCustomMessage_Async("delete_notifications", rpc.ToString()); }
-            else { responseJson = await SendCustomMessage_Async("delete_notifications"); }
+            string responseJson = await SendCustomMessage_Async("delete_notifications", rpc.ToString());
             Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
             return deserializedObject;
         }

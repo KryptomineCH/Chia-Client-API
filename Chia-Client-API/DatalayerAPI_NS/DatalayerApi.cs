@@ -1,6 +1,7 @@
 ﻿
 using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.DatalayerAPI_NS

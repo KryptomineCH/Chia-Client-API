@@ -27,7 +27,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public Success_Response SetWalletResyncOnStartup_Sync(SetWalletResyncOnStartup_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => SendCustomMessage_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => SetWalletResyncOnStartup_Async(rpc));
             data.Wait();
             return data.Result;
         }
