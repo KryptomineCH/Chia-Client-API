@@ -18,9 +18,9 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true)
         {
             GetWallets_RPC rpc = new GetWallets_RPC { include_data= includeData };
-            string response = await SendCustomMessage_Async("get_wallets", rpc.ToString());
-            GetWallets_Response json = JsonSerializer.Deserialize<GetWallets_Response>(response);
-            return json;
+            string responseJson = await SendCustomMessage_Async("get_wallets", rpc.ToString());
+            GetWallets_Response deserializedObject = JsonSerializer.Deserialize<GetWallets_Response>(responseJson);
+            return deserializedObject;
         }
         /// <summary>
         /// returns all subwallets of the currently logged in wallet<br/><br/>
@@ -42,9 +42,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewCatWallet_Async(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
-            string response = await SendCustomMessage_Async("create_new_wallet ", createNewCatWallet_RPC.ToString());
-            CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
-            return json;
+            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewCatWallet_RPC.ToString());
+            CreateNewWallet_Response deserializedObject = JsonSerializer.Deserialize<CreateNewWallet_Response>(responseJson);
+            return deserializedObject;
         }
         /// <summary>
         /// create a new cat subwallet
@@ -65,9 +65,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> ModifyCatWallet_Async(ModifyCatWallet_RPC modifyCatWallet_RPC)
         {
-            string response = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
-            CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
-            return json;
+            string responseJson = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
+            CreateNewWallet_Response deserializedObject = JsonSerializer.Deserialize<CreateNewWallet_Response>(responseJson);
+            return deserializedObject;
         }
         /// <summary>
         /// modify a cat wallet
@@ -91,9 +91,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewDidWallet_Async(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
-            string response = await SendCustomMessage_Async("create_new_wallet ", createNewDIDWallet_RPC.ToString());
-            CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
-            return json;
+            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewDIDWallet_RPC.ToString());
+            CreateNewWallet_Response deserializedObject = JsonSerializer.Deserialize<CreateNewWallet_Response>(responseJson);
+            return deserializedObject;
         }
         /// <summary>
         /// create a new digital identity<br/><br/>
@@ -119,9 +119,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewNftWallet_Async(CreateNewNFTWallet_RPC createNewNFTWallet_RPC)
         {
-            string response = await SendCustomMessage_Async("create_new_wallet ", createNewNFTWallet_RPC.ToString());
-            CreateNewWallet_Response json = JsonSerializer.Deserialize<CreateNewWallet_Response>(response);
-            return json;
+            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewNFTWallet_RPC.ToString());
+            CreateNewWallet_Response deserializedObject = JsonSerializer.Deserialize<CreateNewWallet_Response>(responseJson);
+            return deserializedObject;
         }
         /// <summary>
         /// create a new nft wallet
