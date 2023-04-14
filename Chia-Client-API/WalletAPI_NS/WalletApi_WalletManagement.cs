@@ -9,11 +9,10 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// returns all subwallets of the currently logged in wallet
+        /// returns all subwallets of the currently logged in wallet<br/><br/>
+        /// Note:  if you want to obtain all main wallets, use <see cref="GetPublicKeys_Async"/> instead
         /// </summary>
-        /// <remarks>
-        /// if you want to obtain all main wallets, use `GetPublicKeys` instead
-        /// </remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
         public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true)
@@ -24,11 +23,10 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// returns all subwallets of the currently logged in wallet
+        /// returns all subwallets of the currently logged in wallet<br/><br/>
+        /// Note:  if you want to obtain all main wallets, use <see cref="GetPublicKeys_Sync"/> instead
         /// </summary>
-        /// <remarks>
-        /// if you want to obtain all main wallets, use `GetPublicKeys` instead
-        /// </remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
         public GetWallets_Response GetWallets_Sync(bool includeData = true)
@@ -38,8 +36,9 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// create a new subwallet
+        /// create a new cat subwallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewCatWallet_Async(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
@@ -48,8 +47,9 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// create a new subwallet
+        /// create a new cat subwallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <returns></returns>
         public CreateNewWallet_Response CreateNewCatWallet_Sync(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
@@ -60,6 +60,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// modify a cat wallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="modifyCatWallet_RPC"></param>
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> ModifyCatWallet_Async(ModifyCatWallet_RPC modifyCatWallet_RPC)
@@ -71,6 +72,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// modify a cat wallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="modifyCatWallet_RPC"></param>
         /// <returns></returns>
         public CreateNewWallet_Response ModifyCatWallet_Sync(ModifyCatWallet_RPC modifyCatWallet_RPC)
@@ -80,8 +82,11 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// create a new digital identity
+        /// create a new digital identity<br/><br/>
+        /// NOTE: Because backup_dids is required, you must already have access to a DID in order to run this RPC for a did_wallet.
+        /// If you do not already have a DID, then run the CLI command to create a DID wallet instead.
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="createNewDIDWallet_RPC"></param>
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewDidWallet_Async(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
@@ -91,8 +96,11 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// create a new digital identity
+        /// create a new digital identity<br/><br/>
+        /// NOTE: Because backup_dids is required, you must already have access to a DID in order to run this RPC for a did_wallet.
+        /// If you do not already have a DID, then run the CLI command to create a DID wallet instead.
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="createNewDIDWallet_RPC"></param>
         /// <returns></returns>
         public CreateNewWallet_Response CreateNewDidWallet_Sync(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
@@ -102,8 +110,9 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// 
+        /// create a new nft wallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="name">eg My NFT WAllet</param>
         /// <param name="didID">eg did:chia:1ypvxg7t327m4hsmgzrlhnuk4448nqc20crnnmzzd52lk7dvdza9s8qp8q6</param>
         /// <param name="networkFeeMojos"> eg 1000</param>
@@ -115,8 +124,9 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// 
+        /// create a new nft wallet
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#create_new_wallet"/></remarks>
         /// <param name="name">eg My NFT WAllet</param>
         /// <param name="didID">eg did:chia:1ypvxg7t327m4hsmgzrlhnuk4448nqc20crnnmzzd52lk7dvdza9s8qp8q6</param>
         /// <param name="networkFeeMojos"> eg 1000</param>
