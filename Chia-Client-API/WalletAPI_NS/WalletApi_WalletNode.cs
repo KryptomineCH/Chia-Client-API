@@ -8,8 +8,33 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
+        /// Resync the current logged in wallet. The transaction and offer records will be kept
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#set_wallet_resync_on_startup"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<Success_Response> SetWalletResyncOnStartup_Async(SetWalletResyncOnStartup_RPC rpc)
+        {
+            string response = await SendCustomMessage_Async("set_wallet_resync_on_startup", rpc.ToString());
+            Success_Response json = JsonSerializer.Deserialize<Success_Response>(response);
+            return json;
+        }
+        /// <summary>
+        /// Resync the current logged in wallet. The transaction and offer records will be kept
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#set_wallet_resync_on_startup"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public Success_Response SetWalletResyncOnStartup_Sync(SetWalletResyncOnStartup_RPC rpc)
+        {
+            Task<Success_Response> data = Task.Run(() => SendCustomMessage_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
         /// Show whether the current wallet is syncing or synced
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_sync_status"/></remarks>
         /// <returns></returns>
         public async Task<GetWalletSyncStatus_Response> GetSyncStatus_Async()
         {
@@ -20,6 +45,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Show whether the current wallet is syncing or synced
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_sync_status"/></remarks>
         /// <returns></returns>
         public GetWalletSyncStatus_Response GetSyncStatus_Sync()
         {
@@ -30,6 +56,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Show the block height to which the current wallet is synced
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_height_info"/></remarks>
         /// <returns></returns>
         public async Task<GetHeightInfo_Response> GetHeightInfo_Async()
         {
@@ -40,6 +67,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Show the block height to which the current wallet is synced
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_height_info"/></remarks>
         /// <returns></returns>
         public GetHeightInfo_Response GetHeightInfo_Sync()
         {
@@ -48,14 +76,12 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.
+        /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.<br/><br/>
+        /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
-        /// <remarks>
-        /// due to insufficient documentation, this request point may not be implemented correctly
-        /// </remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_tx"/></remarks>
         /// <param name="bundle"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<PushTx_Response> PushTx_Async(SpendBundle spendBundle)
         {
             PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
@@ -64,14 +90,12 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.
+        /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.<br/><br/>
+        /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
-        /// <remarks>
-        /// due to insufficient documentation, this request point may not be implemented correctly
-        /// </remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_tx"/></remarks>
         /// <param name="bundle"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public PushTx_Response PushTx_Sync(SpendBundle spendBundle)
         {
             Task<PushTx_Response> data = Task.Run(() => PushTx_Async(spendBundle));
@@ -79,11 +103,12 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// due to insufficient documentation, this request point is not implemented yet
+        /// Push multiple transactions to the blockchain<br/><br/>
+        /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_transactions"/></remarks>
         /// <param name="bundles"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public async Task<PushTx_Response> PushTransactions_Async(SpendBundle[] bundles)
         {
             PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
@@ -92,11 +117,12 @@ namespace Chia_Client_API.WalletAPI_NS
             return json;
         }
         /// <summary>
-        /// due to insufficient documentation, this request point is not implemented yet
+        /// Push multiple transactions to the blockchain<br/><br/>
+        /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_transactions"/></remarks>
         /// <param name="bundles"></param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public PushTx_Response PushTransactions_Sync(SpendBundle[] bundles)
         {
             Task<PushTx_Response> data = Task.Run(() => PushTransactions_Async(bundles));
@@ -104,8 +130,33 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /// <summary>
+        /// Show the timestamp for a given block height
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_timestamp_for_height"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<GetTimestampForHeight_Response> GetTimestampForHeight_Async(Height_RPC rpc)
+        {
+            string response = await SendCustomMessage_Async("get_timestamp_for_height", rpc.ToString());
+            GetTimestampForHeight_Response json = JsonSerializer.Deserialize<GetTimestampForHeight_Response>(response);
+            return json;
+        }
+        /// <summary>
+        /// Show the timestamp for a given block height
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_timestamp_for_height"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public GetTimestampForHeight_Response GetTimestampForHeight_Sync(Height_RPC rpc)
+        {
+            Task<GetTimestampForHeight_Response> data = Task.Run(() => GetTimestampForHeight_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
         /// Show the current network (eg mainnet) and network prefix (eg XCH)
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_network_info"/></remarks>
         /// <returns></returns>
         public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
         {
@@ -116,6 +167,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Show the current network (eg mainnet) and network prefix (eg XCH)
         /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_network_info"/></remarks>
         /// <returns></returns>
         public GetNetworkInfo_Response GetNetworkInfo_Sync()
         {
