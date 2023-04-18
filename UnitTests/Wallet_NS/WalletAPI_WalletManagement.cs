@@ -8,7 +8,7 @@ using System;
 using System.Threading;
 using Xunit;
 
-namespace CHIA_API_Tests.Wallet_RPC_NS
+namespace CHIA_API_Tests.Wallet_NS
 {
     [Collection("Testnet_Wallet")]
     public class WalletAPI_WalletManagement

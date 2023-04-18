@@ -1,11 +1,10 @@
 ﻿using System;
 using Xunit;
-using Chia_Client_API.WalletAPI_NS;
 using CHIA_RPC.Wallet_NS.KeyManagement;
 using CHIA_RPC.General_NS;
 using CHIA_API_Tests.Initialisation_NS;
 
-namespace CHIA_API_Tests.Wallet_RPC_NS
+namespace CHIA_API_Tests.Wallet_NS
 {
     [Collection("Testnet_Wallet")]
     public class WalletAPI_KeyManagement

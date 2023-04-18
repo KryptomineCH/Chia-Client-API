@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace CHIA_API_Tests.Wallet_RPC_NS
+namespace CHIA_API_Tests.Wallet_NS
 {
     public class WalletApi_Offer
     {

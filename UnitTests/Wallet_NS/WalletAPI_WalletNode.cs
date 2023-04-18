@@ -4,7 +4,7 @@ using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using Xunit;
 
-namespace CHIA_API_Tests.Wallet_RPC_NS
+namespace CHIA_API_Tests.Wallet_NS
 {
     [Collection("Testnet_Wallet")]
     public class WalletAPI_WalletNode
