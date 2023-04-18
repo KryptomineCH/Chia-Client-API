@@ -7,7 +7,7 @@ using Xunit;
 namespace CHIA_API_Tests.FullNode_NS
 {
     [Collection("Testnet_FullNode")]
-    public class FullNode_RPC_Tests
+    public class Fullnode_Tests
     {
         [Fact]
         public void GetAllMempoolItems_Test()
