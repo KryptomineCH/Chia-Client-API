@@ -20,6 +20,12 @@ To install this library from the repository, simply clone the repository and ope
 Alternatively, you can install the library from NuGet as described above.
 
 ## Usage
+*Note:* Per default, chia rpc will only listen to requests from the local machine.  
+If you have remote machines to manage, eg a full node or farmers, you need to enable public port listening.  
+For that, edit the chia configuration (default at `~/.chia/mainnet/config/config.yaml`).  
+Look for a line starting with self-hostname like so: `self_hostname: &self_hostname "localhost"`   
+change it to: `self_hostname: 0.0.0.0` to listen on all interfaces or to the local interface ip to listen on a specific interface.  
+
 To use the Chia Client API in your C# applications, you will need to create an instance of the ChiaClient class and pass in your API key:
 ```
 using ChiaClientAPI;
