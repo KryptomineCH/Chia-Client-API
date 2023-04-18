@@ -18,8 +18,8 @@ namespace Chia_Client_API.WalletAPI_NS
             else
             {
                 API_CertificateFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    @".chia\mainnet\config\ssl\");
             }
         }
         private HttpClient _Client { get; set; }

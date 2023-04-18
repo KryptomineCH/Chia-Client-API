@@ -1,7 +1,8 @@
-﻿using CHIA_RPC.Wallet_NS.Wallet_NS;
+﻿using CHIA_API_Tests.Initialisation_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
-namespace UnitTests
+namespace CHIA_API_Tests
 {
     internal static class CommonTestFunctions
     {
@@ -20,14 +21,14 @@ namespace UnitTests
                 new_address = false,
                 wallet_id = walletId
             };
-            GetNextAddress_Response adressResponse = Testnet.Wallet_Client.GetNextAddress_Async(same_address).Result;
+            GetNextAddress_Response adressResponse = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
             return adressResponse.address.ToString();
         }
         public static Wallets_info TestDidWallet
         {
             get
             {
-                GetWallets_Response wallets = Testnet.Wallet_Client.GetWallets_Async().Result;
+                GetWallets_Response wallets = Testnet_Wallet.Wallet_Client.GetWallets_Async().Result;
                 foreach (var wallet in wallets.wallets)
                 {
                     if (wallet.type == CHIA_RPC.Objects_NS.WalletType.did_wallet)
@@ -43,7 +44,7 @@ namespace UnitTests
         {
             get
             {
-                GetWallets_Response wallets = Testnet.Wallet_Client.GetWallets_Async().Result;
+                GetWallets_Response wallets = Testnet_Wallet.Wallet_Client.GetWallets_Async().Result;
                 foreach (var wallet in wallets.wallets)
                 {
                     if (wallet.type == CHIA_RPC.Objects_NS.WalletType.nft_wallet)

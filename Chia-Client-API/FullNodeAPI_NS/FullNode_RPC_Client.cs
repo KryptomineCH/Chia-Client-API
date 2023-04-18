@@ -5,6 +5,12 @@ namespace Chia_Client_API.FullNodeAPI_NS
 {
     public partial class FullNode_RPC_Client
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="targetApiAddress">the ip or name where to reach the full-node server</param>
+        /// <param name="targetApiPort">the port which to coinnect to</param>
+        /// <param name="targetCertificateBaseFolder">the base (ssl) folder path</param>
         public FullNode_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null)
         {
             TargetApiAddress = targetApiAddress;
@@ -16,9 +22,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
             }
             else
             {
+                // default certificate folder
                 API_CertificateFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    @".chia\mainnet\config\ssl\");
             }
         }
         private HttpClient _Client { get; set; }

@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.FullNode_NS;
+﻿using CHIA_API_Tests.Initialisation_NS;
+using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
@@ -6,9 +7,9 @@ using CHIA_RPC.Wallet_NS.Offer_NS;
 
 using Xunit;
 
-namespace UnitTests.Wallet_RPC_NS
+namespace CHIA_API_Tests.Wallet_RPC_NS
 {
-    [Collection("Testnet")]
+    [Collection("Testnet_Wallet")]
     public class WalletAPI_NFT
     {
         [Fact]
@@ -69,8 +70,8 @@ namespace UnitTests.Wallet_RPC_NS
         public void GetNftInfo()
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;
-            WalletID_Response nftWallet = Testnet.Wallet_Client.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
-            NftGetInfo_Response info = Testnet.Wallet_Client.NftGetInfo_Async(new NftGetInfo_RPC
+            WalletID_Response nftWallet = Testnet_Wallet.Wallet_Client.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
+            NftGetInfo_Response info = Testnet_Wallet.Wallet_Client.NftGetInfo_Async(new NftGetInfo_RPC
             {
                 wallet_id= nftWallet.wallet_id,
                 coin_id = "0x76ccbfe8323435d23d37cb7e2f09c5b6a0fdaa372bd5601635f4a0d1e01777a7"
@@ -81,8 +82,8 @@ namespace UnitTests.Wallet_RPC_NS
         public void GetNFTs_Test()
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;
-            WalletID_Response nftWallet = Testnet.Wallet_Client.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
-            NftGetNfts_Response response = Testnet.Wallet_Client.NftGetNfts_Async(
+            WalletID_Response nftWallet = Testnet_Wallet.Wallet_Client.NftGetByDID_Async(new DidID_RPC { did_id = didWallet }).Result;
+            NftGetNfts_Response response = Testnet_Wallet.Wallet_Client.NftGetNfts_Async(
                 new WalletID_RPC { wallet_id = nftWallet.wallet_id }).Result;
             { }
         }
@@ -106,13 +107,13 @@ namespace UnitTests.Wallet_RPC_NS
                 royaltyFee: 190,
                 royaltyAddress: CommonTestFunctions.TestAdress,
                 mintingFee_Mojos: 10000);
-            NftMintNFT_Response response = Testnet.Wallet_Client.NftMintNft_Async(rpc).Result;
+            NftMintNFT_Response response = Testnet_Wallet.Wallet_Client.NftMintNft_Async(rpc).Result;
             if (!response.success)
             {
                 throw new System.Exception(response.error);
             }
             
-            NftGetInfo_Response success = Testnet.Wallet_Client.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None,refreshInterwallSeconds: 15).Result;
+            NftGetInfo_Response success = Testnet_Wallet.Wallet_Client.NftAwaitMintComplete_Async(response, cancel: System.Threading.CancellationToken.None,refreshInterwallSeconds: 15).Result;
             if(!success.success)
             {
                 throw new System.Exception(success.error);
@@ -120,9 +121,9 @@ namespace UnitTests.Wallet_RPC_NS
             Offer_RPC offer = new Offer_RPC();
             offer.offer.Add( "1", 1); // 1 mojo
             NftGetInfo_RPC nftInfoRequest = response.Get_NftGetInfo_RPC();
-            NftGetInfo_Response nftInfoResponse = Testnet.Wallet_Client.NftGetInfo_Async(nftInfoRequest).Result;
+            NftGetInfo_Response nftInfoResponse = Testnet_Wallet.Wallet_Client.NftGetInfo_Async(nftInfoRequest).Result;
             offer.offer.Add(nftInfoResponse.nft_info.launcher_id, -1);
-            OfferFile offerFile = Testnet.Wallet_Client.CreateOfferForIds(offer).Result;
+            OfferFile offerFile = Testnet_Wallet.Wallet_Client.CreateOfferForIds(offer).Result;
             offerFile.SaveObjectToFile("testoffer");
             { }
         }
@@ -133,7 +134,7 @@ namespace UnitTests.Wallet_RPC_NS
             {
                 name = "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932"
             };
-            GetCoinRecordByName_Response success = Testnet.Fullnode_Client.GetCoinRecordByName_Async(rpc).Result;
+            GetCoinRecordByName_Response success = Testnet_FullNode.Fullnode_Client.GetCoinRecordByName_Async(rpc).Result;
             if (!success.success)
             {
                 throw new System.Exception(success.error);
@@ -147,8 +148,8 @@ namespace UnitTests.Wallet_RPC_NS
                 names = new[] { "0x2d858b0476d8972a023265ab4bfd362b894ac82c4465e77556e320def8d5c932" },
                 include_spent_coins = true,
             };
-            GetCoinRecords_Response success = Testnet.Fullnode_Client.GetCoinRecordsByNames_Async(rpc).Result;
-            GetCoinRecords_Response success2 = Testnet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecords_Response success = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            GetCoinRecords_Response success2 = Testnet_Wallet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
             if (!success.success)
             {
                 throw new System.Exception(success.error);
