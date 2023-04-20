@@ -1,7 +1,9 @@
 ﻿
 using CHIA_RPC.Datalayer_NS;
+using CHIA_RPC.Datalayer_NS.DatalayerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace Chia_Client_API.DatalayerAPI_NS
@@ -70,9 +72,58 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <see href="https://docs.chia.net/datalayer-rpc#batch_update"/>
         /// </remarks>
         /// <param name="rpc"></param>
+        /// <param name="auto">ensures that keys are updated, otherwise command will fail if trying to add a key which already exists or deleting a non existant key</param>
         /// <returns></returns>
-        public async Task<TxID_Response> BatchUpdate_Async(BatchUpdate_RPC rpc)
+        public async Task<TxID_Response> BatchUpdate_Async(BatchUpdate_RPC rpc, bool auto = true)
         {
+            // Process DataStoreChange objects if 'auto' is true
+            if (auto)
+            {
+                // Initialize a list for changes and a HashSet to store affected keys
+                List<DataStoreChange> changes = new List<DataStoreChange>();
+                HashSet<string> affectedKeys = new HashSet<string>();
+
+                // Populate the affectedKeys HashSet from rpc.changelist
+                foreach (DataStoreChange change in rpc.changelist)
+                    if (!affectedKeys.Contains(change.key))
+                        affectedKeys.Add(change.key);
+
+                // Check which keys in affectedKeys exist in the datastore
+                Dictionary<string, bool> keysExist = KeysExist(rpc.id, affectedKeys.ToList());
+
+                // Process DataStoreChange objects in rpc.changelist based on their actions and key existence
+                foreach (DataStoreChange change in rpc.changelist)
+                {
+                    bool exists = keysExist[change.key];
+
+                    if (change.action == DataStoreChange.DataStoreChangeAction.insert && exists)
+                    {
+                        // Delete the existing key and then insert the new one
+                        changes.Add(new DataStoreChange(DataStoreChange.DataStoreChangeAction.delete, change.key));
+                        changes.Add(change);
+                    }
+                    else if (change.action == DataStoreChange.DataStoreChangeAction.insert)
+                    {
+                        // Add the new key
+                        changes.Add(change);
+                        keysExist[change.key] = true;
+                    }
+                    else if (change.action == DataStoreChange.DataStoreChangeAction.delete && !exists)
+                    {
+                        // Skip deletion if the key does not exist
+                    }
+                    else
+                    {
+                        // Delete the existing key
+                        changes.Add(change);
+                        keysExist[change.key] = false;
+                    }
+                }
+
+                // Update rpc.changelist with the processed changes
+                rpc.changelist = changes.ToArray();
+            }
+
             string response = await SendCustomMessage_Async("batch_update", rpc.ToString());
             TxID_Response deserializedObject = JsonSerializer.Deserialize<TxID_Response>(response);
             return deserializedObject;
@@ -81,19 +132,18 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// Apply multiple updates to a data store with a given changelist. Triggers a Chia transaction
         /// </summary>/
         /// <remarks>
-        /// - The entire list must be formatted as a JSON array <br/>
         /// - There are two actions allowed: insert and delete <br/>
         /// - insert requires key and value flags <br/>
         /// - delete requires a key flag only <br/>
-        /// - Keys and values must be written in hex format.Values can be derived from text or binary. <br/>
-        /// - Labels, keys and values must all be enclosed in double quotes <br/>
+        /// - Keys and values must be written in hex format. Values can be derived from text or binary. <br/>
         /// - Multiple inserts and deletes are allowed <br/>
         /// - The size of a single value flag is limited to 100 MiB.However, adding anything close to that size has not been tested and could produce unexpected results <br/><br/>
         /// <see href="https://docs.chia.net/datalayer-rpc#batch_update"/>
         /// </remarks>
         /// <param name="rpc"></param>
+        /// /// <param name="auto">ensures that keys are updated, otherwise command will fail if trying to add a key which already exists or deleting a non existant key</param>
         /// <returns></returns>
-        public TxID_Response BatchUpdate_Sync(BatchUpdate_RPC rpc)
+        public TxID_Response BatchUpdate_Sync(BatchUpdate_RPC rpc, bool auto = true)
         {
             Task<TxID_Response> data = Task.Run(() => BatchUpdate_Async(rpc));
             data.Wait();

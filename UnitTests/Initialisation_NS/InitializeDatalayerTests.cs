@@ -1,11 +1,6 @@
 ﻿using Chia_Client_API.DatalayerAPI_NS;
-using CHIA_RPC.General_NS;
-using CHIA_RPC.Wallet_NS.KeyManagement;
 using System;
 using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace CHIA_API_Tests.Initialisation_NS
@@ -27,8 +22,8 @@ namespace CHIA_API_Tests.Initialisation_NS
             // ... clean up ...
         }
     }
-    [CollectionDefinition("Testnet_Datalayer")]
-    public class DatalayerTestCollection : ICollectionFixture<Testnet_Datalayer>
+    [CollectionDefinition("Testnet_Datalayer_Wallet")]
+    public class DatalayerTestCollection : ICollectionFixture<Testnet_Datalayer>, ICollectionFixture<Testnet_Wallet>
     {
         // This class has no code, and is never created. Its purpose is simply
         // to be the place to apply [CollectionDefinition] and all the
