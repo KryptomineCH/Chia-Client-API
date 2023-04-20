@@ -173,7 +173,7 @@ namespace CHIA_API_Tests.Datalayer_NS
             DeleteKey_RPC rpc = new DeleteKey_RPC(owned_stores.store_ids[0], "000005");
             TxID_Response delresp = Testnet_Datalayer.Datalayer_Client.DeleteKey_Sync(rpc);
             Insert_RPC insert = new Insert_RPC(owned_stores.store_ids[0], "000005", "abc123");
-            TxID_Response response = Testnet_Datalayer.Datalayer_Client.Insert_Sync(failRPC);
+            TxID_Response response = Testnet_Datalayer.Datalayer_Client.Insert_Sync(insert);
             Assert.True(response.success, response.error);
             Assert.Null(response.error);
             { }
