@@ -1,5 +1,6 @@
 ﻿using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.HelperFunctions_NS.JsonConverters_NS;
+using System.Text.Json;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
@@ -122,6 +123,30 @@ namespace Chia_Client_API.DatalayerAPI_NS
             }
 
             return keys;
+        }
+        public async Task<CHIA_RPC.General_NS.TxID_Response> InsertOrUpdate_Async(Insert_RPC rpc)
+        {
+            
+            if (KeyExists(rpc.id,rpc.key)) {
+                GetValue_RPC getValueRpc = new GetValue_RPC(rpc.id, rpc.key);
+                GetValue_Response getValueResponse = GetValue_Sync(getValueRpc);
+                if (rpc.value != getValueResponse.value)
+                {
+                    DeleteKey_RPC deleteRPC = new DeleteKey_RPC(rpc.id, rpc.key);
+                    DeleteKey_Sync(deleteRPC);
+                }
+                else
+                {
+                    return new CHIA_RPC.General_NS.TxID_Response
+                    {
+                        success = true,
+                        error = "the exact same value already exists"
+                    };        
+                }
+            }
+            string response = await SendCustomMessage_Async("insert", rpc.ToString());
+            CHIA_RPC.General_NS.TxID_Response deserializedObject = JsonSerializer.Deserialize<CHIA_RPC.General_NS.TxID_Response>(response);
+            return deserializedObject;
         }
     }
 }

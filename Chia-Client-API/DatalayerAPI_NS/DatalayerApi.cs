@@ -350,11 +350,16 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#delete_key"/></remarks>
         /// <param name="rpc"></param>
+        /// /// <param name="errorOnNonExistientKey">specify if it is considered an error to delete a non existing key</param>
         /// <returns></returns>
-        public async Task<TxID_Response> DeleteKey_Async(DeleteKey_RPC rpc)
+        public async Task<TxID_Response> DeleteKey_Async(DeleteKey_RPC rpc, bool errorOnNonExistientKey = false)
         {
             string response = await SendCustomMessage_Async("delete_key", rpc.ToString());
             TxID_Response deserializedObject = JsonSerializer.Deserialize<TxID_Response>(response);
+            if (!deserializedObject.success && !errorOnNonExistientKey && deserializedObject.error == "Changelist resulted in no change to tree data")
+            {
+                deserializedObject.success = true;
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -362,10 +367,11 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#delete_key"/></remarks>
         /// <param name="rpc"></param>
+        /// <param name="errorOnNonExistientKey">specify if it is considered an error to delete a non existing key</param>
         /// <returns></returns>
-        public TxID_Response DeleteKey_Sync(DeleteKey_RPC rpc)
+        public TxID_Response DeleteKey_Sync(DeleteKey_RPC rpc, bool errorOnNonExistientKey = false)
         {
-            Task<TxID_Response> data = Task.Run(() => DeleteKey_Async(rpc));
+            Task<TxID_Response> data = Task.Run(() => DeleteKey_Async(rpc, errorOnNonExistientKey));
             data.Wait();
             return data.Result;
         }
