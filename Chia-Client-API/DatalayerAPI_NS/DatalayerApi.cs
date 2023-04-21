@@ -482,6 +482,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#remove_subscriptions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("WARNING: This method works differenrt than expected. Consultation incorrect. Use at your own risk. From my understanding it replaces the urls")]
         public async Task<Success_Response> RemoveSubscriptions_Async(Subscribe_RPC rpc)
         {
             string response = await SendCustomMessage_Async("remove_subscriptions", rpc.ToString());
@@ -495,6 +496,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#remove_subscriptions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("WARNING: This method works differenrt than expected. Consultation incorrect. Use at your own risk. From my understanding it replaces the urls")]
         public Success_Response RemoveSubscriptions_Sync(Subscribe_RPC rpc)
         {
             Task<Success_Response> data = Task.Run(() => RemoveSubscriptions_Async(rpc));
@@ -871,7 +873,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <returns></returns>
         public async Task<GetDatalayerSyncStatus_Response> GetSyncStatus_Async(ID_RPC rpc)
         {
-            string response = await SendCustomMessage_Async("close_connection", rpc.ToString());
+            string response = await SendCustomMessage_Async("get_sync_status", rpc.ToString());
             GetDatalayerSyncStatus_Response deserializedObject = JsonSerializer.Deserialize<GetDatalayerSyncStatus_Response>(response);
             return deserializedObject;
         }
@@ -894,7 +896,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <returns></returns>
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
-            string response = await SendCustomMessage_Async("close_connection");
+            string response = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(response);
             return deserializedObject;
         }
