@@ -1,5 +1,6 @@
 ﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.DID_NS;
+using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -441,6 +442,54 @@ namespace Chia_Client_API.WalletAPI_NS
         public DidFindLostDid_Response DidFindLostDid_Sync(DidFindLostDid_RPC rpc)
         {
             Task<DidFindLostDid_Response> data = Task.Run(() => DidFindLostDid_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// returns an array with all did wallets associated to the currently logged in fingerprint
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Wallets_info[]> DidGetWallets_Async()
+        {
+            List<Wallets_info> foundDidWallets = new List<Wallets_info>();
+            GetWallets_Response wallets = await GetWallets_Async();
+            foreach (Wallets_info x in wallets.wallets)
+            {
+                if (x.type == CHIA_RPC.Objects_NS.WalletType.did_wallet) foundDidWallets.Add(x);
+            }
+            return foundDidWallets.ToArray();
+        }
+        /// <summary>
+        /// returns an array with all did wallets associated to the currently logged in fingerprint
+        /// </summary>
+        /// <returns></returns>
+        public Wallets_info[] DidGetWallets_Sync()
+        {
+            Task<Wallets_info[]> data = Task.Run(() => DidGetWallets_Async());
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// returns did ids and coin ids for all did wallets, matches the structure of DidGetWallets so both arrays can be matched
+        /// </summary>
+        /// <returns></returns>
+        public async Task<DidGetDid_Response[]> DidGetAllDids_Async()
+        {
+            List<DidGetDid_Response> foundDidWallets = new List<DidGetDid_Response>();
+            GetWallets_Response wallets = await GetWallets_Async();
+            foreach (Wallets_info x in wallets.wallets)
+            {
+                foundDidWallets.Add(await DidGetDid_Async(x));
+            }
+            return foundDidWallets.ToArray();
+        }
+        /// <summary>
+        /// returns did ids and coin ids for all did wallets, matches the structure of DidGetWallets so both arrays can be matched
+        /// </summary>
+        /// <returns></returns>
+        public DidGetDid_Response[] DidGetAllDids_Sync()
+        {
+            Task<DidGetDid_Response[]> data = Task.Run(() => DidGetAllDids_Async());
             data.Wait();
             return data.Result;
         }
