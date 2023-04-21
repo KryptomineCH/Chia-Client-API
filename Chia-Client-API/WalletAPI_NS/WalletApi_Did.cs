@@ -476,8 +476,8 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DidGetDid_Response[]> DidGetAllDids_Async()
         {
             List<DidGetDid_Response> foundDidWallets = new List<DidGetDid_Response>();
-            GetWallets_Response wallets = await GetWallets_Async();
-            foreach (Wallets_info x in wallets.wallets)
+            Wallets_info[] wallets = await DidGetWallets_Async();
+            foreach (Wallets_info x in wallets)
             {
                 foundDidWallets.Add(await DidGetDid_Async(x));
             }
