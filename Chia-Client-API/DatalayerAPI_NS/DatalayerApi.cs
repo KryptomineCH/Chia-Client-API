@@ -218,7 +218,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// </summary>
         /// <remarks>The root_hash parameter is recommended to be used each time you call this RPC. 
         /// If root_hash is not specified, there is no way to guarantee that the latest data is being shown (stale data may be shown instead). 
-        /// This parameter is obtainable by calling the get_root RPC.<br/><br/>
+        /// This parameter is obtainable by calling the <see cref="GetRoot_Async(ID_RPC)"/>.<br/><br/>
         /// <see href="https://docs.chia.net/datalayer-rpc#get_keys_values"/>
         /// </remarks>
         /// <param name="rpc"></param>
@@ -234,7 +234,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// </summary>
         /// <remarks>The root_hash parameter is recommended to be used each time you call this RPC. 
         /// If root_hash is not specified, there is no way to guarantee that the latest data is being shown (stale data may be shown instead). 
-        /// This parameter is obtainable by calling the get_root RPC.<br/><br/>
+        /// This parameter is obtainable by calling the <see cref="GetRoot_Sync(ID_RPC)"/>.<br/><br/>
         /// <see href="https://docs.chia.net/datalayer-rpc#get_keys_values"/>
         /// </remarks>
         /// <param name="rpc"></param>
@@ -272,7 +272,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <summary>
         /// Get the root hash and timestamp of a given store ID. 
         /// If it is a subscribed store, this command will return an invalid hash (see example). 
-        /// In this case, use get_local_root instead
+        /// In this case, use <see cref="GetLocalRoot_Async(ID_RPC)"/> instead
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_root"/></remarks>
         /// <param name="rpc"></param>
@@ -286,7 +286,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <summary>
         /// Get the root hash and timestamp of a given store ID. 
         /// If it is a subscribed store, this command will return an invalid hash (see example). 
-        /// In this case, use get_local_root instead
+        /// In this case, use <see cref="GetLocalRoot_Sync(ID_RPC)"/> instead
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_root"/></remarks>
         /// <param name="rpc"></param>
@@ -322,7 +322,8 @@ namespace Chia_Client_API.DatalayerAPI_NS
             return data.Result;
         }
         /// <summary>
-        /// Get the root hashes and timestamps from a list of stores. Note that an invalid hash will be returned for subscribed stores. Use get_local_root instead
+        /// Get the root hashes and timestamps from a list of stores. Note that an invalid hash will be returned for subscribed stores. <br/>
+        /// Use <see cref="GetLocalRoot_Async(ID_RPC)"/> instead
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_roots"/></remarks>
         /// <param name="rpc"></param>
@@ -334,7 +335,8 @@ namespace Chia_Client_API.DatalayerAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Get the root hashes and timestamps from a list of stores. Note that an invalid hash will be returned for subscribed stores. Use get_local_root instead
+        /// Get the root hashes and timestamps from a list of stores. Note that an invalid hash will be returned for subscribed stores. <br/>
+        /// Use <see cref="GetLocalRoot_Sync(ID_RPC)"/> instead
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_roots"/></remarks>
         /// <param name="rpc"></param>

@@ -1,7 +1,6 @@
 ﻿using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
-using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
