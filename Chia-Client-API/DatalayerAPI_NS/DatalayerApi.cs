@@ -188,7 +188,27 @@ namespace Chia_Client_API.DatalayerAPI_NS
             return data.Result;
         }
 
-        //public CheckPlugins_Async
+        /// <summary>
+        /// Get information about configured uploader/downloader plugins
+        /// </summary>
+        /// <returns>CheckPlugins_Response</returns>
+        public async Task<CheckPlugins_Response> CheckPlugins_Async()
+        {
+            string response = await SendCustomMessage_Async("check_plugins");
+            CheckPlugins_Response deserializedObject = JsonSerializer.Deserialize<CheckPlugins_Response>(response);
+            return deserializedObject;
+        }
+
+        /// <summary>
+        /// Get information about configured uploader/downloader plugins
+        /// </summary>
+        /// <returns>CheckPlugins_Response</returns>
+        public CheckPlugins_Response CheckPlugins_Sync()
+        {
+            Task<CheckPlugins_Response> data = Task.Run(() => CheckPlugins_Async());
+            data.Wait();
+            return data.Result;
+        }
 
         /// <summary>
         /// Create a data store. Triggers a Chia transaction
