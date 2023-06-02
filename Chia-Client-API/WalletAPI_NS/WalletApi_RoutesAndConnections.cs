@@ -8,27 +8,30 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// List all available RPC routes
+        /// Close an active connection
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_routes"/></remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#close_connection"/></remarks>
+        /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetRoutes_Response> GetRoutes_Async()
+        public async Task<Success_Response> CloseConnection_Async(CloseConnection_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(responseJson);
+            string responseJson = await SendCustomMessage_Async("close_connection", rpc.ToString());
+            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
             return deserializedObject;
         }
         /// <summary>
-        /// List all available RPC routes
+        /// Close an active connection
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_routes"/></remarks>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#close_connection"/></remarks>
+        /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetRoutes_Response GetRoutes_Sync()
+        public Success_Response CloseConnection_Sync(CloseConnection_RPC rpc)
         {
-            Task<GetRoutes_Response> data = Task.Run(() => GetRoutes_Async());
+            Task<Success_Response> data = Task.Run(() => CloseConnection_Async(rpc));
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
         /// Get a list of active connections
         /// </summary>
@@ -51,6 +54,30 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
+        /// <summary>
+        /// List all available RPC routes
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_routes"/></remarks>
+        /// <returns></returns>
+        public async Task<GetRoutes_Response> GetRoutes_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("get_routes");
+            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// List all available RPC routes
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_routes"/></remarks>
+        /// <returns></returns>
+        public GetRoutes_Response GetRoutes_Sync()
+        {
+            Task<GetRoutes_Response> data = Task.Run(() => GetRoutes_Async());
+            data.Wait();
+            return data.Result;
+        }
+        
         /// <summary>
         /// Open a connection to another node
         /// </summary>
@@ -75,30 +102,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
-        /// <summary>
-        /// Close an active connection
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#close_connection"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public async Task<Success_Response> CloseConnection_Async(CloseConnection_RPC rpc)
-        {
-            string responseJson = await SendCustomMessage_Async("close_connection", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Close an active connection
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#close_connection"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public Success_Response CloseConnection_Sync(CloseConnection_RPC rpc)
-        {
-            Task<Success_Response> data = Task.Run(() => CloseConnection_Async(rpc));
-            data.Wait();
-            return data.Result;
-        }
+        
         /// <summary>
         /// Stop your local node
         /// </summary>

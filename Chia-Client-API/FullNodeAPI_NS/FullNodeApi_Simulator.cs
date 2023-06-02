@@ -8,28 +8,6 @@ namespace Chia_Client_API.FullNodeAPI_NS
     public partial class FullNode_RPC_Client
     {
         /// <summary>
-        /// Return a list of all blocks in the blockhain
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_all_blocks"/></remarks>
-        /// <returns></returns>
-        public async Task<GetBlocks_Response> Simulator_GetAllBlocks_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("get_all_blocks");
-            GetBlocks_Response deserializedObject = JsonSerializer.Deserialize<GetBlocks_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Return a list of all blocks in the blockhain
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_all_blocks"/></remarks>
-        /// <returns></returns>
-        public GetBlocks_Response Simulator_GetAllBlocks_Sync()
-        {
-            Task<GetBlocks_Response> data = Task.Run(() => Simulator_GetAllBlocks_Async());
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
         /// Farm one or more blocks. Can ensure farming a transaction block if required
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/simulator-rpc#farm_block"/></remarks>
@@ -53,74 +31,30 @@ namespace Chia_Client_API.FullNodeAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
-        /// Set whether to auto farm (Boolean)
+        /// Return a list of all blocks in the blockhain
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#set_auto_farming"/></remarks>
-        /// <param name="rpc"></param>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_all_blocks"/></remarks>
         /// <returns></returns>
-        public async Task<AutoFarming_Response> Simulator_SetAutoFarming_Async(SetAutoFarming_RPC rpc)
+        public async Task<GetBlocks_Response> Simulator_GetAllBlocks_Async()
         {
-            string responseJson = await SendCustomMessage_Async("set_auto_farming", rpc.ToString());
-            AutoFarming_Response deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response>(responseJson);
+            string responseJson = await SendCustomMessage_Async("get_all_blocks");
+            GetBlocks_Response deserializedObject = JsonSerializer.Deserialize<GetBlocks_Response>(responseJson);
             return deserializedObject;
         }
         /// <summary>
-        /// Set whether to auto farm (Boolean)
+        /// Return a list of all blocks in the blockhain
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#set_auto_farming"/></remarks>
-        /// <param name="rpc"></param>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_all_blocks"/></remarks>
         /// <returns></returns>
-        public AutoFarming_Response Simulator_SetAutoFarming_Sync(SetAutoFarming_RPC rpc)
+        public GetBlocks_Response Simulator_GetAllBlocks_Sync()
         {
-            Task<AutoFarming_Response> data = Task.Run(() => Simulator_SetAutoFarming_Async(rpc));
+            Task<GetBlocks_Response> data = Task.Run(() => Simulator_GetAllBlocks_Async());
             data.Wait();
             return data.Result;
         }
-        /// <summary>
-        /// Returns a Boolean to indicate whether auto farming is enabled
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_auto_farming"/></remarks>
-        /// <returns></returns>
-        public async Task<AutoFarming_Response> Simulator_GetAutoFarming_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("get_auto_farming");
-            AutoFarming_Response deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Returns a Boolean to indicate whether auto farming is enabled
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_auto_farming"/></remarks>
-        /// <returns></returns>
-        public AutoFarming_Response Simulator_GetAutoFarming_Sync()
-        {
-            Task<AutoFarming_Response> data = Task.Run(() => Simulator_GetAutoFarming_Async());
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Get the puzzle hash used by the farmer
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_farming_ph"/></remarks>
-        /// <returns></returns>
-        public async Task<GetFarmingPh_Response> Simulator_GetFarmingPh_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("get_farming_ph");
-            GetFarmingPh_Response deserializedObject = JsonSerializer.Deserialize<GetFarmingPh_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Get the puzzle hash used by the farmer
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_farming_ph"/></remarks>
-        /// <returns></returns>
-        public GetFarmingPh_Response Simulator_GetFarmingPh_Sync()
-        {
-            Task<GetFarmingPh_Response> data = Task.Run(() => Simulator_GetFarmingPh_Async());
-            data.Wait();
-            return data.Result;
-        }
+
         /// <summary>
         /// Get all coins
         /// </summary>
@@ -145,6 +79,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
         /// Get all puzzle hashes used in this blockchain
         /// </summary>
@@ -167,6 +102,78 @@ namespace Chia_Client_API.FullNodeAPI_NS
             data.Wait();
             return data.Result;
         }
+
+        /// <summary>
+        /// Returns a Boolean to indicate whether auto farming is enabled
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_auto_farming"/></remarks>
+        /// <returns></returns>
+        public async Task<AutoFarming_Response> Simulator_GetAutoFarming_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("get_auto_farming");
+            AutoFarming_Response deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Returns a Boolean to indicate whether auto farming is enabled
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_auto_farming"/></remarks>
+        /// <returns></returns>
+        public AutoFarming_Response Simulator_GetAutoFarming_Sync()
+        {
+            Task<AutoFarming_Response> data = Task.Run(() => Simulator_GetAutoFarming_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Get the puzzle hash used by the farmer
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_farming_ph"/></remarks>
+        /// <returns></returns>
+        public async Task<GetFarmingPh_Response> Simulator_GetFarmingPh_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("get_farming_ph");
+            GetFarmingPh_Response deserializedObject = JsonSerializer.Deserialize<GetFarmingPh_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Get the puzzle hash used by the farmer
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#get_farming_ph"/></remarks>
+        /// <returns></returns>
+        public GetFarmingPh_Response Simulator_GetFarmingPh_Sync()
+        {
+            Task<GetFarmingPh_Response> data = Task.Run(() => Simulator_GetFarmingPh_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Initiate a reorg or a customizable number of blocks
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#reorg_blocks"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<NewPeakHeight_Response> Simulator_ReorgBlocks_Async(ReorgBlocks_RPC rpc)
+        {
+            string responseJson = await SendCustomMessage_Async("reorg_blocks", rpc.ToString());
+            NewPeakHeight_Response deserializedObject = JsonSerializer.Deserialize<NewPeakHeight_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Initiate a reorg or a customizable number of blocks
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#reorg_blocks"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public NewPeakHeight_Response Simulator_ReorgBlocks_Sync(ReorgBlocks_RPC rpc)
+        {
+            Task<NewPeakHeight_Response> data = Task.Run(() => Simulator_ReorgBlocks_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+
         /// <summary>
         /// Revert a customizable number of blocks
         /// </summary>
@@ -191,27 +198,28 @@ namespace Chia_Client_API.FullNodeAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
-        /// Initiate a reorg or a customizable number of blocks
+        /// Set whether to auto farm (Boolean)
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#reorg_blocks"/></remarks>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#set_auto_farming"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NewPeakHeight_Response> Simulator_ReorgBlocks_Async(ReorgBlocks_RPC rpc)
+        public async Task<AutoFarming_Response> Simulator_SetAutoFarming_Async(SetAutoFarming_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("reorg_blocks", rpc.ToString());
-            NewPeakHeight_Response deserializedObject = JsonSerializer.Deserialize<NewPeakHeight_Response>(responseJson);
+            string responseJson = await SendCustomMessage_Async("set_auto_farming", rpc.ToString());
+            AutoFarming_Response deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response>(responseJson);
             return deserializedObject;
         }
         /// <summary>
-        /// Initiate a reorg or a customizable number of blocks
+        /// Set whether to auto farm (Boolean)
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/simulator-rpc#reorg_blocks"/></remarks>
+        /// <remarks><see href="https://docs.chia.net/simulator-rpc#set_auto_farming"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NewPeakHeight_Response Simulator_ReorgBlocks_Sync(ReorgBlocks_RPC rpc)
+        public AutoFarming_Response Simulator_SetAutoFarming_Sync(SetAutoFarming_RPC rpc)
         {
-            Task<NewPeakHeight_Response> data = Task.Run(() => Simulator_ReorgBlocks_Async(rpc));
+            Task<AutoFarming_Response> data = Task.Run(() => Simulator_SetAutoFarming_Async(rpc));
             data.Wait();
             return data.Result;
         }

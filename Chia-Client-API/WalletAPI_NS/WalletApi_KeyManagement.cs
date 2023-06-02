@@ -7,124 +7,6 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// Log into the wallet with the specified key
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#log_in"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns>the logged in fingerprint</returns>
-        public async Task<FingerPrint_Response> LogIn_Async(FingerPrint_RPC fingerprint)
-        {
-            string responseJson = await SendCustomMessage_Async("log_in", fingerprint.ToString());
-            FingerPrint_Response deserializedObject = JsonSerializer.Deserialize<FingerPrint_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Log into the wallet with the specified key
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#log_in"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns>the logged in fingerprint</returns>
-        public FingerPrint_Response LogIn_Sync(FingerPrint_RPC fingerprint)
-        {
-            Task<FingerPrint_Response> data = Task.Run(() => LogIn_Async(fingerprint));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Obtain the fingerprint of the wallet that is currently logged in
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_logged_in_fingerprint"/></remarks>
-        /// <returns></returns>
-        public async Task<FingerPrint_Response> GetLoggedInFingerprint_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("get_logged_in_fingerprint");
-            FingerPrint_Response deserializedObject = JsonSerializer.Deserialize<FingerPrint_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Obtain the fingerprint of the wallet that is currently logged in
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_logged_in_fingerprint"/></remarks>
-        /// <returns></returns>
-        public FingerPrint_Response GetLoggedInFingerprint_Sync()
-        {
-            Task<FingerPrint_Response> data = Task.Run(() => GetLoggedInFingerprint_Async());
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Show all public key fingerprints (main wallets) stored in the OS keyring. <br/><br/>
-        /// NOTE: that the keyring must be unlocked in order to run this RPC
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_public_keys"/></remarks>
-        /// <returns></returns>
-        public async Task<GetPublicKeys_Response> GetPublicKeys_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("get_public_keys");
-            GetPublicKeys_Response deserializedObject = JsonSerializer.Deserialize<GetPublicKeys_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Show all public key fingerprints (main wallets) stored in the OS keyring.<br/><br/>
-        /// NOTE: that the keyring must be unlocked in order to run this RPC
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_public_keys"/></remarks>
-        /// <returns></returns>
-        public GetPublicKeys_Response GetPublicKeys_Sync()
-        {
-            Task<GetPublicKeys_Response> data = Task.Run(() => GetPublicKeys_Async());
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Show public and private info about a key<br/><br/>
-        /// WARNING: This RPC will show the private key and seed phrase for the given fingerprint. Use with caution.
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_private_key"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns></returns>
-        public async Task<GetPrivateKey_Response> GetPrivateKey_Async(FingerPrint_RPC fingerprint)
-        {
-            string responseJson = await SendCustomMessage_Async("get_private_key", fingerprint.ToString());
-            GetPrivateKey_Response deserializedObject = JsonSerializer.Deserialize<GetPrivateKey_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Show public and private info about a key<br/><br/>
-        /// WARNING: This RPC will show the private key and seed phrase for the given fingerprint. Use with caution.
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_private_key"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns></returns>
-        public GetPrivateKey_Response GetPrivateKey_Sync(FingerPrint_RPC fingerprint)
-        {
-            Task<GetPrivateKey_Response> data = Task.Run(() => GetPrivateKey_Async(fingerprint));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Generates a random 24-word mnemonic seed phrase / wallet
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#generate_mnemonic"/></remarks>
-        /// <returns>24 word mnemonic</returns>
-        public async Task<GenerateMnemonic_Response> GenerateMnemonic_Async()
-        {
-            string responseJson = await SendCustomMessage_Async("generate_mnemonic");
-            GenerateMnemonic_Response deserializedObject = JsonSerializer.Deserialize<GenerateMnemonic_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Generates a random 24-word mnemonic seed phrase / wallet
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#generate_mnemonic"/></remarks>
-        /// <returns>24 word mnemonic</returns>
-        public GenerateMnemonic_Response GenerateMnemonic_Sync()
-        {
-            Task<GenerateMnemonic_Response> data = Task.Run(() => GenerateMnemonic_Async());
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
         /// Add a new key (wallet/fingerprint) from a given 24 word mnemonic seed phrase
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#add_key"/></remarks>
@@ -148,31 +30,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
-        /// <summary>
-        /// Remove a key, based on its wallet fingerprint<br/><br/>
-        /// NOTE: this does not delete a key from the blockchain. You can re-add it witn the 24 word mnemonic
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#delete_key"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns></returns>
-        public async Task<Success_Response> DeleteKey_Async(FingerPrint_RPC fingerprint)
-        {
-            string responseJson = await SendCustomMessage_Async("delete_key", fingerprint.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Remove a key, based on its wallet fingerprint<br/><br/>
-        /// NOTE: this does not delete a key from the blockchain. You can re-add it witn the 24 word mnemonic
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#delete_key"/></remarks>
-        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
-        /// <returns></returns>
-        public void DeleteKey_Sync(FingerPrint_RPC fingerprint)
-        {
-            Task data = Task.Run(() => DeleteKey_Async(fingerprint));
-            data.Wait();
-        }
+
         /// <summary>
         /// Display whether a fingerprint has a balance, and whether it is used for farming or pool rewards. 
         /// This is helpful when determining whether it is safe to delete a key without first backing it up
@@ -199,6 +57,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
         /// Delete all keys from the wallet<br/><br/>
         /// WARNING: MAKE SURE YOU ARE SAFE!
@@ -228,6 +87,155 @@ namespace Chia_Client_API.WalletAPI_NS
         public Success_Response DeleteAllKeys_Sync(bool I_AM_SURE = false)
         {
             Task<Success_Response> data = Task.Run(() => DeleteAllKeys_Async(I_AM_SURE));
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Remove a key, based on its wallet fingerprint<br/><br/>
+        /// NOTE: this does not delete a key from the blockchain. You can re-add it witn the 24 word mnemonic
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#delete_key"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns></returns>
+        public async Task<Success_Response> DeleteKey_Async(FingerPrint_RPC fingerprint)
+        {
+            string responseJson = await SendCustomMessage_Async("delete_key", fingerprint.ToString());
+            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Remove a key, based on its wallet fingerprint<br/><br/>
+        /// NOTE: this does not delete a key from the blockchain. You can re-add it witn the 24 word mnemonic
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#delete_key"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns></returns>
+        public void DeleteKey_Sync(FingerPrint_RPC fingerprint)
+        {
+            Task data = Task.Run(() => DeleteKey_Async(fingerprint));
+            data.Wait();
+        }
+
+        /// <summary>
+        /// Generates a random 24-word mnemonic seed phrase / wallet
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#generate_mnemonic"/></remarks>
+        /// <returns>24 word mnemonic</returns>
+        public async Task<GenerateMnemonic_Response> GenerateMnemonic_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("generate_mnemonic");
+            GenerateMnemonic_Response deserializedObject = JsonSerializer.Deserialize<GenerateMnemonic_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Generates a random 24-word mnemonic seed phrase / wallet
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#generate_mnemonic"/></remarks>
+        /// <returns>24 word mnemonic</returns>
+        public GenerateMnemonic_Response GenerateMnemonic_Sync()
+        {
+            Task<GenerateMnemonic_Response> data = Task.Run(() => GenerateMnemonic_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Obtain the fingerprint of the wallet that is currently logged in
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_logged_in_fingerprint"/></remarks>
+        /// <returns></returns>
+        public async Task<FingerPrint_Response> GetLoggedInFingerprint_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("get_logged_in_fingerprint");
+            FingerPrint_Response deserializedObject = JsonSerializer.Deserialize<FingerPrint_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Obtain the fingerprint of the wallet that is currently logged in
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_logged_in_fingerprint"/></remarks>
+        /// <returns></returns>
+        public FingerPrint_Response GetLoggedInFingerprint_Sync()
+        {
+            Task<FingerPrint_Response> data = Task.Run(() => GetLoggedInFingerprint_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Show public and private info about a key<br/><br/>
+        /// WARNING: This RPC will show the private key and seed phrase for the given fingerprint. Use with caution.
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_private_key"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns></returns>
+        public async Task<GetPrivateKey_Response> GetPrivateKey_Async(FingerPrint_RPC fingerprint)
+        {
+            string responseJson = await SendCustomMessage_Async("get_private_key", fingerprint.ToString());
+            GetPrivateKey_Response deserializedObject = JsonSerializer.Deserialize<GetPrivateKey_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Show public and private info about a key<br/><br/>
+        /// WARNING: This RPC will show the private key and seed phrase for the given fingerprint. Use with caution.
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_private_key"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns></returns>
+        public GetPrivateKey_Response GetPrivateKey_Sync(FingerPrint_RPC fingerprint)
+        {
+            Task<GetPrivateKey_Response> data = Task.Run(() => GetPrivateKey_Async(fingerprint));
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Show all public key fingerprints (main wallets) stored in the OS keyring. <br/><br/>
+        /// NOTE: that the keyring must be unlocked in order to run this RPC
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_public_keys"/></remarks>
+        /// <returns></returns>
+        public async Task<GetPublicKeys_Response> GetPublicKeys_Async()
+        {
+            string responseJson = await SendCustomMessage_Async("get_public_keys");
+            GetPublicKeys_Response deserializedObject = JsonSerializer.Deserialize<GetPublicKeys_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Show all public key fingerprints (main wallets) stored in the OS keyring.<br/><br/>
+        /// NOTE: that the keyring must be unlocked in order to run this RPC
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_public_keys"/></remarks>
+        /// <returns></returns>
+        public GetPublicKeys_Response GetPublicKeys_Sync()
+        {
+            Task<GetPublicKeys_Response> data = Task.Run(() => GetPublicKeys_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// Log into the wallet with the specified key
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#log_in"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns>the logged in fingerprint</returns>
+        public async Task<FingerPrint_Response> LogIn_Async(FingerPrint_RPC fingerprint)
+        {
+            string responseJson = await SendCustomMessage_Async("log_in", fingerprint.ToString());
+            FingerPrint_Response deserializedObject = JsonSerializer.Deserialize<FingerPrint_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Log into the wallet with the specified key
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#log_in"/></remarks>
+        /// <param name="fingerprint">The wallet's fingerprint, obtainable by running chia wallet show</param>
+        /// <returns>the logged in fingerprint</returns>
+        public FingerPrint_Response LogIn_Sync(FingerPrint_RPC fingerprint)
+        {
+            Task<FingerPrint_Response> data = Task.Run(() => LogIn_Async(fingerprint));
             data.Wait();
             return data.Result;
         }

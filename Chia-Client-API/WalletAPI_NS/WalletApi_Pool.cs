@@ -7,54 +7,6 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// Join a pool
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
-        {
-            string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Join a pool
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public PwJoinPool_Response PwJoinPool_Sync(PwJoinPool_RPC rpc)
-        {
-            Task<PwJoinPool_Response> data = Task.Run(() => PwJoinPool_Async(rpc));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Leave a pool and begin self-pooling
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
-        {
-            string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
-            return deserializedObject;
-        }
-        /// <summary>
-        /// Leave a pool and begin self-pooling
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public PwJoinPool_Response PwSelfPool_Sync(PwSelfPool_RPC rpc)
-        {
-            Task<PwJoinPool_Response> data = Task.Run(() => PwSelfPool_Async(rpc));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
         /// Absorb unspent coinbase rewards to a pool wallet<br/><br/>
         /// WARNING: Documentation incomplete so endpoint is likely implemented incorrectly
         /// </summary>
@@ -80,6 +32,57 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
+        /// <summary>
+        /// Join a pool
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
+        {
+            string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
+            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Join a pool
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public PwJoinPool_Response PwJoinPool_Sync(PwJoinPool_RPC rpc)
+        {
+            Task<PwJoinPool_Response> data = Task.Run(() => PwJoinPool_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        
+        /// <summary>
+        /// Leave a pool and begin self-pooling
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
+        {
+            string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
+            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
+            return deserializedObject;
+        }
+        /// <summary>
+        /// Leave a pool and begin self-pooling
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public PwJoinPool_Response PwSelfPool_Sync(PwSelfPool_RPC rpc)
+        {
+            Task<PwJoinPool_Response> data = Task.Run(() => PwSelfPool_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+
         /// <summary>
         /// Obtain the status of a pooling wallet
         /// </summary>

@@ -6,6 +6,7 @@ using Chia_Client_API.WalletAPI_NS;
 using System.Threading;
 using System.Reflection.Metadata;
 using CHIA_API_Tests.Initialisation_NS;
+using CHIA_RPC.Objects_NS;
 
 namespace CHIA_API_Tests.Wallet_NS
 {
@@ -191,6 +192,12 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception(response.error);
             }
+            { }
+        }
+        [Fact]
+        public void GetStandardFeeRange()
+        {
+            SpendBundle? test = Testnet_Wallet.Wallet_Client.GetStandardSpendBundle_Sync();
             { }
         }
         /// <summary>
