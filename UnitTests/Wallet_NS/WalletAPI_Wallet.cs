@@ -194,12 +194,6 @@ namespace CHIA_API_Tests.Wallet_NS
             }
             { }
         }
-        [Fact]
-        public void GetStandardFeeRange()
-        {
-            SpendBundle? test = Testnet_Wallet.Wallet_Client.GetStandardSpendBundle_Sync();
-            { }
-        }
         /// <summary>
         /// not yet implemented
         /// </summary>
