@@ -16,7 +16,9 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>chia;blockchain;api;rpc;websocket;rest;http</PackageTags>
-    <PackageReleaseNotes>- major documentation update
+    <PackageReleaseNotes>The updates are mostly in Chia-RPC. This update ensures the compatibility to Chia-RPC 1.8.1.1 and brings the following improvements:
+
+- major documentation update
 - added constructors to all rpc endpoints
 - a few minor bogfixes
 - added further implicit conversions</PackageReleaseNotes>

@@ -704,18 +704,5 @@ namespace Chia_Client_API.FullNodeAPI_NS
             GetFeeEstimate_Response deserializedObject = await GetFeeEstimate_Async(getFeeEstimate_RPC);
             return deserializedObject;
         }
-
-        /// <summary>
-        /// Obtain an estimated fee for one or more targeted times for a standard chia transaction.
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_fee_estimate"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public GetFeeEstimate_Response GetStandardTransactionFeeEstimate_Sync(TimeSpan[] targetExecutionTimes)
-        {
-            Task<GetFeeEstimate_Response> data = Task.Run(() => GetStandardTransactionFeeEstimate_Async(targetExecutionTimes));
-            data.Wait();
-            return data.Result;
-        }
     }
 }

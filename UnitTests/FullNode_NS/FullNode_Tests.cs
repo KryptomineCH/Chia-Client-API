@@ -1,6 +1,7 @@
 ﻿using CHIA_API_Tests.Initialisation_NS;
 using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -52,6 +53,14 @@ namespace CHIA_API_Tests.FullNode_NS
             };
 
             GetCoinRecords_Response test1 = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByNames_Sync(rpc);
+            { }
+        }
+        [Fact]
+        public void GetStandardTransactionFee_Test()
+        {
+            GetFeeEstimate_Response result = Testnet_FullNode.Fullnode_Client.GetFeeEstimate_Sync(new GetFeeEstimate_RPC(
+                new TimeSpan[] { TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(60), TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(50) })
+            );
             { }
         }
     }
