@@ -43,7 +43,7 @@ namespace CHIA_API_Tests.Initialisation_NS
                 {
                     AddKey_RPC addKey = AddKey_RPC.LoadRpcFromFile("testwallet.rpc");
                     FingerPrint_Response response = Wallet_Client.AddKey_Async(addKey).Result;
-                    FingerPrint_RPC fingerprint = response.Get_RPC();
+                    FingerPrint_RPC fingerprint = response;
                     fingerprint.SaveRpcToFile("testfingerprint.rpc");
                 }
                 FingerPrint_RPC login_rpc = FingerPrint_RPC.LoadRpcFromFile("testfingerprint.rpc");
