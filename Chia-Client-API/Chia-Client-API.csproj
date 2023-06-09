@@ -15,7 +15,7 @@
     <PackageProjectUrl>https://github.com/KryptomineCH/Chia-Client-API</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
-    <PackageTags>chia;blockchain;api;rpc;websocket;rest;http</PackageTags>
+    <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;xch</PackageTags>
     <PackageReleaseNotes>1.8.1.4: improve SendTransaction_RPC
 - added a global variable in General_NS.GlobalVar which specifies the amount of mojos which make up one chia
 - improved constructor of SendTransaction_RPC to allow for diferent combinations of ulong (mojos) and double (xch) for amount and fee
