@@ -2,11 +2,84 @@
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
+using System.Threading;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class Wallet_RPC_Client
     {
+        // Custom Functions
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
+        public async Task<GetTransaction_Response> AwaitTransactionToConfirm_Async(
+            TransactionID_RPC transactionID_RPC,
+            CancellationToken cancellation, TimeSpan timeOut)
+        {
+            DateTime startTime = DateTime.Now;
+            GetTransaction_Response responseJson = null;
+            while (!cancellation.IsCancellationRequested)
+            {
+                responseJson = await GetTransaction_Async(transactionID_RPC);
+                if (responseJson.success && responseJson.transaction.confirmed)
+                {
+                    return responseJson;
+                }
+                Task.Delay(1000, cancellation);
+                if (DateTime.Now > startTime + timeOut)
+                {
+                    break;
+                }
+            }
+            return responseJson;
+        }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
+        public async Task<GetTransaction_Response> AwaitTransactionToConfirm_Async(
+            TransactionID_RPC transactionID_RPC,
+            CancellationToken cancellation, double timeoutInMinutes = 5)
+        {
+            return await AwaitTransactionToConfirm_Async(transactionID_RPC, cancellation, timeOut: TimeSpan.FromMinutes(timeoutInMinutes));
+        }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
+        public GetTransaction_Response AwaitTransactionToConfirm_Sync(
+            TransactionID_RPC transactionID_RPC,
+            CancellationToken cancellation, double timeoutInMinutes = 5)
+        {
+            return AwaitTransactionToConfirm_Sync(transactionID_RPC, cancellation, timeoutInMinutes);
+        }
+        /// <summary>
+        /// waits for a transaction to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
+        public GetTransaction_Response AwaitTransactionToConfirm_Sync(
+            TransactionID_RPC transactionID_RPC,
+            CancellationToken cancellation, TimeSpan timeout)
+        {
+            Task<GetTransaction_Response> data = Task.Run(() => AwaitTransactionToConfirm_Async(transactionID_RPC, cancellation, timeout));
+            data.Wait();
+            return data.Result;
+        }
+
+        // Functions according to Documentation
         /// <summary>
         /// Create a signed transaction from the given wallet<br/><br/>
         /// WARNING: Due to lacking documentation may not be implemented correctly
@@ -580,81 +653,6 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
-        /// <summary>
-        /// waits for a transaction to fully execute or fail
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellation"></param>
-        /// <param name="timeoutInMinutes"></param>
-        /// <returns></returns>
-        public async Task<GetTransaction_Response> AwaitTransactionToComplete_Async(
-            Transaction_DictMemos transaction,
-            CancellationToken cancellation, double timeoutInMinutes = 5)
-        {
-            TransactionID_RPC transactionID_RPC = new TransactionID_RPC
-            {
-                transaction_id = transaction.name
-            };
-            return await AwaitTransactionToComplete_Async(transactionID_RPC, cancellation, timeoutInMinutes).ConfigureAwait(false);
-        }
-        /// <summary>
-        /// waits for a transaction to fully execute or fail
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellation"></param>
-        /// <param name="timeoutInMinutes"></param>
-        /// <returns></returns>
-        public GetTransaction_Response AwaitTransactionToComplete_Sync(
-            Transaction_DictMemos transaction, 
-            CancellationToken cancellation, double timeoutInMinutes = 5)
-        {
-            Task<GetTransaction_Response> data = Task.Run(() => AwaitTransactionToComplete_Async(transaction, cancellation, timeoutInMinutes));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// waits for a transaction to fully execute or fail
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellation"></param>
-        /// <param name="timeoutInMinutes"></param>
-        /// <returns></returns>
-        public async Task<GetTransaction_Response> AwaitTransactionToComplete_Async(
-            TransactionID_RPC transactionID_RPC,
-            CancellationToken cancellation, double timeoutInMinutes = 5)
-        {
-            DateTime startTime = DateTime.Now;
-            TimeSpan timeOut = TimeSpan.FromMinutes(timeoutInMinutes);
-            GetTransaction_Response responseJson = null;
-            while (!cancellation.IsCancellationRequested)
-            {
-                responseJson = await GetTransaction_Async(transactionID_RPC);
-                if (responseJson.success && responseJson.transaction.confirmed)
-                {
-                    return responseJson;
-                }
-                Task.Delay(1000, cancellation);
-                if (DateTime.Now > startTime + timeOut)
-                {
-                    break;
-                }
-            }
-            return responseJson;
-        }
-        /// <summary>
-        /// waits for a transaction to fully execute or fail
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <param name="cancellation"></param>
-        /// <param name="timeoutInMinutes"></param>
-        /// <returns></returns>
-        public GetTransaction_Response AwaitTransactionToComplete_Sync(
-            TransactionID_RPC transactionID_RPC, 
-            CancellationToken cancellation, double timeoutInMinutes = 5)
-        {
-            Task<GetTransaction_Response> data = Task.Run(() => AwaitTransactionToComplete_Async(transactionID_RPC, cancellation, timeoutInMinutes));
-            data.Wait();
-            return data.Result;
-        }
+        
     }
 }

@@ -1,12 +1,56 @@
 ﻿
 using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.FullNodeAPI_NS
 {
     public partial class FullNode_RPC_Client
     {
+        // custom code
+        /// <summary>
+        /// waits for a transaction to get completed
+        /// </summary>
+        /// <param name="rpc"></param>
+        /// <param name="cancel"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public async Task<GetCoinRecords_Response?> AwaitTransactionComplete_Async(GetTransaction_Response transaction, CancellationToken cancel, TimeSpan? timeout = null)
+        {
+            GetCoinRecordsByPuzzleHash_RPC rpc = new GetCoinRecordsByPuzzleHash_RPC(transaction.transaction.additions[0].puzzle_hash);
+            DateTime startTime = DateTime.Now;
+            DateTime endTime = DateTime.MaxValue;
+            if (timeout != null)
+            {
+                endTime = startTime.Add(timeout.Value);
+            }
+            while (!cancel.IsCancellationRequested && DateTime.Now < endTime)
+            {
+                GetCoinRecords_Response response = await GetCoinRecordsByPuzzleHash_Async(rpc);
+                if (response.error == null && response.coin_records.Length > 0)
+                {
+                    ulong test = response.coin_records[0].confirmed_block_index;
+                    return response;
+                }
+            }
+            return null;
+        }
+        /// <summary>
+        /// waits for a transaction to get completed
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <param name="cancel"></param>
+        /// <param name="timeout"></param>
+        /// <returns></returns>
+        public GetCoinRecords_Response? AwaitTransactionComplete_Sync(GetTransaction_Response transaction, CancellationToken cancel, TimeSpan? timeout = null)
+        {
+            Task<GetCoinRecords_Response?> data = Task.Run(() => AwaitTransactionComplete_Async(transaction, cancel, timeout));
+            data.Wait();
+            return data.Result;
+        }
+
+        // code as per documentation
         /// <summary>
         /// Retrieves the additions and removals (state transitions) for a certain block. Returns coin records for each addition and removal
         /// </summary>
