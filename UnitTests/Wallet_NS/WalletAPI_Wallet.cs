@@ -2,12 +2,8 @@
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System;
 using Xunit;
-using Chia_Client_API.WalletAPI_NS;
 using System.Threading;
-using System.Reflection.Metadata;
 using CHIA_API_Tests.Initialisation_NS;
-using CHIA_RPC.Objects_NS;
-
 namespace CHIA_API_Tests.Wallet_NS
 {
     [Collection("Testnet_Wallet")]
