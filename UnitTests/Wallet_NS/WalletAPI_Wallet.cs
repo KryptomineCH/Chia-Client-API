@@ -161,7 +161,7 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception(response.error);
             }
-            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToComplete_Async(response.transaction,CancellationToken.None,10.0).Result;
+            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(response.transaction,CancellationToken.None,10.0).Result;
             { }
             if (!result.success)
             {
