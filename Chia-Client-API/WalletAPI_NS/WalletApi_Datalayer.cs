@@ -15,7 +15,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<CreateNewDL_Response> CreateNewDL_Async(CreateNewDL_RPC rpc)
 		{
 			string responseJson = await SendCustomMessage_Async("create_new_dl", rpc.ToString());
-			CreateNewDL_Response deserializedObject = JsonSerializer.Deserialize<CreateNewDL_Response>(responseJson);
+			CreateNewDL_Response deserializedObject = CreateNewDL_Response.LoadResponseFromString(responseJson);
 			return deserializedObject;
 		}
 		/// <summary>
@@ -52,7 +52,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlNewMirror_Response> DlDeleteMirror_Async(DlDeleteMirror_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_delete_mirror", rpc.ToString());
-            DlNewMirror_Response deserializedObject = JsonSerializer.Deserialize<DlNewMirror_Response>(responseJson);
+            DlNewMirror_Response deserializedObject = DlNewMirror_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
 
@@ -64,7 +64,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlGetMirrors_Response> DlGetMirrors_Async()
         {
             string responseJson = await SendCustomMessage_Async("dl_get_mirrors");
-            DlGetMirrors_Response deserializedObject = JsonSerializer.Deserialize<DlGetMirrors_Response>(responseJson);
+            DlGetMirrors_Response deserializedObject = DlGetMirrors_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -88,7 +88,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlHistory_Response> DlHistory_Async(DlHistory_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_history", rpc.ToString());
-            DlHistory_Response deserializedObject = JsonSerializer.Deserialize<DlHistory_Response>(responseJson);
+            DlHistory_Response deserializedObject = DlHistory_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -113,7 +113,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlLatestSingleton_Response> DlLatestSingleton_Async(DlLatestSingleton_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_latest_singleton", rpc.ToString());
-            DlLatestSingleton_Response deserializedObject = JsonSerializer.Deserialize<DlLatestSingleton_Response>(responseJson);
+            DlLatestSingleton_Response deserializedObject = DlLatestSingleton_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -138,7 +138,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlNewMirror_Response> DlNewMirror_Async(DlNewMirror_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_new_mirror", rpc.ToString());
-            DlNewMirror_Response deserializedObject = JsonSerializer.Deserialize<DlNewMirror_Response>(responseJson);
+            DlNewMirror_Response deserializedObject = DlNewMirror_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -162,7 +162,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<DlOwnedSingletons_Response> DlOwnedSingletons_Async()
         {
             string responseJson = await SendCustomMessage_Async("dl_owned_singletons");
-            DlOwnedSingletons_Response deserializedObject = JsonSerializer.Deserialize<DlOwnedSingletons_Response>(responseJson);
+            DlOwnedSingletons_Response deserializedObject = DlOwnedSingletons_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<DlSingletonsByRoot_Response> DlSingletonsByRoot_Async(DlSingletonsByRoot_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_singletons_by_root", rpc.ToString());
-            DlSingletonsByRoot_Response deserializedObject = JsonSerializer.Deserialize<DlSingletonsByRoot_Response>(responseJson);
+            DlSingletonsByRoot_Response deserializedObject = DlSingletonsByRoot_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -211,7 +211,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<Success_Response> DlStopTracking_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("dl_stop_tracking", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -236,8 +236,8 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> DlTrackNew_Async(LauncherID_RPC rpc)
 		{
 			string responseJson = await SendCustomMessage_Async("dl_track_new", rpc.ToString());
-			Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
-			return deserializedObject;
+			Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            return deserializedObject;
 		}
 		/// <summary>
 		/// Begin tracking a DataStore
@@ -261,8 +261,8 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<DlUpdateRoot_Response> DlUpdateRoot_Async(DlUpdateRoot_RPC rpc)
 		{
 			string responseJson = await SendCustomMessage_Async("dl_update_root", rpc.ToString());
-			DlUpdateRoot_Response deserializedObject = JsonSerializer.Deserialize<DlUpdateRoot_Response>(responseJson);
-			return deserializedObject;
+			DlUpdateRoot_Response deserializedObject = DlUpdateRoot_Response.LoadResponseFromString(responseJson);
+            return deserializedObject;
 		}
 		/// <summary>
 		/// Update the root of a data store to the given new root

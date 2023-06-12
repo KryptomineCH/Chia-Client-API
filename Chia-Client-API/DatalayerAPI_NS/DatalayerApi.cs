@@ -1,9 +1,7 @@
-﻿
-using CHIA_RPC.Datalayer_NS;
+﻿using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.Datalayer_NS.DatalayerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
-using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
 namespace Chia_Client_API.DatalayerAPI_NS
@@ -19,7 +17,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> AddMirror_Async(AddMirror_RPC rpc)
         {
             string response = await SendCustomMessage_Async("add_mirror", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -48,7 +46,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> AddMissingFiles_Async(AddMissingFiles_RPC rpc)
         {
             string response = await SendCustomMessage_Async("add_missing_files", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -136,7 +134,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
             }
 
             string response = await SendCustomMessage_Async("batch_update", rpc.ToString());
-            TxID_Response deserializedObject = JsonSerializer.Deserialize<TxID_Response>(response);
+            TxID_Response deserializedObject = TxID_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -171,7 +169,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> CancelOffer_Async(CancelOffer_RPC rpc)
         {
             string response = await SendCustomMessage_Async("cancel_offer", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -195,7 +193,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<CheckPlugins_Response> CheckPlugins_Async()
         {
             string response = await SendCustomMessage_Async("check_plugins");
-            CheckPlugins_Response deserializedObject = JsonSerializer.Deserialize<CheckPlugins_Response>(response);
+            CheckPlugins_Response deserializedObject = CheckPlugins_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -220,7 +218,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
 
             string response = await SendCustomMessage_Async("create_data_store", rpc.ToString());
-            CreateDataStore_Response deserializedObject = JsonSerializer.Deserialize<CreateDataStore_Response>(response);
+            CreateDataStore_Response deserializedObject = CreateDataStore_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -247,7 +245,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<TxID_Response> DeleteKey_Async(DeleteKey_RPC rpc, bool errorOnNonExistientKey = false)
         {
             string response = await SendCustomMessage_Async("delete_key", rpc.ToString());
-            TxID_Response deserializedObject = JsonSerializer.Deserialize<TxID_Response>(response);
+            TxID_Response deserializedObject = TxID_Response.LoadResponseFromString(response);
             if (!deserializedObject.success && !errorOnNonExistientKey && deserializedObject.error == "Changelist resulted in no change to tree data")
             {
                 deserializedObject.success = true;
@@ -278,7 +276,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> DeleteMirror_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("delete_mirror", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -304,7 +302,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetAncestors_Response> GetAncestors_Async(GetAncestors_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_ancestors", rpc.ToString());
-            GetAncestors_Response deserializedObject = JsonSerializer.Deserialize<GetAncestors_Response>(response);
+            GetAncestors_Response deserializedObject = GetAncestors_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -334,7 +332,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetKeys_Response> GetKeys_Async(GetKeys_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_keys", rpc.ToString());
-            GetKeys_Response deserializedObject = JsonSerializer.Deserialize<GetKeys_Response>(response);
+            GetKeys_Response deserializedObject = GetKeys_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -368,7 +366,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetKeysValues_Response> GetKeysValues_Async(GetKeys_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_keys_values", rpc.ToString());
-            GetKeysValues_Response deserializedObject = JsonSerializer.Deserialize<GetKeysValues_Response>(response);
+            GetKeysValues_Response deserializedObject = GetKeysValues_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -398,7 +396,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetKvDiff_Response> GetKVDiff_Async(GetKvDiff_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_kv_diff", rpc.ToString());
-            GetKvDiff_Response deserializedObject = JsonSerializer.Deserialize<GetKvDiff_Response>(response);
+            GetKvDiff_Response deserializedObject = GetKvDiff_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -424,7 +422,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetLocalRoot_Response> GetLocalRoot_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_local_root", rpc.ToString());
-            GetLocalRoot_Response deserializedObject = JsonSerializer.Deserialize<GetLocalRoot_Response>(response);
+            GetLocalRoot_Response deserializedObject = GetLocalRoot_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -450,7 +448,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetMirrors_Response> GetMirrors_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_mirrors", rpc.ToString());
-            GetMirrors_Response deserializedObject = JsonSerializer.Deserialize<GetMirrors_Response>(response);
+            GetMirrors_Response deserializedObject = GetMirrors_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -475,7 +473,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetOwnedStores_Response> GetOwnedStores_Async()
         {
             string response = await SendCustomMessage_Async("get_owned_stores");
-            GetOwnedStores_Response deserializedObject = JsonSerializer.Deserialize<GetOwnedStores_Response>(response);
+            GetOwnedStores_Response deserializedObject = GetOwnedStores_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -502,7 +500,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetRoot_Response> GetRoot_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_root", rpc.ToString());
-            GetRoot_Response deserializedObject = JsonSerializer.Deserialize<GetRoot_Response>(response);
+            GetRoot_Response deserializedObject = GetRoot_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -531,7 +529,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetRoots_Response> GetRoots_Async(GetRoots_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_roots", rpc.ToString());
-            GetRoots_Response deserializedObject = JsonSerializer.Deserialize<GetRoots_Response>(response);
+            GetRoots_Response deserializedObject = GetRoots_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -558,7 +556,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetRootHistory_Response> GetRootHistory_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_root_history", rpc.ToString());
-            GetRootHistory_Response deserializedObject = JsonSerializer.Deserialize<GetRootHistory_Response>(response);
+            GetRootHistory_Response deserializedObject = GetRootHistory_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -583,7 +581,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string response = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(response);
+            GetRoutes_Response deserializedObject = GetRoutes_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -608,7 +606,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetDatalayerSyncStatus_Response> GetSyncStatus_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_sync_status", rpc.ToString());
-            GetDatalayerSyncStatus_Response deserializedObject = JsonSerializer.Deserialize<GetDatalayerSyncStatus_Response>(response);
+            GetDatalayerSyncStatus_Response deserializedObject = GetDatalayerSyncStatus_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -638,7 +636,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetValue_Response> GetValue_Async(GetValue_RPC rpc)
         {
             string response = await SendCustomMessage_Async("get_value", rpc.ToString());
-            GetValue_Response deserializedObject = JsonSerializer.Deserialize<GetValue_Response>(response);
+            GetValue_Response deserializedObject = GetValue_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -668,7 +666,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<TxID_Response> Insert_Async(Insert_RPC rpc)
         {
             string response = await SendCustomMessage_Async("insert", rpc.ToString());
-            TxID_Response deserializedObject = JsonSerializer.Deserialize<TxID_Response>(response);
+            TxID_Response deserializedObject = TxID_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -694,7 +692,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<MakeOffer_Response> MakeOffer_Async(MakeOffer_RPC rpc)
         {
             string response = await SendCustomMessage_Async("make_offer", rpc.ToString());
-            MakeOffer_Response deserializedObject = JsonSerializer.Deserialize<MakeOffer_Response>(response);
+            MakeOffer_Response deserializedObject = MakeOffer_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -722,7 +720,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> RemoveSubscriptions_Async(Subscribe_RPC rpc)
         {
             string response = await SendCustomMessage_Async("remove_subscriptions", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -750,7 +748,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> Subscribe_Async(Subscribe_RPC rpc)
         {
             string response = await SendCustomMessage_Async("subscribe", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -775,7 +773,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Subscriptions_Response> Subscriptions_Async()
         {
             string response = await SendCustomMessage_Async("subscriptions");
-            Subscriptions_Response deserializedObject = JsonSerializer.Deserialize<Subscriptions_Response>(response);
+            Subscriptions_Response deserializedObject = Subscriptions_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -800,7 +798,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<TradeID_Response> TakeOffer_Async(TakeOffer_RPC rpc)
         {
             string response = await SendCustomMessage_Async("take_offer", rpc.ToString());
-            TradeID_Response deserializedObject = JsonSerializer.Deserialize<TradeID_Response>(response);
+            TradeID_Response deserializedObject = TradeID_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -829,7 +827,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> Unsubscribe_Async(ID_RPC rpc)
         {
             string response = await SendCustomMessage_Async("unsubscribe", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -858,7 +856,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<VerifyOffer_Response> VerifyOffer_Async(VerifyOffer_RPC rpc)
         {
             string response = await SendCustomMessage_Async("verify_offer", rpc.ToString());
-            VerifyOffer_Response deserializedObject = JsonSerializer.Deserialize<VerifyOffer_Response>(response);
+            VerifyOffer_Response deserializedObject = VerifyOffer_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
         
@@ -887,7 +885,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> CloseConnection_Async(CloseConnection_RPC rpc)
         {
             string response = await SendCustomMessage_Async("close_connection", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -918,7 +916,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<GetConnections_Response> GetConnections_Async()
         {
             string response = await SendCustomMessage_Async("get_connections");
-            GetConnections_Response deserializedObject = JsonSerializer.Deserialize<GetConnections_Response>(response);
+            GetConnections_Response deserializedObject = GetConnections_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -949,7 +947,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> OpenConnection_Async(OpenConnection_RPC rpc)
         {
             string response = await SendCustomMessage_Async("open_connection", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 
@@ -980,7 +978,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public async Task<Success_Response> StopNode_Async()
         {
             string response = await SendCustomMessage_Async("stop_node");
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(response);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(response);
             return deserializedObject;
         }
 

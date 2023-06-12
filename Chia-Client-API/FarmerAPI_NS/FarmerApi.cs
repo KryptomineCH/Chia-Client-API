@@ -15,7 +15,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesters_Response> GetHarvesters_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters");
-            GetHarvesters_Response deserializedObject = JsonSerializer.Deserialize<GetHarvesters_Response>(responseJson);
+            GetHarvesters_Response deserializedObject = GetHarvesters_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -38,7 +38,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvestersSummary_Response> GetHarvestersSummary_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters_summary");
-            GetHarvestersSummary_Response deserializedObject = JsonSerializer.Deserialize<GetHarvestersSummary_Response>(responseJson);
+            GetHarvestersSummary_Response deserializedObject = GetHarvestersSummary_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -62,7 +62,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsDuplicates_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_duplicates", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = JsonSerializer.Deserialize<GetHarvesterPlots_Response>(responseJson);
+            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -87,7 +87,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlotsInvalid_Response> GetHarvesterPlotsInvalid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_invalid", rpc.ToString());
-            GetHarvesterPlotsInvalid_Response deserializedObject = JsonSerializer.Deserialize<GetHarvesterPlotsInvalid_Response>(responseJson);
+            GetHarvesterPlotsInvalid_Response deserializedObject = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -112,7 +112,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsKeysMissing_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_keys_missing", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = JsonSerializer.Deserialize<GetHarvesterPlots_Response>(responseJson);
+            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -137,7 +137,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsValid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_valid", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = JsonSerializer.Deserialize<GetHarvesterPlots_Response>(responseJson);
+            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -162,7 +162,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetPoolLoginLink_Response> GetPoolLoginLink_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_pool_login_link", rpc.ToString());
-            GetPoolLoginLink_Response deserializedObject = JsonSerializer.Deserialize<GetPoolLoginLink_Response>(responseJson);
+            GetPoolLoginLink_Response deserializedObject = GetPoolLoginLink_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -186,7 +186,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetPoolState_Response> GetPoolState_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_pool_state");
-            GetPoolState_Response deserializedObject = JsonSerializer.Deserialize<GetPoolState_Response>(responseJson);
+            GetPoolState_Response deserializedObject = GetPoolState_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -210,7 +210,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetRewardTargets_Response> GetRewardTargets_Async(GetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_reward_targets", rpc.ToString());
-            GetRewardTargets_Response deserializedObject = JsonSerializer.Deserialize<GetRewardTargets_Response>(responseJson);
+            GetRewardTargets_Response deserializedObject = GetRewardTargets_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -234,7 +234,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(responseJson);
+            GetRoutes_Response deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -258,7 +258,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<SignagePointWithProofs> GetSignagePoint_Async(GetSignagePoint_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_signage_point", rpc.ToString());
-            SignagePointWithProofs deserializedObject = JsonSerializer.Deserialize<SignagePointWithProofs>(responseJson);
+            SignagePointWithProofs deserializedObject = SignagePointWithProofs.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -282,7 +282,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetSignagePoints_Response> GetSignagePoints_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_signage_points");
-            GetSignagePoints_Response deserializedObject = JsonSerializer.Deserialize<GetSignagePoints_Response>(responseJson);
+            GetSignagePoints_Response deserializedObject = GetSignagePoints_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -306,7 +306,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<Success_Response> SetPayoutInstructions_Async(SetPayoutInstructions_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_payout_instructions", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -331,7 +331,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<Success_Response> SetRewardTargets_Async(SetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_reward_targets", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>

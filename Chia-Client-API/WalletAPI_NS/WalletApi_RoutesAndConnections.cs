@@ -16,7 +16,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CloseConnection_Async(CloseConnection_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("close_connection", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -40,7 +40,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetConnections_Response> GetConnections_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_connections");
-            GetConnections_Response deserializedObject = JsonSerializer.Deserialize<GetConnections_Response>(responseJson);
+            GetConnections_Response deserializedObject = GetConnections_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -63,7 +63,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(responseJson);
+            GetRoutes_Response deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -87,7 +87,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> OpenConnection_Async(OpenConnection_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("open_connection", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -111,7 +111,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> StopNode_Async()
         {
             string responseJson = await SendCustomMessage_Async("stop_node");
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>

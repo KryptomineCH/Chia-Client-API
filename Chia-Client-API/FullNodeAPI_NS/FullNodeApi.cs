@@ -60,7 +60,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAdditionsAndRemovals_Response> GetAdditionsAndRemovals_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_additions_and_removals", rpc.ToString());
-            GetAdditionsAndRemovals_Response deserializedObject = JsonSerializer.Deserialize<GetAdditionsAndRemovals_Response>(responseJson);
+            GetAdditionsAndRemovals_Response deserializedObject = GetAdditionsAndRemovals_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -84,7 +84,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAllMempoolItems_Response> GetAllMempoolItems_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_all_mempool_items");
-            GetAllMempoolItems_Response deserializedObject = JsonSerializer.Deserialize<GetAllMempoolItems_Response>(responseJson);
+            GetAllMempoolItems_Response deserializedObject = GetAllMempoolItems_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -107,7 +107,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAllMempoolTxIDs_Response> GetAllMempoolTxIDs_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_all_mempool_tx_ids");
-            GetAllMempoolTxIDs_Response deserializedObject = JsonSerializer.Deserialize<GetAllMempoolTxIDs_Response>(responseJson);
+            GetAllMempoolTxIDs_Response deserializedObject = GetAllMempoolTxIDs_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -131,7 +131,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlock_Response> GetBlock_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_block", rpc.ToString());
-            GetBlock_Response deserializedObject = JsonSerializer.Deserialize<GetBlock_Response>(responseJson);
+            GetBlock_Response deserializedObject = GetBlock_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -155,7 +155,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockchainState_Response> GetBlockchainState_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_blockchain_state");
-            GetBlockchainState_Response deserializedObject = JsonSerializer.Deserialize<GetBlockchainState_Response>(responseJson);
+            GetBlockchainState_Response deserializedObject = GetBlockchainState_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -180,7 +180,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlocks_Response> GetBlocks_Async(GetBlocks_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_blocks", rpc.ToString());
-            GetBlocks_Response deserializedObject = JsonSerializer.Deserialize<GetBlocks_Response>(responseJson);
+            GetBlocks_Response deserializedObject = GetBlocks_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -209,7 +209,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockCountMetrics_Response> GetBlockCountMetrics_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_block_count_metrics");
-            GetBlockCountMetrics_Response deserializedObject = JsonSerializer.Deserialize<GetBlockCountMetrics_Response>(responseJson);
+            GetBlockCountMetrics_Response deserializedObject = GetBlockCountMetrics_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -237,7 +237,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByParentIDs_Async(GetCoinRecordsByParentIDs_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_parent_ids", rpc.ToString());
-            GetCoinRecords_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecords_Response>(responseJson);
+            GetCoinRecords_Response deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -262,7 +262,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecord_Response> GetBlockRecord_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_block_record", rpc.ToString());
-            GetBlockRecord_Response deserializedObject = JsonSerializer.Deserialize<GetBlockRecord_Response>(responseJson);
+            GetBlockRecord_Response deserializedObject = GetBlockRecord_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -287,7 +287,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecords_Response> GetBlockRecords_Async(StartEnd_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_block_records", rpc.ToString());
-            GetBlockRecords_Response deserializedObject = JsonSerializer.Deserialize<GetBlockRecords_Response>(responseJson);
+            GetBlockRecords_Response deserializedObject = GetBlockRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -312,7 +312,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecord_Response> GetBlockRecordByHeight_Async(Height_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_block_record_by_height", rpc.ToString());
-            GetBlockRecord_Response deserializedObject = JsonSerializer.Deserialize<GetBlockRecord_Response>(responseJson);
+            GetBlockRecord_Response deserializedObject = GetBlockRecord_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -337,7 +337,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockSpends_Response> GetBlockSpends_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_block_spends", rpc.ToString());
-            GetBlockSpends_Response deserializedObject = JsonSerializer.Deserialize<GetBlockSpends_Response>(responseJson);
+            GetBlockSpends_Response deserializedObject = GetBlockSpends_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -362,7 +362,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByHint_Async(GetCoinRecordsByHint_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_hint", rpc.ToString());
-            GetCoinRecords_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecords_Response>(responseJson);
+            GetCoinRecords_Response deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -387,7 +387,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByPuzzleHash_Async(GetCoinRecordsByPuzzleHash_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_puzzle_hash", rpc.ToString());
-            GetCoinRecords_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecords_Response>(responseJson);
+            GetCoinRecords_Response deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -412,7 +412,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByPuzzleHashes_Async(GetCoinRecordsByPuzzleHashes_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_puzzle_hashes", rpc.ToString());
-            GetCoinRecords_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecords_Response>(responseJson);
+            GetCoinRecords_Response deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -437,7 +437,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecordByName_Response> GetCoinRecordByName_Async(GetCoinRecordByName_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_record_by_name", rpc.ToString());
-            GetCoinRecordByName_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecordByName_Response>(responseJson);
+            GetCoinRecordByName_Response deserializedObject = GetCoinRecordByName_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -462,7 +462,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_names", rpc.ToString());
-            GetCoinRecords_Response deserializedObject = JsonSerializer.Deserialize<GetCoinRecords_Response>(responseJson);
+            GetCoinRecords_Response deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -487,7 +487,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetFeeEstimate_Response> GetFeeEstimate_Async(GetFeeEstimate_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_fee_estimate", rpc.ToString());
-            GetFeeEstimate_Response deserializedObject = JsonSerializer.Deserialize<GetFeeEstimate_Response>(responseJson);
+            GetFeeEstimate_Response deserializedObject = GetFeeEstimate_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -512,7 +512,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetMempoolItemByTxID_Response> GetMempoolItemByTxID_Async(GetMempoolItemByTxID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_mempool_item_by_tx_id", rpc.ToString());
-            GetMempoolItemByTxID_Response deserializedObject = JsonSerializer.Deserialize<GetMempoolItemByTxID_Response>(responseJson);
+            GetMempoolItemByTxID_Response deserializedObject = GetMempoolItemByTxID_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -536,7 +536,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_network_info");
-            GetNetworkInfo_Response deserializedObject = JsonSerializer.Deserialize<GetNetworkInfo_Response>(responseJson);
+            GetNetworkInfo_Response deserializedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -560,7 +560,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetNetworkSpace_Response> GetNetworkSpace_Async(GetNetworkSpace_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_network_space", rpc.ToString());
-            GetNetworkSpace_Response deserializedObject = JsonSerializer.Deserialize<GetNetworkSpace_Response>(responseJson);
+            GetNetworkSpace_Response deserializedObject = GetNetworkSpace_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -586,7 +586,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetPuzzleAndSolution_Response> GetPuzzleAndSolution_Async(GetPuzzleAndSolution_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_puzzle_and_solution", rpc.ToString());
-            GetPuzzleAndSolution_Response deserializedObject = JsonSerializer.Deserialize<GetPuzzleAndSolution_Response>(responseJson);
+            GetPuzzleAndSolution_Response deserializedObject = GetPuzzleAndSolution_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -612,7 +612,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetRecentSignagePointOrEos_Response> GetRecentSignagePointOrEos_Async(GetRecentSignagePointOrEos_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_recent_signage_point_or_eos", rpc.ToString());
-            GetRecentSignagePointOrEos_Response deserializedObject = JsonSerializer.Deserialize<GetRecentSignagePointOrEos_Response>(responseJson);
+            GetRecentSignagePointOrEos_Response deserializedObject = GetRecentSignagePointOrEos_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -636,7 +636,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = JsonSerializer.Deserialize<GetRoutes_Response>(responseJson);
+            GetRoutes_Response deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -659,7 +659,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetUnfinishedBlockHeaders_Response> GetUnfinishedBlockHeaders_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_unfinished_block_headers");
-            GetUnfinishedBlockHeaders_Response deserializedObject = JsonSerializer.Deserialize<GetUnfinishedBlockHeaders_Response>(responseJson);
+            GetUnfinishedBlockHeaders_Response deserializedObject = GetUnfinishedBlockHeaders_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -682,7 +682,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<Success_Response> HealthZ_Async()
         {
             string responseJson = await SendCustomMessage_Async("healthz");
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -706,7 +706,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<PushTx_Response> PushTx_Async(PushTx_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
-            PushTx_Response deserializedObject = JsonSerializer.Deserialize<PushTx_Response>(responseJson);
+            PushTx_Response deserializedObject = PushTx_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>

@@ -16,7 +16,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CancelOffers_Async(CancelCatOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cancel_offers", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -41,7 +41,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CatAssetIdToName_Response> CatAssetIDToName_Async(CatAssetIdToName_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cat_asset_id_to_name", rpc.ToString());
-            CatAssetIdToName_Response deserializedObject = JsonSerializer.Deserialize<CatAssetIdToName_Response>(responseJson);
+            CatAssetIdToName_Response deserializedObject = CatAssetIdToName_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -66,7 +66,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CatGetAssetId_Response> CatGetAssetID_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cat_get_asset_id", rpc.ToString());
-            CatGetAssetId_Response deserializedObject = JsonSerializer.Deserialize<CatGetAssetId_Response>(responseJson);
+            CatGetAssetId_Response deserializedObject = CatGetAssetId_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -91,7 +91,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CatAssetIdToName_Response> CatGetName_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cat_get_name", rpc.ToString());
-            CatAssetIdToName_Response deserializedObject = JsonSerializer.Deserialize<CatAssetIdToName_Response>(responseJson);
+            CatAssetIdToName_Response deserializedObject = CatAssetIdToName_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -116,7 +116,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<WalletID_Response> CatSetName_Async(CatSetName_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cat_set_name", rpc.ToString());
-            WalletID_Response deserializedObject = JsonSerializer.Deserialize<WalletID_Response>(responseJson);
+            WalletID_Response deserializedObject = WalletID_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -141,7 +141,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CatSpend_Response> CatSpend_Async(CatSpend_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cat_spend", rpc.ToString());
-            CatSpend_Response deserializedObject = JsonSerializer.Deserialize<CatSpend_Response>(responseJson);
+            CatSpend_Response deserializedObject = CatSpend_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<OfferFile> CreateOfferForIDs_Async(CreateOfferForIds_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("create_offer_for_ids", rpc.ToString());
-            OfferFile deserializedObject = JsonSerializer.Deserialize<OfferFile>(responseJson);
+            OfferFile deserializedObject = OfferFile.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -192,7 +192,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetCatList_Response> GetCatList_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_cat_list");
-            GetCatList_Response deserializedObject = JsonSerializer.Deserialize<GetCatList_Response>(responseJson);
+            GetCatList_Response deserializedObject = GetCatList_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -215,7 +215,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetOffersCount_Response> GetOffersCount_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_offers_count");
-            GetOffersCount_Response deserializedObject = JsonSerializer.Deserialize<GetOffersCount_Response>(responseJson);
+            GetOffersCount_Response deserializedObject = GetOffersCount_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -239,7 +239,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetCatOfferSummary_Response> GetOfferSummary_Async(GetCatOfferSummary_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_offer_summary", rpc.ToString());
-            GetCatOfferSummary_Response deserializedObject = JsonSerializer.Deserialize<GetCatOfferSummary_Response>(responseJson);
+            GetCatOfferSummary_Response deserializedObject = GetCatOfferSummary_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -263,7 +263,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetStrayCats_Response> GetStrayCats_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_stray_cats");
-            GetStrayCats_Response deserializedObject = JsonSerializer.Deserialize<GetStrayCats_Response>(responseJson);
+            GetStrayCats_Response deserializedObject = GetStrayCats_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -287,7 +287,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<TradeRecord_Response> TakeOffer_Async(TakeCatOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("take_offer", rpc.ToString());
-            TradeRecord_Response deserializedObject = JsonSerializer.Deserialize<TradeRecord_Response>(responseJson);
+            TradeRecord_Response deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>

@@ -16,7 +16,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> PwAbsorbRewards_Async(PwAbsorbRewards_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_absorb_rewards", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -42,7 +42,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
+            PwJoinPool_Response deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = JsonSerializer.Deserialize<PwJoinPool_Response>(responseJson);
+            PwJoinPool_Response deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwStatus_Response> PwStatus_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_status", rpc.ToString());
-            PwStatus_Response deserializedObject = JsonSerializer.Deserialize<PwStatus_Response>(responseJson);
+            PwStatus_Response deserializedObject = PwStatus_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>

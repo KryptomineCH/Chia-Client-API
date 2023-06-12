@@ -17,7 +17,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CancelOffer_Async(CancelOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cancel_offer", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -42,7 +42,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CancelOffers_Async(CancelOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cancel_offers", rpc.ToString());
-            Success_Response deserializedObject = JsonSerializer.Deserialize<Success_Response>(responseJson);
+            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -67,7 +67,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CheckOfferValidity_Response> CheckOfferValidity_Async(CheckOfferValidity_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("check_offer_validity", rpc.ToString());
-            CheckOfferValidity_Response deserializedObject = JsonSerializer.Deserialize<CheckOfferValidity_Response>(responseJson);
+            CheckOfferValidity_Response deserializedObject = CheckOfferValidity_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -92,7 +92,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<OfferFile> CreateOfferForIds_Async(CreateOfferForIds_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("create_offer_for_ids", rpc.ToString());
-            OfferFile deserializedObject = JsonSerializer.Deserialize<OfferFile>(responseJson);
+            OfferFile deserializedObject = OfferFile.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -117,7 +117,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<OfferFiles> GetAllOffers_Async(GetAllOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_all_offers", rpc.ToString());
-            OfferFiles deserializedObject = JsonSerializer.Deserialize<OfferFiles>(responseJson);
+            OfferFiles deserializedObject = OfferFiles.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -142,7 +142,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<OfferFile> GetOffer_Async(GetOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_offer", rpc.ToString());
-            OfferFile deserializedObject = JsonSerializer.Deserialize<OfferFile>(responseJson);
+            OfferFile deserializedObject = OfferFile.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -167,7 +167,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetOfferSummary_Response> GetOfferSummary_Async(GetOfferSummary_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_offer_summary", rpc.ToString());
-            GetOfferSummary_Response deserializedObject = JsonSerializer.Deserialize<GetOfferSummary_Response>(responseJson);
+            GetOfferSummary_Response deserializedObject = GetOfferSummary_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -192,7 +192,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<TradeRecord_Response> TakeOffer_Async(TakeOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("take_offer", rpc.ToString());
-            TradeRecord_Response deserializedObject = JsonSerializer.Deserialize<TradeRecord_Response>(responseJson);
+            TradeRecord_Response deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -221,7 +221,7 @@ namespace Chia_Client_API.WalletAPI_NS
             try
             {
                 File.WriteAllText("testoffer.offer", response);
-                OfferFile json = JsonSerializer.Deserialize<OfferFile>(response);
+                OfferFile json = OfferFile.LoadObjectFromString(response);
                 return json;
             }
             catch(Exception ex)
