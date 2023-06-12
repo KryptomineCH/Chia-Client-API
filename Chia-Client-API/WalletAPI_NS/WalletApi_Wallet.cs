@@ -379,9 +379,35 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Get all transactions for a given wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
-        /// <param name="walletID_RPC"></param>
+        /// <param name="rpc"></param>
         /// <returns></returns>
         public async Task<GetTransactions_Response> GetTransactions_Async(WalletID_RPC rpc)
+        {
+            string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
+            //GetTransactions_Response deserializedObject = JsonSerializer.Deserialize<GetTransactions_Response>(responseJson);
+            GetTransactions_Response deserializedObject = GetTransactions_Response.LoadResponseFromString(responseJson);
+            return deserializedObject;
+        }
+        
+        /// <summary>
+        /// Get all transactions for a given wallet
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public GetTransactions_Response GetTransactions_Sync(WalletID_RPC rpc)
+        {
+            Task<GetTransactions_Response> data = Task.Run(() => GetTransactions_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// Get all transactions for a given wallet
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<GetTransactions_Response> GetTransactions_Async(GetTransactions_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
             //GetTransactions_Response deserializedObject = JsonSerializer.Deserialize<GetTransactions_Response>(responseJson);
@@ -392,9 +418,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Get all transactions for a given wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
-        /// <param name="walletID_RPC"></param>
+        /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetTransactions_Response GetTransactions_Sync(WalletID_RPC rpc)
+        public GetTransactions_Response GetTransactions_Sync(GetTransactions_RPC rpc)
         {
             Task<GetTransactions_Response> data = Task.Run(() => GetTransactions_Async(rpc));
             data.Wait();
