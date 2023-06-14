@@ -18,7 +18,7 @@ namespace CHIA_API_Tests.Wallet_NS.DID_NS
         {
             Wallets_info[] didWallets = Testnet_Wallet.Wallet_Client.DidGetWallets_Sync();
             DidGetDid_Response firstDidInfo = Testnet_Wallet.Wallet_Client.DidGetDid_Sync(didWallets[0]);
-            CreateNewDIDWallet_RPC rpc = new CreateNewDIDWallet_RPC(new string[] { firstDidInfo.my_did },1);
+            CreateNewDIDWallet_RPC rpc = new CreateNewDIDWallet_RPC(new string[] { firstDidInfo.my_did }, amount_mojos: 1, numOfBackupIdsNeeded:1);
             CreateNewWallet_Response response = Testnet_Wallet.Wallet_Client.CreateNewDidWallet_Sync(rpc);
             Assert.True(response.success, response.error);
             Assert.Null(response.error);
