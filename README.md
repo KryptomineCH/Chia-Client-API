@@ -55,8 +55,8 @@ this is how you offer Cat vs chia:
 ```
 CatGetAssetId_Response assetId = Testnet_Wallet.Wallet_Client.CatGetAssetID_Sync(new WalletID_RPC(wallet.id));
 CreateOfferForIds_RPC offer_rpc = new CreateOfferForIds_RPC();
-offer_rpc.offer.Add("1", -50000); // you want to receive 500000 mojos
-offer_rpc.offer.Add(assetId.asset_id, 500); // you want to give 0.5 of asset x
+offer_rpc.offer.Add("1", -50000); // you want to give 500000 mojos
+offer_rpc.offer.Add(assetId.asset_id, 500); // you want to receive 0.5 of asset x
 OfferFile offer = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer_rpc);
 offer.Export("btftestoffer");
 ```
