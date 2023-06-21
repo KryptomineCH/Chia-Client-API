@@ -12,6 +12,15 @@ Install-Package Chia-Client-API
 A simple, easy-to-use interface for accessing the Chia API
 Support for all API endpoints, including those for managing accounts, sending and receiving transactions, and querying the blockchain
 Detailed documentation for each API endpoint, including descriptions of input and output parameters
+- viewing, creating and managing wallets
+- sending chia, cats, nfts
+- creating offers for chia, cats and nfts
+- exploring the blockchain
+- managing datalayer
+- managing simulator
+- Minting NFTs
+- Creating CATs
+
 ## Requirements
 .NET 6 or higher
 ## Installation
