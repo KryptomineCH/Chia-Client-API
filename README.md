@@ -12,6 +12,15 @@ Install-Package Chia-Client-API
 A simple, easy-to-use interface for accessing the Chia API
 Support for all API endpoints, including those for managing accounts, sending and receiving transactions, and querying the blockchain
 Detailed documentation for each API endpoint, including descriptions of input and output parameters
+- viewing, creating and managing wallets
+- sending chia, cats, nfts
+- creating offers for chia, cats and nfts
+- exploring the blockchain
+- managing datalayer
+- managing simulator
+- Minting NFTs
+- Creating CATs
+
 ## Requirements
 .NET 6 or higher
 ## Installation
@@ -40,6 +49,22 @@ var balance = client.GetBalance("your_account_id");
 Console.WriteLine(balance);
 ```
 Refer to the documentation for specific usage instructions for each API endpoint.
+
+### Creating a cat offer
+this is how you offer Cat vs chia:
+```
+CatGetAssetId_Response assetId = Testnet_Wallet.Wallet_Client.CatGetAssetID_Sync(new WalletID_RPC(wallet.id));
+CreateOfferForIds_RPC offer_rpc = new CreateOfferForIds_RPC();
+offer_rpc.offer.Add("1", -50000); // you want to receive 500000 mojos
+offer_rpc.offer.Add(assetId.asset_id, 500); // you want to give 0.5 of asset x
+OfferFile offer = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer_rpc);
+offer.Export("btftestoffer");
+```
+
+note you can also give amounts in decimal chia (note that 1 cat is normally 1000 mojos so mind the conversion there)
+```
+offer_rpc.offer_xch.Add("1", -0.005); // you want to receive 500000 mojos
+```
 
 ## Contributing
 We welcome contributions to this repository! If you have suggestions for improvements or new features, please open an issue or submit a pull request.
