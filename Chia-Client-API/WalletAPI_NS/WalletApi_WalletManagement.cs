@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
+﻿using CHIA_RPC.Objects_NS;
+using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.DID_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
@@ -121,9 +122,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <param name="wallet_type">The type of wallet to retrieve. If included, must be one of cat_wallet, did_wallet, nft_wallet, or pool_wallet</param>
         /// <returns></returns>
-        public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true, string? wallet_type = null)
+        public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true, WalletType? wallet_type = null)
         {
-            GetWallets_RPC rpc = new GetWallets_RPC { include_data = includeData, type = wallet_type };
+            GetWallets_RPC rpc = new GetWallets_RPC { include_data = includeData, type = wallet_type.ToString() };
             return await GetWallets_Async(rpc);
         }
         /// <summary>
@@ -134,7 +135,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <param name="wallet_type">The type of wallet to retrieve. If included, must be one of cat_wallet, did_wallet, nft_wallet, or pool_wallet</param>
         /// <returns></returns>
-        public GetWallets_Response GetWallets_Sync(bool includeData = true, string? wallet_type = null)
+        public GetWallets_Response GetWallets_Sync(bool includeData = true, WalletType? wallet_type = null)
         {
             Task<GetWallets_Response> data = Task.Run(() => GetWallets_Async(includeData, wallet_type));
             data.Wait();
