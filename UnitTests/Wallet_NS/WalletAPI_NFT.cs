@@ -66,7 +66,7 @@ namespace CHIA_API_Tests.Wallet_NS
                 throw new System.Exception("fees dont match!");
             }
         }
-            [Fact]
+        [Fact]
         public void GetNftInfo()
         {
             string didWallet = CommonTestFunctions.TestDidWallet.name;

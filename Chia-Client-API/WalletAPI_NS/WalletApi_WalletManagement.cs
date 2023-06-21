@@ -124,7 +124,16 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true, WalletType? wallet_type = null)
         {
-            GetWallets_RPC rpc = new GetWallets_RPC { include_data = includeData, type = wallet_type.ToString() };
+            string? type;
+            if (wallet_type == null)
+            {
+                type = null;
+            }
+            else
+            {
+                type = wallet_type.Value.ToString();
+            }
+            GetWallets_RPC rpc = new GetWallets_RPC { include_data = includeData, type = type };
             return await GetWallets_Async(rpc);
         }
         /// <summary>
