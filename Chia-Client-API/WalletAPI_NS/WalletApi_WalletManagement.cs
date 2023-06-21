@@ -94,9 +94,8 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
-        public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true)
+        public async Task<GetWallets_Response> GetWallets_Async(GetWallets_RPC rpc)
         {
-            GetWallets_RPC rpc = new GetWallets_RPC { include_data= includeData };
             string responseJson = await SendCustomMessage_Async("get_wallets", rpc.ToString());
             GetWallets_Response deserializedObject = GetWallets_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
@@ -108,9 +107,36 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
         /// <param name="includeData">Set to true to include all coin info for this wallet</param>
         /// <returns></returns>
-        public GetWallets_Response GetWallets_Sync(bool includeData = true)
+        public GetWallets_Response GetWallets_Sync(GetWallets_RPC rpc)
         {
-            Task<GetWallets_Response> data = Task.Run(() => GetWallets_Async(includeData));
+            Task<GetWallets_Response> data = Task.Run(() => GetWallets_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// returns all subwallets of the currently logged in wallet<br/><br/>
+        /// Note:  if you want to obtain all main wallets, use <see cref="GetPublicKeys_Async"/> instead
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
+        /// <param name="includeData">Set to true to include all coin info for this wallet</param>
+        /// <param name="wallet_type">The type of wallet to retrieve. If included, must be one of cat_wallet, did_wallet, nft_wallet, or pool_wallet</param>
+        /// <returns></returns>
+        public async Task<GetWallets_Response> GetWallets_Async(bool includeData = true, string? wallet_type = null)
+        {
+            GetWallets_RPC rpc = new GetWallets_RPC { include_data = includeData, type = wallet_type };
+            return await GetWallets_Async(rpc);
+        }
+        /// <summary>
+        /// returns all subwallets of the currently logged in wallet<br/><br/>
+        /// Note:  if you want to obtain all main wallets, use <see cref="GetPublicKeys_Sync"/> instead
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_wallets"/></remarks>
+        /// <param name="includeData">Set to true to include all coin info for this wallet</param>
+        /// <param name="wallet_type">The type of wallet to retrieve. If included, must be one of cat_wallet, did_wallet, nft_wallet, or pool_wallet</param>
+        /// <returns></returns>
+        public GetWallets_Response GetWallets_Sync(bool includeData = true, string? wallet_type = null)
+        {
+            Task<GetWallets_Response> data = Task.Run(() => GetWallets_Async(includeData, wallet_type));
             data.Wait();
             return data.Result;
         }
