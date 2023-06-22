@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.1.13</Version>
+    <Version>1.8.1.14</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,66 +16,69 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.1.13: Fix for rpc file extension
-- fixed the file naming if th file path was specified with a '.' as extension
+    <PackageReleaseNotes>1.8.1.14: File handling fixed
+- Wrote unit test for file handling. The naming when offering a FileInfo is now actually fixed.
+
+1.8.1.13: Fix for RPC file extension
+- Fixed the file naming if the file path was specified with a '.' as an extension.
 
 1.8.12: Hotfix for offers
-- offers do not get updated when modefying offers_in_xch (added workaround. .net issue)
+- Offers do not get updated when modifying offers_in_xch (added workaround. .NET issue).
 
 1.8.1.11: GetFeeEstimate improvements
-- improvements on xml documentation
-- added explicit conversion to that the api can be called directly with a dateTime
-- fixed a fee value which was displayed in decimal rather than ulong 
-- returned time array can now also be viewed in TimeSpan
+- Improvements on XML documentation.
+- Added explicit conversion so that the API can be called directly with a DateTime.
+- Fixed a fee value which was displayed in decimal rather than ulong.
+- Returned time array can now also be viewed in TimeSpan.
 
 1.8.1.10: Convenience upgrades
-- added overloads so that files can now be loaded and exported with FileInfo
-- added an exmplicit conversion to GetCatOfferSummary
-- added constructor to GetFeeEnsimate which accepts a single Time rather than an array 
-- slight improvement in GetFeeEstimate_RPC Documentation
+- Added overloads so that files can now be loaded and exported with FileInfo.
+- Added an implicit conversion to GetCatOfferSummary.
+- Added constructor to GetFeeEstimate which accepts a single Time rather than an array.
+- Slight improvement in GetFeeEstimate_RPC Documentation.
 
 1.8.1.9: Hotfix and offering improvements
-- added null value hotfix
-- improved xml coded documentation for offers
-- added unit test for offer creation
-- improved constructor for offerings
-- improved cancle offers endpoint
+- Added null value hotfix.
+- Improved XML coded documentation for offers.
+- Added unit test for offer creation.
+- Improved constructor for offerings.
+- Improved cancel offers endpoint.
 
-1.8.1.8: hotfix
-- hotfix for 1.8.1.7 null reference issue
+1.8.1.8: Hotfix
+- Hotfix for 1.8.1.7 null reference issue.
 
 1.8.1.7: Allow decimal
-- this is a rather big update which adds decimal properties to many endpoints. these decimal properties allow to read/write amounts in xch rather than having to manually do dhe conversion to mojos
+- This is a rather big update which adds decimal properties to many endpoints. These decimal properties allow to read/write amounts in XCH rather than having to manually do the conversion to mojos.
 
-1.8.1.6: improve Transaction and response classes:
-- added functionality to obtain primary coin from transaction (please test this!!!)
-- reworket objects and code to include the raw request answer data
+1.8.1.6: Improve Transaction and response classes
+- Added functionality to obtain primary coin from transaction (please test this!!!)
+- Reworked objects and code to include the raw request answer data.
 
-1.8.1.5: improve wait for transaction code:
-- renamed wallet api to confirm
-- created full node api to wait for coin creation (this should really await transaction completeness)
-- added an implecet conversion for the checkers
-- added timespan code for the awaital
+1.8.1.5: Improve wait for transaction code
+- Renamed wallet API to confirm.
+- Created full node API to wait for coin creation (this should really await transaction completeness).
+- Added an implicit conversion for the checkers.
+- Added TimeSpan code for the await.
 
-1.8.1.4: improve SendTransaction_RPC
-- added a global variable in General_NS.GlobalVar which specifies the amount of mojos which make up one chia
-- improved constructor of SendTransaction_RPC to allow for diferent combinations of ulong (mojos) and double (xch) for amount and fee
+1.8.1.4: Improve SendTransaction_RPC
+- Added a global variable in General_NS.GlobalVar which specifies the amount of mojos which make up one chia.
+- Improved constructor of SendTransaction_RPC to allow for different combinations of ulong (mojos) and double (XCH) for amount and fee.
 
 1.8.1.3: Improve Constructor for SendTransaction_RPC
-- now has default null values which can be left blank
+- Now has default null values which can be left blank.
 
 1.8.1.2: Improvements to GetFeeEstimate
-- minor documentation typo fix
-- fix either/or condition in a class
-- major improvement for get fee estimates constructor now properly reflecting either spend or cost condition and adding standard chia transaction value hence making `GetStandardTransactionFeeEstimate` obsolete.
-- added property to `GetFeeEstimate_Response` which displays fee in full chia fraction rather than in Mojos.
+- Minor documentation typo fix.
+- Fixed either/or condition in a class.
+- Major improvement for GetFeeEstimates constructor now properly reflecting either spend or cost condition and adding standard chia transaction value, hence making `GetStandardTransactionFeeEstimate` obsolete.
+- Added property to `GetFeeEstimate_Response` which displays fee in full chia fraction rather than in Mojos.
 
-1.8.1.1: The updates are mostly in Chia-RPC. This update ensures the compatibility to Chia-RPC 1.8.1.1 and brings the following improvements:
-
-- major documentation update
-- added constructors to all rpc endpoints
-- a few minor bogfixes
-- added further implicit conversions</PackageReleaseNotes>
+1.8.1.1: The updates are mostly in Chia-RPC. This update ensures compatibility with Chia-RPC 1.8.1.1 and brings the following improvements:
+- Major documentation update.
+- Added constructors to all RPC endpoints.
+- A few minor bugfixes.
+- Added further implicit conversions.
+</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
     <IncludeSymbols>False</IncludeSymbols>
