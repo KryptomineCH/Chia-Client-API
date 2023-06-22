@@ -479,7 +479,13 @@ namespace Chia_Client_API.FullNodeAPI_NS
         }
 
         /// <summary>
-        /// Obtain an estimated fee for one or more targeted times for a transaction to be included in the blockchain.
+        /// Obtain an estimated fee for one or more targeted times for a transaction to be included in the blockchain.<br/><br/>
+        /// Explicit conversions exist so you can call:<br/><br/>
+        /// <code>
+        /// GetFeeEstimate_RPC rpc = TimeSpan.FromMinutes(5);
+        /// GetFeeEstimate_RPC rpc = new TimeSpan[] {TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15)};
+        /// GetFeeEstimate_Response fees = Client.GetFeeEstimate_Sync(TimeSpan.FromMinutes(5));
+        /// </code>
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_fee_estimate"/></remarks>
         /// <param name="rpc"></param>
@@ -491,7 +497,13 @@ namespace Chia_Client_API.FullNodeAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Obtain an estimated fee for one or more targeted times for a transaction to be included in the blockchain.
+        /// Obtain an estimated fee for one or more targeted times for a transaction to be included in the blockchain.<br/><br/>
+        /// Explicit conversions exist so you can call:<br/><br/>
+        /// <code>
+        /// GetFeeEstimate_RPC rpc = TimeSpan.FromMinutes(5);
+        /// GetFeeEstimate_RPC rpc = new TimeSpan[] {TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15)};
+        /// GetFeeEstimate_Response fees = Client.GetFeeEstimate_Sync(TimeSpan.FromMinutes(5));
+        /// </code>
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_fee_estimate"/></remarks>
         /// <param name="rpc"></param>
