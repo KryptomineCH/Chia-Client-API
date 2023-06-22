@@ -63,7 +63,7 @@ offer.Export("btftestoffer");
 
 note you can also give amounts in decimal chia (note that 1 cat is normally 1000 mojos so mind the conversion there)
 ```
-offer_rpc.offer_xch.Add("1", -0.005); // you want to receive 500000 mojos
+offer_rpc.AddOfferPosition("1", -0.005); // you want to give 500000 mojos
 ```
 
 ## Contributing
