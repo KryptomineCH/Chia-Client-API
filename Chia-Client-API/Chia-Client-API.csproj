@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.1.11</Version>
+    <Version>1.8.1.13</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,13 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.1.11: GetFeeEstimate improvements
+    <PackageReleaseNotes>1.8.1.13: Fix for rpc file extension
+- fixed the file naming if th file path was specified with a '.' as extension
+
+1.8.12: Hotfix for offers
+- offers do not get updated when modefying offers_in_xch (added workaround. .net issue)
+
+1.8.1.11: GetFeeEstimate improvements
 - improvements on xml documentation
 - added explicit conversion to that the api can be called directly with a dateTime
 - fixed a fee value which was displayed in decimal rather than ulong 
