@@ -17,14 +17,14 @@ namespace CHIA_API_Tests.Wallet_NS
         public void GetWallets_NoData_Test()
         {
             GetWallets_Response response = Testnet_Wallet.Wallet_Client.GetWallets_Async(includeData: false).Result;
-            if (!response.success) throw new Exception("an error occurred!");
+            if (!response.success) throw new Exception($"an error occurred: {response.error}");
             else if (response.wallets.Length <= 0) throw new Exception("Wallets count seems suspicious!");
         }
         [Fact]
         public void GetWallets_IncludeData_Test()
         {
             GetWallets_Response response = Testnet_Wallet.Wallet_Client.GetWallets_Async(includeData: true).Result;
-            if (!response.success) throw new Exception("an error occurred!");
+            if (!response.success) throw new Exception($"an error occurred: {response.error}");
             else if (response.wallets.Length <= 0) throw new Exception("Wallets count seems suspicious!");
             { }
         }
