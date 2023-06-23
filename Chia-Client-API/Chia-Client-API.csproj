@@ -19,6 +19,8 @@
     <PackageReleaseNotes>1.8.1.15: fixed critical bug introduced in 1.8.1.11
 - fixed critical bug in 1.8.1.11 where I thought fee (in mojos) would be of type ulong. But its decimal o.O
 - removed old GestStandardTransactionFeeEstimate (Use GetFeeEstimate instead)
+- improvement on GetFeeEstimate_RPC (changed from explicit to implicit operator)
+- improvements for unit tests
 
 1.8.1.14: File handling fixed
 - Wrote unit test for file handling. The naming when offering a FileInfo is now actually fixed.
