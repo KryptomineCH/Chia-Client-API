@@ -736,29 +736,5 @@ namespace Chia_Client_API.FullNodeAPI_NS
         
         /* Custom Functions */
 
-        /// <summary>
-        /// Obtain an estimated fee for one or more targeted times for a standard chia transaction.
-        /// </summary>
-        /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_fee_estimate"/></remarks>
-        /// <param name="rpc"></param>
-        /// <returns></returns>
-        public async Task<GetFeeEstimate_Response> GetStandardTransactionFeeEstimate_Async(TimeSpan[] targetExecutionTimes)
-        {
-            // convert target Times
-            List<ulong> durations = new List<ulong>();
-            foreach(TimeSpan target in targetExecutionTimes)
-            {
-                durations.Add((ulong)target.TotalSeconds);
-            }
-
-            // build rpc
-            GetFeeEstimate_RPC getFeeEstimate_RPC = new GetFeeEstimate_RPC();
-            getFeeEstimate_RPC.cost = 10000000;
-            getFeeEstimate_RPC.target_times = durations.ToArray();
-            
-            // get result
-            GetFeeEstimate_Response deserializedObject = await GetFeeEstimate_Async(getFeeEstimate_RPC);
-            return deserializedObject;
-        }
     }
 }
