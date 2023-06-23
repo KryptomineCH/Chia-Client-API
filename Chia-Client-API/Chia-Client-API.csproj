@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.1.14</Version>
+    <Version>1.8.1.15</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.1.14: File handling fixed
+    <PackageReleaseNotes>1.8.1.15: fixed critical bug introduced in 1.8.1.11
+- fixed critical bug in 1.8.1.11 where I thought fee (in mojos) would be of type ulong. But its decimal o.O
+- removed old GestStandardTransactionFeeEstimate (Use GetFeeEstimate instead)
+
+1.8.1.14: File handling fixed
 - Wrote unit test for file handling. The naming when offering a FileInfo is now actually fixed.
 
 1.8.1.13: Fix for RPC file extension
