@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.1.15</Version>
+    <Version>1.8.1.16</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,12 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.1.15: fixed critical bug introduced in 1.8.1.11
+    <PackageReleaseNotes>1.8.1.16: added implicit conversion and critical bug workaround
+- added a workaround where the getTransactions endpoint returns an amount of 0 in an unknown circumstance. In this unexpected case, the application would crash when calling GetPrimaryCoin on the transaction.
+  Now returns the first  coin if acount is 0 but coins are specified
+- added an implicit conversion from TradeRecord to GetOffer
+
+1.8.1.15: fixed critical bug introduced in 1.8.1.11
 - fixed critical bug in 1.8.1.11 where I thought fee (in mojos) would be of type ulong. But its decimal o.O
 - removed old GestStandardTransactionFeeEstimate (Use GetFeeEstimate instead)
 - improvement on GetFeeEstimate_RPC (changed from explicit to implicit operator)
