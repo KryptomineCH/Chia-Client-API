@@ -169,6 +169,37 @@ namespace CHIA_API_Tests.Wallet_NS
             }
         }
         /// <summary>
+        /// Send a (chia) transaction
+        /// </summary>
+        [Fact]
+        public void SendCATTransaction()
+        {
+            Testnet_Wallet.Wallet_Client.GetWallets_Sync();
+            SendTransaction_RPC rpc = new SendTransaction_RPC
+            {
+                address = CommonTestFunctions.TestAdress,
+                amount = 1000,
+                fee = 0,
+                memos = new[] { "this is a testmemo1", "this is a testmemo2" },
+                wallet_id = 1
+            };
+            GetTransaction_Response response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
+            if (!response.success)
+            {
+                throw new Exception(response.error);
+            }
+            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(response.transaction, CancellationToken.None, 10.0).Result;
+            { }
+            if (!result.success)
+            {
+                throw new Exception(result.error);
+            }
+            if (!result.transaction.confirmed)
+            {
+                throw new Exception("transaction has not be confirmed within 10 minutes!");
+            }
+        }
+        /// <summary>
         /// not well documented. pleas use custom rpc
         /// </summary>
         [Fact]
