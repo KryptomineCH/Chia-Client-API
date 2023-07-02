@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.Objects_NS;
+﻿using CHIA_RPC.General_NS;
+using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.DID_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
@@ -174,6 +175,25 @@ namespace Chia_Client_API.WalletAPI_NS
             Task<CreateNewWallet_Response> data = Task.Run(() => ModifyCatWallet_Async(modifyCatWallet_RPC));
             data.Wait();
             return data.Result;
+        }
+        /// <summary>
+        /// returns the corresponding wallet
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public Wallets_info? GetWalletByName(string name, bool caseSensitive = false, WalletType? walletType = null)
+        {
+            GetWallets_RPC rpc = new GetWallets_RPC(true,walletType);
+            GetWallets_Response response = GetWallets_Sync(rpc);
+            string nameLookup = name;
+            if (!caseSensitive) nameLookup = nameLookup.ToLower();
+            foreach (Wallets_info wallet in response.wallets)
+            {
+                string walletName = wallet.name;
+                if (!caseSensitive) walletName = walletName.ToLower();
+                if (nameLookup == walletName) return wallet;
+            }
+            return null;
         }
     }
 }
