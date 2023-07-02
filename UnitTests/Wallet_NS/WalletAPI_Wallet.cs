@@ -4,6 +4,10 @@ using System;
 using Xunit;
 using System.Threading;
 using CHIA_API_Tests.Initialisation_NS;
+using CHIA_RPC.Wallet_NS.WalletManagement_NS;
+using System.Net;
+using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
+
 namespace CHIA_API_Tests.Wallet_NS
 {
     [Collection("Testnet_Wallet")]
@@ -174,21 +178,20 @@ namespace CHIA_API_Tests.Wallet_NS
         [Fact]
         public void SendCATTransaction()
         {
-            Testnet_Wallet.Wallet_Client.GetWallets_Sync();
-            SendTransaction_RPC rpc = new SendTransaction_RPC
+            Wallets_info? info = Testnet_Wallet.Wallet_Client.GetWalletByName("btf-test");
+            Assert.NotNull(info);
+            CatSpend_RPC rpc = new CatSpend_RPC();
+            rpc.wallet_id = info.id;
+            rpc.amount = 1000;
+            rpc.inner_address = CommonTestFunctions.TestAdress;
+            rpc.memos = new string[] { "BTF commission" };
+            rpc.fee = 0;
+            CatSpend_Response record = Testnet_Wallet.Wallet_Client.CatSpend_Sync(rpc);
+            if (!record.success)
             {
-                address = CommonTestFunctions.TestAdress,
-                amount = 1000,
-                fee = 0,
-                memos = new[] { "this is a testmemo1", "this is a testmemo2" },
-                wallet_id = 1
-            };
-            GetTransaction_Response response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
-            if (!response.success)
-            {
-                throw new Exception(response.error);
+                throw new Exception(record.error);
             }
-            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(response.transaction, CancellationToken.None, 10.0).Result;
+            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(record.transaction, CancellationToken.None, 10.0).Result;
             { }
             if (!result.success)
             {
