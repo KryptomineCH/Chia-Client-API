@@ -7,7 +7,7 @@ namespace CHIA_API_Tests.Initialisation_NS
 {
     public class Testnet_Datalayer : IDisposable
     {
-        public Testnet_Datalayer()
+        static Testnet_Datalayer()
         {
             // ... initialize ...
             string certificatePath = Path.Combine(
@@ -22,11 +22,11 @@ namespace CHIA_API_Tests.Initialisation_NS
             // ... clean up ...
         }
     }
-    [CollectionDefinition("Testnet_Datalayer_Wallet")]
-    public class DatalayerTestCollection : ICollectionFixture<Testnet_Datalayer>, ICollectionFixture<Testnet_Wallet>
-    {
-        // This class has no code, and is never created. Its purpose is simply
-        // to be the place to apply [CollectionDefinition] and all the
-        // ICollectionFixture<> interfaces.
-    }
+    //[CollectionDefinition("Testnet_Datalayer_Wallet")]
+    //public class DatalayerTestCollection : ICollectionFixture<Testnet_Datalayer>, ICollectionFixture<Testnet_Wallet>
+    //{
+    //    // This class has no code, and is never created. Its purpose is simply
+    //    // to be the place to apply [CollectionDefinition] and all the
+    //    // ICollectionFixture<> interfaces.
+    //}
 }

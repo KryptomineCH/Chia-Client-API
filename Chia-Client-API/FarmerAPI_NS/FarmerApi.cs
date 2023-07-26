@@ -1,10 +1,18 @@
 ﻿using CHIA_RPC.Farmer_NS;
 using CHIA_RPC.Farmer_NS.FarmerObjects_NS;
 using CHIA_RPC.General_NS;
-using System.Text.Json;
 
 namespace Chia_Client_API.FarmerAPI_NS
 {
+    /// <summary>
+    /// Provides a client for making RPC (Remote Procedure Call) requests to a Chia Farmer node.
+    /// </summary>
+    /// <remarks>
+    /// A Chia Farmer node is responsible for farming operations including creating plots, looking for proofs of space, and more. 
+    /// The Farmer_RPC_Client class abstracts the details of the RPC communication, allowing higher-level code to use simple method calls instead of dealing directly with the RPC protocol.
+    /// This class includes methods corresponding to each available RPC call that the Farmer node can handle. For example, you can get the state of the farmer, get the reward targets and set the reward targets.
+    /// Each method in this class sends an RPC request to the Farmer node, and then waits for and returns the response.
+    /// </remarks>
     public partial class Farmer_RPC_Client
     {
         /// <summary>
@@ -12,10 +20,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvesters"/></remarks>
         /// <returns></returns>
-        public async Task<GetHarvesters_Response> GetHarvesters_Async()
+        public async Task<GetHarvesters_Response?> GetHarvesters_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters");
-            GetHarvesters_Response deserializedObject = GetHarvesters_Response.LoadResponseFromString(responseJson);
+            GetHarvesters_Response? deserializedObject = GetHarvesters_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -23,9 +31,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvesters"/></remarks>
         /// <returns></returns>
-        public GetHarvesters_Response GetHarvesters_Sync()
+        public GetHarvesters_Response? GetHarvesters_Sync()
         {
-            Task<GetHarvesters_Response> data = Task.Run(() => GetHarvesters_Async());
+            Task<GetHarvesters_Response?> data = Task.Run(() => GetHarvesters_Async());
             data.Wait();
             return data.Result;
         }
@@ -35,10 +43,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvesters_summary"/></remarks>
         /// <returns></returns>
-        public async Task<GetHarvestersSummary_Response> GetHarvestersSummary_Async()
+        public async Task<GetHarvestersSummary_Response?> GetHarvestersSummary_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters_summary");
-            GetHarvestersSummary_Response deserializedObject = GetHarvestersSummary_Response.LoadResponseFromString(responseJson);
+            GetHarvestersSummary_Response? deserializedObject = GetHarvestersSummary_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -46,9 +54,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvesters_summary"/></remarks>
         /// <returns></returns>
-        public GetHarvestersSummary_Response GetHarvestersSummary_Sync()
+        public GetHarvestersSummary_Response? GetHarvestersSummary_Sync()
         {
-            Task<GetHarvestersSummary_Response> data = Task.Run(() => GetHarvestersSummary_Async());
+            Task<GetHarvestersSummary_Response?> data = Task.Run(() => GetHarvestersSummary_Async());
             data.Wait();
             return data.Result;
         }
@@ -59,10 +67,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_duplicates"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsDuplicates_Async(GetHarvesterPlots_RPC rpc)
+        public async Task<GetHarvesterPlots_Response?> GetHarvesterPlotsDuplicates_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_duplicates", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -71,9 +79,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_duplicates"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetHarvesterPlots_Response GetHarvesterPlotsDuplicates_Sync(GetHarvesterPlots_RPC rpc)
+        public GetHarvesterPlots_Response? GetHarvesterPlotsDuplicates_Sync(GetHarvesterPlots_RPC rpc)
         {
-            Task<GetHarvesterPlots_Response> data = Task.Run(() => GetHarvesterPlotsDuplicates_Async(rpc));
+            Task<GetHarvesterPlots_Response?> data = Task.Run(() => GetHarvesterPlotsDuplicates_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -84,10 +92,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_invalid"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetHarvesterPlotsInvalid_Response> GetHarvesterPlotsInvalid_Async(GetHarvesterPlots_RPC rpc)
+        public async Task<GetHarvesterPlotsInvalid_Response?> GetHarvesterPlotsInvalid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_invalid", rpc.ToString());
-            GetHarvesterPlotsInvalid_Response deserializedObject = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson);
+            GetHarvesterPlotsInvalid_Response? deserializedObject = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -96,9 +104,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_invalid"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetHarvesterPlotsInvalid_Response GetHarvesterPlotsInvalid_Sync(GetHarvesterPlots_RPC rpc)
+        public GetHarvesterPlotsInvalid_Response? GetHarvesterPlotsInvalid_Sync(GetHarvesterPlots_RPC rpc)
         {
-            Task<GetHarvesterPlotsInvalid_Response> data = Task.Run(() => GetHarvesterPlotsInvalid_Async(rpc));
+            Task<GetHarvesterPlotsInvalid_Response?> data = Task.Run(() => GetHarvesterPlotsInvalid_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -109,10 +117,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_keys_missing"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsKeysMissing_Async(GetHarvesterPlots_RPC rpc)
+        public async Task<GetHarvesterPlots_Response?> GetHarvesterPlotsKeysMissing_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_keys_missing", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -121,9 +129,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_keys_missing"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetHarvesterPlots_Response GetHarvesterPlotsKeysMissing_Sync(GetHarvesterPlots_RPC rpc)
+        public GetHarvesterPlots_Response? GetHarvesterPlotsKeysMissing_Sync(GetHarvesterPlots_RPC rpc)
         {
-            Task<GetHarvesterPlots_Response> data = Task.Run(() => GetHarvesterPlotsKeysMissing_Async(rpc));
+            Task<GetHarvesterPlots_Response?> data = Task.Run(() => GetHarvesterPlotsKeysMissing_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -134,10 +142,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_valid"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsValid_Async(GetHarvesterPlots_RPC rpc)
+        public async Task<GetHarvesterPlots_Response?> GetHarvesterPlotsValid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_valid", rpc.ToString());
-            GetHarvesterPlots_Response deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -146,9 +154,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_harvester_plots_valid"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetHarvesterPlots_Response GetHarvesterPlotsValid_Sync(GetHarvesterPlots_RPC rpc)
+        public GetHarvesterPlots_Response? GetHarvesterPlotsValid_Sync(GetHarvesterPlots_RPC rpc)
         {
-            Task<GetHarvesterPlots_Response> data = Task.Run(() => GetHarvesterPlotsValid_Async(rpc));
+            Task<GetHarvesterPlots_Response?> data = Task.Run(() => GetHarvesterPlotsValid_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -159,10 +167,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_pool_login_link"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetPoolLoginLink_Response> GetPoolLoginLink_Async(LauncherID_RPC rpc)
+        public async Task<GetPoolLoginLink_Response?> GetPoolLoginLink_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_pool_login_link", rpc.ToString());
-            GetPoolLoginLink_Response deserializedObject = GetPoolLoginLink_Response.LoadResponseFromString(responseJson);
+            GetPoolLoginLink_Response? deserializedObject = GetPoolLoginLink_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -171,9 +179,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_pool_login_link"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetPoolLoginLink_Response GetPoolLoginLink_Sync(LauncherID_RPC rpc)
+        public GetPoolLoginLink_Response? GetPoolLoginLink_Sync(LauncherID_RPC rpc)
         {
-            Task<GetPoolLoginLink_Response> data = Task.Run(() => GetPoolLoginLink_Async(rpc));
+            Task<GetPoolLoginLink_Response?> data = Task.Run(() => GetPoolLoginLink_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -183,10 +191,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_pool_state"/></remarks>
         /// <returns></returns>
-        public async Task<GetPoolState_Response> GetPoolState_Async()
+        public async Task<GetPoolState_Response?> GetPoolState_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_pool_state");
-            GetPoolState_Response deserializedObject = GetPoolState_Response.LoadResponseFromString(responseJson);
+            GetPoolState_Response? deserializedObject = GetPoolState_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -194,9 +202,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_pool_state"/></remarks>
         /// <returns></returns>
-        public GetPoolState_Response GetPoolState_Sync()
+        public GetPoolState_Response? GetPoolState_Sync()
         {
-            Task<GetPoolState_Response> data = Task.Run(() => GetPoolState_Async());
+            Task<GetPoolState_Response?> data = Task.Run(() => GetPoolState_Async());
             data.Wait();
             return data.Result;
         }
@@ -207,10 +215,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_reward_targets"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetRewardTargets_Response> GetRewardTargets_Async(GetRewardTargets_RPC rpc)
+        public async Task<GetRewardTargets_Response?> GetRewardTargets_Async(GetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_reward_targets", rpc.ToString());
-            GetRewardTargets_Response deserializedObject = GetRewardTargets_Response.LoadResponseFromString(responseJson);
+            GetRewardTargets_Response? deserializedObject = GetRewardTargets_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -219,9 +227,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_reward_targets"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetRewardTargets_Response GetRewardTargets_Sync(GetRewardTargets_RPC rpc)
+        public GetRewardTargets_Response? GetRewardTargets_Sync(GetRewardTargets_RPC rpc)
         {
-            Task<GetRewardTargets_Response> data = Task.Run(() => GetRewardTargets_Async(rpc));
+            Task<GetRewardTargets_Response?> data = Task.Run(() => GetRewardTargets_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -231,10 +239,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_routes"/></remarks>
         /// <returns></returns>
-        public async Task<GetRoutes_Response> GetRoutes_Async()
+        public async Task<GetRoutes_Response?> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
-            GetRoutes_Response deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -242,9 +250,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_routes"/></remarks>
         /// <returns></returns>
-        public GetRoutes_Response GetRoutes_Sync()
+        public GetRoutes_Response? GetRoutes_Sync()
         {
-            Task<GetRoutes_Response> data = Task.Run(() => GetRoutes_Async());
+            Task<GetRoutes_Response?> data = Task.Run(() => GetRoutes_Async());
             data.Wait();
             return data.Result;
         }
@@ -255,10 +263,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_signage_point"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SignagePointWithProofs> GetSignagePoint_Async(GetSignagePoint_RPC rpc)
+        public async Task<SignagePointWithProofs?> GetSignagePoint_Async(GetSignagePoint_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_signage_point", rpc.ToString());
-            SignagePointWithProofs deserializedObject = SignagePointWithProofs.LoadResponseFromString(responseJson);
+            SignagePointWithProofs? deserializedObject = SignagePointWithProofs.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -267,9 +275,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_signage_point"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SignagePointWithProofs GetSignagePoint_Sync(GetSignagePoint_RPC rpc)
+        public SignagePointWithProofs? GetSignagePoint_Sync(GetSignagePoint_RPC rpc)
         {
-            Task<SignagePointWithProofs> data = Task.Run(() => GetSignagePoint_Async(rpc));
+            Task<SignagePointWithProofs?> data = Task.Run(() => GetSignagePoint_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -279,10 +287,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_signage_points"/></remarks>
         /// <returns></returns>
-        public async Task<GetSignagePoints_Response> GetSignagePoints_Async()
+        public async Task<GetSignagePoints_Response?> GetSignagePoints_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_signage_points");
-            GetSignagePoints_Response deserializedObject = GetSignagePoints_Response.LoadResponseFromString(responseJson);
+            GetSignagePoints_Response? deserializedObject = GetSignagePoints_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -290,9 +298,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#get_signage_points"/></remarks>
         /// <returns></returns>
-        public GetSignagePoints_Response GetSignagePoints_Sync()
+        public GetSignagePoints_Response? GetSignagePoints_Sync()
         {
-            Task<GetSignagePoints_Response> data = Task.Run(() => GetSignagePoints_Async());
+            Task<GetSignagePoints_Response?> data = Task.Run(() => GetSignagePoints_Async());
             data.Wait();
             return data.Result;
         }
@@ -303,10 +311,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#set_payout_instructions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> SetPayoutInstructions_Async(SetPayoutInstructions_RPC rpc)
+        public async Task<Success_Response?> SetPayoutInstructions_Async(SetPayoutInstructions_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_payout_instructions", rpc.ToString());
-            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -315,9 +323,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#set_payout_instructions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response SetPayoutInstructions_Sync(SetPayoutInstructions_RPC rpc)
+        public Success_Response? SetPayoutInstructions_Sync(SetPayoutInstructions_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => SetPayoutInstructions_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => SetPayoutInstructions_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -328,10 +336,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#set_reward_targets"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> SetRewardTargets_Async(SetRewardTargets_RPC rpc)
+        public async Task<Success_Response?> SetRewardTargets_Async(SetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_reward_targets", rpc.ToString());
-            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -340,9 +348,9 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <remarks><see href="https://docs.chia.net/farmer-rpc#set_reward_targets"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response SetRewardTargets_Sync(SetRewardTargets_RPC rpc)
+        public Success_Response? SetRewardTargets_Sync(SetRewardTargets_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => SetRewardTargets_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => SetRewardTargets_Async(rpc));
             data.Wait();
             return data.Result;
         }

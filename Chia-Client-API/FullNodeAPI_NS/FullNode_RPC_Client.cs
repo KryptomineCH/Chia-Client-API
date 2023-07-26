@@ -11,22 +11,25 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <param name="targetApiAddress">the ip or name where to reach the full-node server</param>
         /// <param name="targetApiPort">the port which to coinnect to</param>
         /// <param name="targetCertificateBaseFolder">the base (ssl) folder path</param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public FullNode_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
             // this also sets the client
             if (targetCertificateBaseFolder != null)
             {
-                API_CertificateFolder = targetCertificateBaseFolder;
+                _API_CertificateFolder = targetCertificateBaseFolder;
             }
             else
             {
                 // default certificate folder
-                API_CertificateFolder = Path.Combine(
+                _API_CertificateFolder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     @".chia\mainnet\config\ssl\");
             }
+            SetNewCerticifactes();
         }
         private HttpClient _Client { get; set; }
         /// <summary>

@@ -13,17 +13,17 @@ namespace CHIA_API_Tests.FullNode_NS
         [Fact]
         public void GetAllMempoolItems_Test()
         {
-            Task<GetAllMempoolItems_Response> response = Testnet_FullNode.Fullnode_Client.GetAllMempoolItems_Async();
-            GetAllMempoolItems_Response results = response.Result;
+            Task<GetAllMempoolItems_Response?> response = Testnet_FullNode.Fullnode_Client.GetAllMempoolItems_Async();
+            GetAllMempoolItems_Response? results = response.Result;
 
             { }
         }
         [Fact]
         public void CheckHealthz_Test()
         {
-            Success_Response test1 = Testnet_FullNode.Fullnode_Client.HealthZ_Sync();
-            Task<Success_Response> response = Testnet_FullNode.Fullnode_Client.HealthZ_Async();
-            Success_Response results = response.Result;
+            Success_Response? test1 = Testnet_FullNode.Fullnode_Client.HealthZ_Sync();
+            Task<Success_Response?> response = Testnet_FullNode.Fullnode_Client.HealthZ_Async();
+            Success_Response? results = response.Result;
 
             { }
         }
@@ -37,7 +37,7 @@ namespace CHIA_API_Tests.FullNode_NS
                 "0x2832b7d8e2aefd9d49592c134b50fb8d83607122ac5c9219b404b99596ea311d"
                 }, include_spent_coins: true);
 
-            GetCoinRecords_Response test1 = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByPuzzleHashes_Sync(rpc);
+            GetCoinRecords_Response? test1 = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByPuzzleHashes_Sync(rpc);
             { }
         }
         [Fact]
@@ -52,13 +52,13 @@ namespace CHIA_API_Tests.FullNode_NS
                 include_spent_coins=true
             };
 
-            GetCoinRecords_Response test1 = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByNames_Sync(rpc);
+            GetCoinRecords_Response? test1 = Testnet_FullNode.Fullnode_Client.GetCoinRecordsByNames_Sync(rpc);
             { }
         }
         [Fact]
         public void GetStandardTransactionFee_Test()
         {
-            GetFeeEstimate_Response result = Testnet_FullNode.Fullnode_Client.GetFeeEstimate_Sync(new GetFeeEstimate_RPC(
+            GetFeeEstimate_Response? result = Testnet_FullNode.Fullnode_Client.GetFeeEstimate_Sync(new GetFeeEstimate_RPC(
                 new TimeSpan[] { TimeSpan.FromSeconds(20), TimeSpan.FromSeconds(60), TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15), TimeSpan.FromMinutes(50) })
             );
             { }

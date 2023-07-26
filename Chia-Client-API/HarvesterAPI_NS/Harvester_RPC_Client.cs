@@ -5,21 +5,30 @@ namespace Chia_Client_API.HarvesterAPI_NS
 {
     public partial class Harvester_RPC_Client
     {
+        /// <summary>
+        /// Provides the client which makes requests against the harvester node
+        /// </summary>
+        /// <param name="targetApiAddress"></param>
+        /// <param name="targetApiPort"></param>
+        /// <param name="targetCertificateBaseFolder"></param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Harvester_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8560, string? targetCertificateBaseFolder = null)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
             // this also sets the client
             if (targetCertificateBaseFolder != null)
             {
-                API_CertificateFolder = targetCertificateBaseFolder;
+                _API_CertificateFolder = targetCertificateBaseFolder;
             }
             else
             {
-                API_CertificateFolder = Path.Combine(
+                _API_CertificateFolder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     @".chia\mainnet\config\ssl\");
             }
+            SetNewCerticifactes();
         }
         private HttpClient _Client { get; set; }
         /// <summary>

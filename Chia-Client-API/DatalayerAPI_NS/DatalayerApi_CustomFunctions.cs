@@ -1,9 +1,11 @@
 ﻿using CHIA_RPC.Datalayer_NS;
-using CHIA_RPC.HelperFunctions_NS.JsonConverters_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
+    /// <summary>
+    /// this class can be used to query the chia datalayer
+    /// </summary>
     public partial class Datalayer_RPC_Client
     {
         /// <summary>
@@ -13,19 +15,31 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <param name="questionableKey">The key whose existence needs to be checked.</param>
         /// <param name="rootHash">The root hash for the key store (optional).</param>
         /// <returns>A boolean indicating whether the key exists in the store or not.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public bool KeyExists(string storeID, string questionableKey, string? rootHash = null)
         {
             // If rootHash is not provided, fetch the local root hash
             if (string.IsNullOrEmpty(rootHash))
             {
-                GetLocalRoot_Response localRoot = GetLocalRoot_Sync(new CHIA_RPC.General_NS.ID_RPC(storeID));
+                GetLocalRoot_Response? localRoot = GetLocalRoot_Sync(new CHIA_RPC.General_NS.ID_RPC(storeID));
+                if (localRoot == null)
+                {
+                    throw new InvalidOperationException("local root could not be fetched!");
+                }
                 rootHash = localRoot.hash;
             }
 
             // Perform GetKeys RPC call
             GetKeys_RPC rpc = new GetKeys_RPC(storeID, rootHash);
-            GetKeys_Response resp = GetKeys_Sync(rpc);
-
+            GetKeys_Response? resp = GetKeys_Sync(rpc);
+            if (resp == null)
+            {
+                throw new InvalidOperationException("Keys could not be fetched!");
+            }
+            if (resp.keys == null)
+            {
+                throw new InvalidOperationException("Keys could not be fetched!");
+            }
             // Iterate over the keys returned by the GetKeys RPC call
             foreach (string existingKey in resp.keys)
             {
@@ -63,22 +77,33 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <param name="questionableKeys">A list of keys whose existence needs to be checked.</param>
         /// <param name="rootHash">The root hash for the key store (optional).</param>
         /// <returns>A dictionary with the key as the string and a boolean indicating its existence in the store.</returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public Dictionary<string, bool> KeysExist(string storeID, List<string> questionableKeys, string? rootHash = null)
         {
             // If rootHash is not provided, fetch the local root hash
             if (string.IsNullOrEmpty(rootHash))
             {
-                GetLocalRoot_Response localRoot = GetLocalRoot_Sync(new CHIA_RPC.General_NS.ID_RPC(storeID));
+                GetLocalRoot_Response? localRoot = GetLocalRoot_Sync(new CHIA_RPC.General_NS.ID_RPC(storeID));
+                if (localRoot == null)
+                {
+                    throw new InvalidOperationException("local root could not be fetched!");
+                }
                 rootHash = localRoot.hash;
             }
 
             // Perform GetKeys RPC call to receive existing keys
             GetKeys_RPC rpc = new GetKeys_RPC(storeID, rootHash);
-            GetKeys_Response resp = GetKeys_Sync(rpc);
-
+            GetKeys_Response? resp = GetKeys_Sync(rpc);
+            if (resp == null)
+            {
+                throw new InvalidOperationException("Keys could not be fetched!");
+            }
             // Create a dictionary to store the results of the key check
             Dictionary<string, bool> keys = new Dictionary<string, bool>();
-
+            if (resp.keys == null)
+            {
+                throw new InvalidOperationException("Keys could not be fetched!");
+            }
             // Iterate over the keys returned by the GetKeys RPC call
             foreach (string existingKey in resp.keys)
             {
@@ -124,12 +149,36 @@ namespace Chia_Client_API.DatalayerAPI_NS
 
             return keys;
         }
-        public async Task<CHIA_RPC.General_NS.TxID_Response> InsertOrUpdate_Async(Insert_RPC rpc)
+        /// <summary>
+        /// This asynchronous method is used to insert or update a key-value pair in a specific data store.
+        /// </summary>
+        /// <param name="rpc">The <see cref="Insert_RPC"/> object containing the ID of the data store, the key, and the value to be inserted or updated.</param>
+        /// <returns>A <see cref="CHIA_RPC.General_NS.TxID_Response"/> object indicating the result of the operation.
+        /// This object contains a success flag and an error message in case of failure.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when the ID or key provided in the <see cref="Insert_RPC"/> object is null.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the value could not be fetched for a given key.</exception>
+        /// <remarks>
+        /// If the key already exists in the data store, the method will first compare the existing value with the new value.
+        /// If they are different, the key will be deleted before the new key-value pair is inserted.
+        /// If they are the same, the method will return a success response without modifying the data store.
+        /// </remarks>
+        public async Task<CHIA_RPC.General_NS.TxID_Response?> InsertOrUpdate_Async(Insert_RPC rpc)
         {
-            
+            if (rpc.id == null)
+            {
+                throw new ArgumentNullException(nameof(rpc.id));
+            }
+            if (rpc.key == null)
+            {
+                throw new ArgumentNullException(nameof(rpc.key));
+            }
             if (KeyExists(rpc.id,rpc.key)) {
                 GetValue_RPC getValueRpc = new GetValue_RPC(rpc.id, rpc.key);
-                GetValue_Response getValueResponse = GetValue_Sync(getValueRpc);
+                GetValue_Response? getValueResponse = GetValue_Sync(getValueRpc);
+                if (getValueResponse == null)
+                {
+                    throw new InvalidOperationException("value could not be fetched!");
+                }
                 if (rpc.value != getValueResponse.value)
                 {
                     DeleteKey_RPC deleteRPC = new DeleteKey_RPC(rpc.id, rpc.key);
@@ -145,7 +194,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
                 }
             }
             string response = await SendCustomMessage_Async("insert", rpc.ToString());
-            CHIA_RPC.General_NS.TxID_Response deserializedObject = JsonSerializer.Deserialize<CHIA_RPC.General_NS.TxID_Response>(response);
+            CHIA_RPC.General_NS.TxID_Response? deserializedObject = JsonSerializer.Deserialize<CHIA_RPC.General_NS.TxID_Response>(response);
             return deserializedObject;
         }
     }

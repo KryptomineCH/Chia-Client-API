@@ -7,6 +7,7 @@ using CHIA_API_Tests.Initialisation_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Net;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
+using NFT.Storage.Net.ClientResponse;
 
 namespace CHIA_API_Tests.Wallet_NS
 {
@@ -23,12 +24,14 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetWalletBalance_Response response = Testnet_Wallet.Wallet_Client.GetWalletBalance_Async(id).Result;
-            if (!response.success)
+            GetWalletBalance_Response? response = Testnet_Wallet.Wallet_Client.GetWalletBalance_Async(id).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
-            if (response.wallet_balance.confirmed_wallet_balance == 0)
+            Assert.NotNull(response.wallet_balance);
+            if (response.wallet_balance!.confirmed_wallet_balance == 0)
             {
                 throw new Exception("test wallet does not seem to have any balance!");
             }
@@ -46,10 +49,13 @@ namespace CHIA_API_Tests.Wallet_NS
                 throw new Exception("wallet could not be synced!");
             }
             WalletID_RPC id = new WalletID_RPC { wallet_id = 1 };
-            GetTransactions_Response all_transactions = Testnet_Wallet.Wallet_Client.GetTransactions_Async(id).Result;
-            TransactionID_RPC transID = new TransactionID_RPC { transaction_id = all_transactions.transactions[0].name };
-            GetTransaction_Response response = Testnet_Wallet.Wallet_Client.GetTransaction_Async(transID).Result;
-            if (!response.success)
+            GetTransactions_Response? all_transactions = Testnet_Wallet.Wallet_Client.GetTransactions_Async(id).Result;
+            Assert.NotNull(all_transactions);
+            Assert.NotNull(all_transactions!.transactions);
+            TransactionID_RPC? transID = new TransactionID_RPC { transaction_id = all_transactions.transactions![0].name };
+            GetTransaction_Response? response = Testnet_Wallet.Wallet_Client.GetTransaction_Async(transID).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -70,12 +76,14 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetTransactions_Response response = Testnet_Wallet.Wallet_Client.GetTransactions_Async(id).Result;
-            if (!response.success)
+            GetTransactions_Response? response = Testnet_Wallet.Wallet_Client.GetTransactions_Async(id).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
-            if (response.transactions.Length <= 0)
+            Assert.NotNull(response.transactions);
+            if (response.transactions!.Length <= 0)
             {
                 throw new Exception("no transactions were reported!");
             }
@@ -92,8 +100,9 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetTransactionCount_Response response = Testnet_Wallet.Wallet_Client.GetTransactionCount_Async(id).Result;
-            if (!response.success)
+            GetTransactionCount_Response? response = Testnet_Wallet.Wallet_Client.GetTransactionCount_Async(id).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -113,13 +122,15 @@ namespace CHIA_API_Tests.Wallet_NS
                 new_address = false,
                 wallet_id = 1
             };
-            GetNextAddress_Response response1 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
-            if (!response1.success)
+            GetNextAddress_Response? response1 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
+            Assert.NotNull(response1);
+            if (!(response1!.success ?? false))
             {
                 throw new Exception(response1.error);
             }
-            GetNextAddress_Response response2 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
-            if (!response2.success)
+            GetNextAddress_Response? response2 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
+            Assert.NotNull(response2);
+            if (!(response2!.success ?? false))
             {
                 throw new Exception(response2.error);
             }
@@ -132,8 +143,9 @@ namespace CHIA_API_Tests.Wallet_NS
                 new_address = true,
                 wallet_id = 1
             };
-            GetNextAddress_Response response3 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(new_address).Result;
-            if (!response3.success)
+            GetNextAddress_Response? response3 = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(new_address).Result;
+            Assert.NotNull(response3);
+            if (!(response3!.success ?? false))
             {
                 throw new Exception(response3.error);
             }
@@ -156,18 +168,21 @@ namespace CHIA_API_Tests.Wallet_NS
                 memos = new[] { "this is a testmemo1", "this is a testmemo2" },
                 wallet_id = 1
             };
-            GetTransaction_Response response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
-            if (!response.success)
+            GetTransaction_Response? response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
-            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(response.transaction,CancellationToken.None,10.0).Result;
+            Assert.NotNull(response.transaction);
+            GetTransaction_Response? result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(response.transaction!,CancellationToken.None,10.0).Result;
             { }
-            if (!result.success)
+            Assert.NotNull(result);
+            if (!(result!.success ?? false))
             {
                 throw new Exception(result.error);
             }
-            if (!result.transaction.confirmed)
+            if ((result.transaction == null) || !(result.transaction.confirmed ?? false))
             {
                 throw new Exception("transaction has not be confirmed within 10 minutes!");
             }
@@ -181,35 +196,38 @@ namespace CHIA_API_Tests.Wallet_NS
             Wallets_info? info = Testnet_Wallet.Wallet_Client.GetWalletByName("btf-test");
             Assert.NotNull(info);
             CatSpend_RPC rpc = new CatSpend_RPC();
-            rpc.wallet_id = info.id;
+            rpc.wallet_id = info!.id;
             rpc.amount = 1000;
             rpc.inner_address = CommonTestFunctions.TestAdress;
             rpc.memos = new string[] { "BTF commission" };
             rpc.fee = 0;
-            CatSpend_Response record = Testnet_Wallet.Wallet_Client.CatSpend_Sync(rpc);
-            if (!record.success)
+            CatSpend_Response? record = Testnet_Wallet.Wallet_Client.CatSpend_Sync(rpc);
+            Assert.NotNull(record);
+            Assert.NotNull(record!.transaction);
+            if (!(record!.success ?? false))
             {
                 throw new Exception(record.error);
             }
-            GetTransaction_Response result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(record.transaction, CancellationToken.None, 10.0).Result;
+            GetTransaction_Response? result = Testnet_Wallet.Wallet_Client.AwaitTransactionToConfirm_Async(record.transaction!, CancellationToken.None, 10.0).Result;
             { }
-            if (!result.success)
+            Assert.NotNull(result);
+            if (!(result!.success ?? false))
             {
                 throw new Exception(result.error);
             }
-            if (!result.transaction.confirmed)
+            if (result.transaction == null || !(result.transaction.confirmed ?? false))
             {
                 throw new Exception("transaction has not be confirmed within 10 minutes!");
             }
         }
         /// <summary>
-        /// not well documented. pleas use custom rpc
+        /// not well documented. please use custom rpc
         /// </summary>
         [Fact]
         public void SendTransactionMulti()
         {
             throw new NotImplementedException();
-            SendTransaction_RPC wallet_Send_XCH_RPC;
+            //SendTransaction_RPC wallet_Send_XCH_RPC;
         }
         /// <summary>
         /// Show the total amount that has been farmed
@@ -217,8 +235,9 @@ namespace CHIA_API_Tests.Wallet_NS
         [Fact]
         public void GetFarmedAmount()
         {
-            GetFarmedAmount_Response response = Testnet_Wallet.Wallet_Client.GetFarmedAmount_Async().Result;
-            if (!response.success)
+            GetFarmedAmount_Response? response = Testnet_Wallet.Wallet_Client.GetFarmedAmount_Async().Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -243,7 +262,9 @@ namespace CHIA_API_Tests.Wallet_NS
                 new_address = false,
                 wallet_id = 1
             };
-            GetNextAddress_Response adressResponse = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
+            GetNextAddress_Response? adressResponse = Testnet_Wallet.Wallet_Client.GetNextAddress_Async(same_address).Result;
+            Assert.NotNull(adressResponse);
+            Assert.NotNull(adressResponse!.address);
             SendTransaction_RPC rpc = new SendTransaction_RPC
             {
                 address = adressResponse.address,
@@ -252,9 +273,11 @@ namespace CHIA_API_Tests.Wallet_NS
                 memos = new[] { "this is a testmemo1", "this is a testmemo2" },
                 wallet_id = 1
             };
-            GetTransaction_Response response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
-            Success_Response success = Testnet_Wallet.Wallet_Client.DeleteUnconfirmedTransactions_Async(1).Result;
-            if (!success.success)
+            GetTransaction_Response? response = Testnet_Wallet.Wallet_Client.SendTransaction_Async(rpc).Result;
+            Assert.NotNull(response);
+            Success_Response? success = Testnet_Wallet.Wallet_Client.DeleteUnconfirmedTransactions_Async(1).Result;
+            Assert.NotNull(success);
+            if (!(success!.success ?? false))
             {
                 throw new Exception(success.error);
             }
@@ -270,8 +293,9 @@ namespace CHIA_API_Tests.Wallet_NS
                 amount = 100,
                 wallet_id = 1
             };
-            SelectCoins_Response response = Testnet_Wallet.Wallet_Client.SelectCoins_Async(select).Result;
-            if (!response.success)
+            SelectCoins_Response? response = Testnet_Wallet.Wallet_Client.SelectCoins_Async(select).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -286,8 +310,9 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 wallet_id = 1
             };
-            GetSpendableCoins_Response response = Testnet_Wallet.Wallet_Client.GetSpendableCoins_Async(rpc).Result;
-            if (!response.success)
+            GetSpendableCoins_Response? response = Testnet_Wallet.Wallet_Client.GetSpendableCoins_Async(rpc).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -303,8 +328,9 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 names = new[] { "0xeb17e80fcb72f15bfb28924f0bcd684df626646dca282bc88098cb0d59ffe1bb" }
             };
-            GetCoinRecords_Response response = Testnet_Wallet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
-            if (!response.success)
+            GetCoinRecords_Response? response = Testnet_Wallet.Wallet_Client.GetCoinRecordsByNames_Async(rpc).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -314,6 +340,7 @@ namespace CHIA_API_Tests.Wallet_NS
         /// Obtain the current derivation index for the current wallet
         /// </summary>
         /// <returns></returns>
+        [Fact]
         public void GetCurrentDerivationIndex()
         {
             throw new NotImplementedException();
@@ -325,7 +352,7 @@ namespace CHIA_API_Tests.Wallet_NS
         public void ExtendDerivationIndex()
         {
             throw new NotImplementedException();
-            Index_RPC extendDerivationIndex_RPC;
+            //Index_RPC extendDerivationIndex_RPC;
         }
         /// <summary>
         /// Obtain current notifications
@@ -334,7 +361,7 @@ namespace CHIA_API_Tests.Wallet_NS
         public void GetNotifications()
         {
             throw new NotImplementedException();
-            GetNotifications_RPC getNotifications_RPC = null;
+            //GetNotifications_RPC getNotifications_RPC = null;
         }
         /// <summary>
         /// Delete notifications, with the option to specify IDs from which to delete
@@ -343,7 +370,7 @@ namespace CHIA_API_Tests.Wallet_NS
         public void DeleteNotifications()
         {
             throw new NotImplementedException();
-            DeleteNotifications_RPC deleteNotifications_RPC = null;
+            //DeleteNotifications_RPC deleteNotifications_RPC = null;
         }
         /// <summary>
         /// Send a notification to a specified puzzle hash
@@ -352,7 +379,7 @@ namespace CHIA_API_Tests.Wallet_NS
         public void SendNotification()
         {
             throw new NotImplementedException();
-            SendNotification_RPC sendNotification_RPC;
+            //SendNotification_RPC sendNotification_RPC;
         }
         /// <summary>
         /// Sign a message using an XCH address without incurring an on-chain transaction
@@ -366,8 +393,9 @@ namespace CHIA_API_Tests.Wallet_NS
                 address = adress,
                 message = "this is a test"
             };
-            SignMessage_Response response = Testnet_Wallet.Wallet_Client.SignMessageByAddress_Async(rpc).Result;
-            if(!response.success)
+            SignMessage_Response? response = Testnet_Wallet.Wallet_Client.SignMessageByAddress_Async(rpc).Result;
+            Assert.NotNull(response);
+            if (!(response!.success ?? false))
             {
                 throw new Exception(response.error);
             }
@@ -388,7 +416,7 @@ namespace CHIA_API_Tests.Wallet_NS
         public void SignMessageByID()
         {
             throw new NotImplementedException();
-            SignMessageByID_RPC signMessageByID_RPC;
+            //SignMessageByID_RPC signMessageByID_RPC;
         }
     }
 }

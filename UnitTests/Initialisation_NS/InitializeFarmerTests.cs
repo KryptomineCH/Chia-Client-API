@@ -7,7 +7,7 @@ namespace CHIA_API_Tests.Initialisation_NS
 {
     public class Testnet_Farmer : IDisposable
     {
-        public Testnet_Farmer()
+        static Testnet_Farmer()
         {
             // ... initialize ...
             string certificatePath = Path.Combine(

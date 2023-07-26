@@ -12,10 +12,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_height_info"/></remarks>
         /// <returns></returns>
-        public async Task<GetHeightInfo_Response> GetHeightInfo_Async()
+        public async Task<GetHeightInfo_Response?> GetHeightInfo_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_height_info");
-            GetHeightInfo_Response deserialzedObject = GetHeightInfo_Response.LoadResponseFromString(responseJson);
+            GetHeightInfo_Response? deserialzedObject = GetHeightInfo_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -23,9 +23,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_height_info"/></remarks>
         /// <returns></returns>
-        public GetHeightInfo_Response GetHeightInfo_Sync()
+        public GetHeightInfo_Response? GetHeightInfo_Sync()
         {
-            Task<GetHeightInfo_Response> data = Task.Run(() => GetHeightInfo_Async());
+            Task<GetHeightInfo_Response?> data = Task.Run(() => GetHeightInfo_Async());
             data.Wait();
             return data.Result;
         }
@@ -35,10 +35,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_network_info"/></remarks>
         /// <returns></returns>
-        public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
+        public async Task<GetNetworkInfo_Response?> GetNetworkInfo_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_network_info");
-            GetNetworkInfo_Response deserialzedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
+            GetNetworkInfo_Response? deserialzedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -46,9 +46,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_network_info"/></remarks>
         /// <returns></returns>
-        public GetNetworkInfo_Response GetNetworkInfo_Sync()
+        public GetNetworkInfo_Response? GetNetworkInfo_Sync()
         {
-            Task<GetNetworkInfo_Response> data = Task.Run(() => GetNetworkInfo_Async());
+            Task<GetNetworkInfo_Response?> data = Task.Run(() => GetNetworkInfo_Async());
             data.Wait();
             return data.Result;
         }
@@ -58,10 +58,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_sync_status"/></remarks>
         /// <returns></returns>
-        public async Task<GetWalletSyncStatus_Response> GetSyncStatus_Async()
+        public async Task<GetWalletSyncStatus_Response?> GetSyncStatus_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_sync_status");
-            GetWalletSyncStatus_Response deserialzedObject = GetWalletSyncStatus_Response.LoadResponseFromString(responseJson);
+            GetWalletSyncStatus_Response? deserialzedObject = GetWalletSyncStatus_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -69,9 +69,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_sync_status"/></remarks>
         /// <returns></returns>
-        public GetWalletSyncStatus_Response GetSyncStatus_Sync()
+        public GetWalletSyncStatus_Response? GetSyncStatus_Sync()
         {
-            Task<GetWalletSyncStatus_Response> data = Task.Run(() => GetSyncStatus_Async());
+            Task<GetWalletSyncStatus_Response?> data = Task.Run(() => GetSyncStatus_Async());
             data.Wait();
             return data.Result;
         }
@@ -82,10 +82,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_timestamp_for_height"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetTimestampForHeight_Response> GetTimestampForHeight_Async(Height_RPC rpc)
+        public async Task<GetTimestampForHeight_Response?> GetTimestampForHeight_Async(Height_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_timestamp_for_height", rpc.ToString());
-            GetTimestampForHeight_Response deserialzedObject = GetTimestampForHeight_Response.LoadResponseFromString(responseJson);
+            GetTimestampForHeight_Response? deserialzedObject = GetTimestampForHeight_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -94,9 +94,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_timestamp_for_height"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetTimestampForHeight_Response GetTimestampForHeight_Sync(Height_RPC rpc)
+        public GetTimestampForHeight_Response? GetTimestampForHeight_Sync(Height_RPC rpc)
         {
-            Task<GetTimestampForHeight_Response> data = Task.Run(() => GetTimestampForHeight_Async(rpc));
+            Task<GetTimestampForHeight_Response?> data = Task.Run(() => GetTimestampForHeight_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -108,11 +108,11 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_transactions"/></remarks>
         /// <param name="bundles"></param>
         /// <returns></returns>
-        public async Task<PushTx_Response> PushTransactions_Async(SpendBundle[] bundles)
+        public async Task<PushTx_Response?> PushTransactions_Async(SpendBundle[] bundles)
         {
             PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
-            PushTx_Response deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
+            PushTx_Response? deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -122,9 +122,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_transactions"/></remarks>
         /// <param name="bundles"></param>
         /// <returns></returns>
-        public PushTx_Response PushTransactions_Sync(SpendBundle[] bundles)
+        public PushTx_Response? PushTransactions_Sync(SpendBundle[] bundles)
         {
-            Task<PushTx_Response> data = Task.Run(() => PushTransactions_Async(bundles));
+            Task<PushTx_Response?> data = Task.Run(() => PushTransactions_Async(bundles));
             data.Wait();
             return data.Result;
         }
@@ -134,13 +134,13 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_tx"/></remarks>
-        /// <param name="bundle"></param>
+        /// <param name="spendBundle"></param>
         /// <returns></returns>
-        public async Task<PushTx_Response> PushTx_Async(SpendBundle spendBundle)
+        public async Task<PushTx_Response?> PushTx_Async(SpendBundle spendBundle)
         {
             PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
-            PushTx_Response deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
+            PushTx_Response? deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -148,11 +148,11 @@ namespace Chia_Client_API.WalletAPI_NS
         /// Note: due to insufficient documentation, this request point may not be implemented correctly
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#push_tx"/></remarks>
-        /// <param name="bundle"></param>
+        /// <param name="spendBundle"></param>
         /// <returns></returns>
-        public PushTx_Response PushTx_Sync(SpendBundle spendBundle)
+        public PushTx_Response? PushTx_Sync(SpendBundle spendBundle)
         {
-            Task<PushTx_Response> data = Task.Run(() => PushTx_Async(spendBundle));
+            Task<PushTx_Response?> data = Task.Run(() => PushTx_Async(spendBundle));
             data.Wait();
             return data.Result;
         }
@@ -163,10 +163,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#set_wallet_resync_on_startup"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> SetWalletResyncOnStartup_Async(SetWalletResyncOnStartup_RPC rpc)
+        public async Task<Success_Response?> SetWalletResyncOnStartup_Async(SetWalletResyncOnStartup_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_wallet_resync_on_startup", rpc.ToString());
-            Success_Response deserialzedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserialzedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserialzedObject;
         }
         /// <summary>
@@ -175,9 +175,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#set_wallet_resync_on_startup"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response SetWalletResyncOnStartup_Sync(SetWalletResyncOnStartup_RPC rpc)
+        public Success_Response? SetWalletResyncOnStartup_Sync(SetWalletResyncOnStartup_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => SetWalletResyncOnStartup_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => SetWalletResyncOnStartup_Async(rpc));
             data.Wait();
             return data.Result;
         }

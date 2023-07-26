@@ -6,15 +6,15 @@ namespace Chia_Client_API
     {
         internal static X509Certificate2 GetCertificate(Endpoint endpoint, string basePath)
         {
-            X509Certificate2 certificate = null;
+            X509Certificate2? certificate = null;
             if (Certificates.TryGetValue(endpoint, out certificate))
             {
                 return certificate;
             }
             DirectoryInfo endpointCertificateDirectory = new DirectoryInfo(Path.Combine(basePath, endpoint.ToString()));
             FileInfo[] files = endpointCertificateDirectory.GetFiles();
-            FileInfo certFile = null;
-            FileInfo keyFile = null;
+            FileInfo? certFile = null;
+            FileInfo? keyFile = null;
             foreach(FileInfo file in files)
             {
                 if (!file.Name.StartsWith("private")) continue;
@@ -34,8 +34,8 @@ namespace Chia_Client_API
         /// <summary>
         /// Constructs an ephemeral <see cref="X509Certificate2"/> from a crt and key stored as files
         /// </summary>
-        /// <param name="certPath">The full path the public cert (.crt)</param>
-        /// <param name="keyPath">The full path to the RSA encoded private key (.key)</param>
+        /// <param name="ed">The the path of the endpoint</param>
+        /// <param name="basePath">The full path to the RSA encoded private key (.key)</param>
         /// <returns>An ephemeral certificate that can be used for WebSocket authentication</returns>
         public static X509Certificate2Collection GetCerts(Endpoint ed, string basePath)
         {

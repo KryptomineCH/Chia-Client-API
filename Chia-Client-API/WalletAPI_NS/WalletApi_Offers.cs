@@ -14,10 +14,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> CancelOffer_Async(CancelOffer_RPC rpc)
+        public async Task<Success_Response?> CancelOffer_Async(CancelOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cancel_offer", rpc.ToString());
-            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -26,9 +26,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response CancelOffer_Sync(CancelOffer_RPC rpc)
+        public Success_Response? CancelOffer_Sync(CancelOffer_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => CancelOffer_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => CancelOffer_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -39,10 +39,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offers"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> CancelOffers_Async(CancelOffers_RPC rpc)
+        public async Task<Success_Response?> CancelOffers_Async(CancelOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("cancel_offers", rpc.ToString());
-            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -51,9 +51,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offers"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response CancelOffers_Sync(CancelOffers_RPC rpc)
+        public Success_Response? CancelOffers_Sync(CancelOffers_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => CancelOffers_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => CancelOffers_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -64,10 +64,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#check_offer_validity"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<CheckOfferValidity_Response> CheckOfferValidity_Async(CheckOfferValidity_RPC rpc)
+        public async Task<CheckOfferValidity_Response?> CheckOfferValidity_Async(CheckOfferValidity_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("check_offer_validity", rpc.ToString());
-            CheckOfferValidity_Response deserializedObject = CheckOfferValidity_Response.LoadResponseFromString(responseJson);
+            CheckOfferValidity_Response? deserializedObject = CheckOfferValidity_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -76,9 +76,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#check_offer_validity"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public CheckOfferValidity_Response CheckOfferValidity_Sync(CheckOfferValidity_RPC rpc)
+        public CheckOfferValidity_Response? CheckOfferValidity_Sync(CheckOfferValidity_RPC rpc)
         {
-            Task<CheckOfferValidity_Response> data = Task.Run(() => CheckOfferValidity_Async(rpc));
+            Task<CheckOfferValidity_Response?> data = Task.Run(() => CheckOfferValidity_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -89,10 +89,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#create_offer_for_ids"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<OfferFile> CreateOfferForIds_Async(CreateOfferForIds_RPC rpc)
+        public async Task<OfferFile?> CreateOfferForIds_Async(CreateOfferForIds_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("create_offer_for_ids", rpc.ToString());
-            OfferFile deserializedObject = OfferFile.LoadObjectFromString(responseJson);
+            OfferFile? deserializedObject = OfferFile.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -101,9 +101,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#create_offer_for_ids"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public OfferFile CreateOfferForIds_Sync(CreateOfferForIds_RPC rpc)
+        public OfferFile? CreateOfferForIds_Sync(CreateOfferForIds_RPC rpc)
         {
-            Task<OfferFile> data = Task.Run(() => CreateOfferForIds_Async(rpc));
+            Task<OfferFile?> data = Task.Run(() => CreateOfferForIds_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -114,10 +114,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<OfferFiles> GetAllOffers_Async(GetAllOffers_RPC rpc)
+        public async Task<OfferFiles?> GetAllOffers_Async(GetAllOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_all_offers", rpc.ToString());
-            OfferFiles deserializedObject = OfferFiles.LoadObjectFromString(responseJson);
+            OfferFiles? deserializedObject = OfferFiles.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -126,9 +126,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public OfferFiles GetAllOffers_Sync(GetAllOffers_RPC rpc)
+        public OfferFiles? GetAllOffers_Sync(GetAllOffers_RPC rpc)
         {
-            Task<OfferFiles> data = Task.Run(() => GetAllOffers_Async(rpc));
+            Task<OfferFiles?> data = Task.Run(() => GetAllOffers_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -139,10 +139,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<OfferFile> GetOffer_Async(GetOffer_RPC rpc)
+        public async Task<OfferFile?> GetOffer_Async(GetOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_offer", rpc.ToString());
-            OfferFile deserializedObject = OfferFile.LoadObjectFromString(responseJson);
+            OfferFile? deserializedObject = OfferFile.LoadObjectFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -151,9 +151,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public OfferFile GetOffer_Sync(GetOffer_RPC rpc)
+        public OfferFile? GetOffer_Sync(GetOffer_RPC rpc)
         {
-            Task<OfferFile> data = Task.Run(() => GetOffer_Async(rpc));
+            Task<OfferFile?> data = Task.Run(() => GetOffer_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -164,10 +164,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer_summary"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<GetOfferSummary_Response> GetOfferSummary_Async(GetOfferSummary_RPC rpc)
+        public async Task<GetOfferSummary_Response?> GetOfferSummary_Async(GetOfferSummary_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_offer_summary", rpc.ToString());
-            GetOfferSummary_Response deserializedObject = GetOfferSummary_Response.LoadResponseFromString(responseJson);
+            GetOfferSummary_Response? deserializedObject = GetOfferSummary_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -176,9 +176,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer_summary"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public GetOfferSummary_Response GetOfferSummary_Sync(GetOfferSummary_RPC rpc)
+        public GetOfferSummary_Response? GetOfferSummary_Sync(GetOfferSummary_RPC rpc)
         {
-            Task<GetOfferSummary_Response> data = Task.Run(() => GetOfferSummary_Async(rpc));
+            Task<GetOfferSummary_Response?> data = Task.Run(() => GetOfferSummary_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -189,10 +189,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#take_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<TradeRecord_Response> TakeOffer_Async(TakeOffer_RPC rpc)
+        public async Task<TradeRecord_Response?> TakeOffer_Async(TakeOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("take_offer", rpc.ToString());
-            TradeRecord_Response deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
+            TradeRecord_Response? deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -201,9 +201,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/offer-rpc#take_offer"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public TradeRecord_Response TakeOffer_Sync(TakeOffer_RPC rpc)
+        public TradeRecord_Response? TakeOffer_Sync(TakeOffer_RPC rpc)
         {
-            Task<TradeRecord_Response> data = Task.Run(() => TakeOffer_Async(rpc));
+            Task<TradeRecord_Response?> data = Task.Run(() => TakeOffer_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -213,15 +213,15 @@ namespace Chia_Client_API.WalletAPI_NS
         /// it converts the coin into a coin ID which can be used to draft an NftGetInfo_Requests.
         /// 
         /// </summary>
-        /// <param name="nftMint">spend bundle, which is retiurned from NftMintNFT</param>
+        /// <param name="offer">spend bundle, which is retiurned from NftMintNFT</param>
         /// <returns>It returns the NFT Info of the nft which was/is to be minted.</returns>
-        public async Task<OfferFile> CreateOfferForIds(Offer_RPC offer)
+        public async Task<OfferFile?> CreateOfferForIds(Offer_RPC offer)
         {
             string response = await SendCustomMessage_Async("create_offer_for_ids", offer.ToString());
             try
             {
                 File.WriteAllText("testoffer.offer", response);
-                OfferFile json = OfferFile.LoadObjectFromString(response);
+                OfferFile? json = OfferFile.LoadObjectFromString(response);
                 return json;
             }
             catch(Exception ex)

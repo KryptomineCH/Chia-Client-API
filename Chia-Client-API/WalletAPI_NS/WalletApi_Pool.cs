@@ -13,10 +13,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_absorb_rewards"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response> PwAbsorbRewards_Async(PwAbsorbRewards_RPC rpc)
+        public async Task<Success_Response?> PwAbsorbRewards_Async(PwAbsorbRewards_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_absorb_rewards", rpc.ToString());
-            Success_Response deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -26,9 +26,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_absorb_rewards"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response PwAbsorbRewards_Sync(PwAbsorbRewards_RPC rpc)
+        public Success_Response? PwAbsorbRewards_Sync(PwAbsorbRewards_RPC rpc)
         {
-            Task<Success_Response> data = Task.Run(() => PwAbsorbRewards_Async(rpc));
+            Task<Success_Response?> data = Task.Run(() => PwAbsorbRewards_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -39,10 +39,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
+        public async Task<PwJoinPool_Response?> PwJoinPool_Async(PwJoinPool_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            PwJoinPool_Response? deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -51,9 +51,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_join_pool"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public PwJoinPool_Response PwJoinPool_Sync(PwJoinPool_RPC rpc)
+        public PwJoinPool_Response? PwJoinPool_Sync(PwJoinPool_RPC rpc)
         {
-            Task<PwJoinPool_Response> data = Task.Run(() => PwJoinPool_Async(rpc));
+            Task<PwJoinPool_Response?> data = Task.Run(() => PwJoinPool_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -64,10 +64,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
+        public async Task<PwJoinPool_Response?> PwSelfPool_Async(PwSelfPool_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
-            PwJoinPool_Response deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            PwJoinPool_Response? deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -76,9 +76,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_self_pool"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public PwJoinPool_Response PwSelfPool_Sync(PwSelfPool_RPC rpc)
+        public PwJoinPool_Response? PwSelfPool_Sync(PwSelfPool_RPC rpc)
         {
-            Task<PwJoinPool_Response> data = Task.Run(() => PwSelfPool_Async(rpc));
+            Task<PwJoinPool_Response?> data = Task.Run(() => PwSelfPool_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -89,10 +89,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_status"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<PwStatus_Response> PwStatus_Async(WalletID_RPC rpc)
+        public async Task<PwStatus_Response?> PwStatus_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("pw_status", rpc.ToString());
-            PwStatus_Response deserializedObject = PwStatus_Response.LoadResponseFromString(responseJson);
+            PwStatus_Response? deserializedObject = PwStatus_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
         /// <summary>
@@ -101,9 +101,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#pw_status"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public PwStatus_Response PwStatus_Sync(WalletID_RPC rpc)
+        public PwStatus_Response? PwStatus_Sync(WalletID_RPC rpc)
         {
-            Task<PwStatus_Response> data = Task.Run(() => PwStatus_Async(rpc));
+            Task<PwStatus_Response?> data = Task.Run(() => PwStatus_Async(rpc));
             data.Wait();
             return data.Result;
         }

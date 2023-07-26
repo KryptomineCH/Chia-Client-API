@@ -20,18 +20,24 @@ namespace CHIA_API_Tests.Wallet_NS.CatsAndTrading_NS
         public void CreateCatOffer_Test()
         {
             // get all wallets
-            GetWallets_Response wallets = Testnet_Wallet.Wallet_Client.GetWallets_Sync(includeData: true);
+            GetWallets_Response? wallets = Testnet_Wallet.Wallet_Client.GetWallets_Sync(includeData: true);
+            Assert.NotNull(wallets);
+            Assert.NotNull(wallets!.wallets);
             // get apropriate wallet
-            foreach (Wallets_info wallet in wallets.wallets)
+            foreach (Wallets_info wallet in wallets.wallets!)
             {
                 if (wallet.name == "BTF-TEST")
                 {
-                    CatGetAssetId_Response assetId = Testnet_Wallet.Wallet_Client.CatGetAssetID_Sync(new WalletID_RPC(wallet.id));
+                    CatGetAssetId_Response? assetId = Testnet_Wallet.Wallet_Client.CatGetAssetID_Sync(new WalletID_RPC(wallet.id));
+                    Assert.NotNull(assetId);
+                    Assert.NotNull(assetId!.asset_id);
                     CreateOfferForIds_RPC offer_rpc = new CreateOfferForIds_RPC();
+
                     offer_rpc.offer.Add("1", -50000);
-                    offer_rpc.offer.Add(assetId.asset_id, 500);
-                    OfferFile offer = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer_rpc);
-                    offer.Export("btftestoffer");
+                    offer_rpc.offer.Add(assetId.asset_id!, 500);
+                    OfferFile? offer = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer_rpc);
+                    Assert.NotNull(offer);
+                    offer!.Export("btftestoffer");
 
                     Testnet_Wallet.Wallet_Client.CancelOffers_Sync(new CancelCatOffers_RPC(secure: true, cancel_all: true, batch_fee: 100000));
                     { }

@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.1.16</Version>
+    <Version>1.8.2</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,80 +16,17 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.1.16: added implicit conversion and critical bug workaround
-- added a workaround where the getTransactions endpoint returns an amount of 0 in an unknown circumstance. In this unexpected case, the application would crash when calling GetPrimaryCoin on the transaction.
-  Now returns the first  coin if acount is 0 but coins are specified
-- added an implicit conversion from TradeRecord to GetOffer
+    <PackageReleaseNotes>This is a Major overhaul of the Package. 
+It implements nullable types for all endpoints. It is likely to require code changes or otherwise at least produces plentiful null value compiler warnings.
 
-1.8.1.15: fixed critical bug introduced in 1.8.1.11
-- fixed critical bug in 1.8.1.11 where I thought fee (in mojos) would be of type ulong. But its decimal o.O
-- removed old GestStandardTransactionFeeEstimate (Use GetFeeEstimate instead)
-- improvement on GetFeeEstimate_RPC (changed from explicit to implicit operator)
-- improvements for unit tests
-
-1.8.1.14: File handling fixed
-- Wrote unit test for file handling. The naming when offering a FileInfo is now actually fixed.
-
-1.8.1.13: Fix for RPC file extension
-- Fixed the file naming if the file path was specified with a '.' as an extension.
-
-1.8.12: Hotfix for offers
-- Offers do not get updated when modifying offers_in_xch (added workaround. .NET issue).
-
-1.8.1.11: GetFeeEstimate improvements
-- Improvements on XML documentation.
-- Added explicit conversion so that the API can be called directly with a DateTime.
-- Fixed a fee value which was displayed in decimal rather than ulong.
-- Returned time array can now also be viewed in TimeSpan.
-
-1.8.1.10: Convenience upgrades
-- Added overloads so that files can now be loaded and exported with FileInfo.
-- Added an implicit conversion to GetCatOfferSummary.
-- Added constructor to GetFeeEstimate which accepts a single Time rather than an array.
-- Slight improvement in GetFeeEstimate_RPC Documentation.
-
-1.8.1.9: Hotfix and offering improvements
-- Added null value hotfix.
-- Improved XML coded documentation for offers.
-- Added unit test for offer creation.
-- Improved constructor for offerings.
-- Improved cancel offers endpoint.
-
-1.8.1.8: Hotfix
-- Hotfix for 1.8.1.7 null reference issue.
-
-1.8.1.7: Allow decimal
-- This is a rather big update which adds decimal properties to many endpoints. These decimal properties allow to read/write amounts in XCH rather than having to manually do the conversion to mojos.
-
-1.8.1.6: Improve Transaction and response classes
-- Added functionality to obtain primary coin from transaction (please test this!!!)
-- Reworked objects and code to include the raw request answer data.
-
-1.8.1.5: Improve wait for transaction code
-- Renamed wallet API to confirm.
-- Created full node API to wait for coin creation (this should really await transaction completeness).
-- Added an implicit conversion for the checkers.
-- Added TimeSpan code for the await.
-
-1.8.1.4: Improve SendTransaction_RPC
-- Added a global variable in General_NS.GlobalVar which specifies the amount of mojos which make up one chia.
-- Improved constructor of SendTransaction_RPC to allow for different combinations of ulong (mojos) and double (XCH) for amount and fee.
-
-1.8.1.3: Improve Constructor for SendTransaction_RPC
-- Now has default null values which can be left blank.
-
-1.8.1.2: Improvements to GetFeeEstimate
-- Minor documentation typo fix.
-- Fixed either/or condition in a class.
-- Major improvement for GetFeeEstimates constructor now properly reflecting either spend or cost condition and adding standard chia transaction value, hence making `GetStandardTransactionFeeEstimate` obsolete.
-- Added property to `GetFeeEstimate_Response` which displays fee in full chia fraction rather than in Mojos.
-
-1.8.1.1: The updates are mostly in Chia-RPC. This update ensures compatibility with Chia-RPC 1.8.1.1 and brings the following improvements:
-- Major documentation update.
-- Added constructors to all RPC endpoints.
-- A few minor bugfixes.
-- Added further implicit conversions.
-</PackageReleaseNotes>
+Enhanced features:
+- Improved handling of null parameters: The RPC interface now properly handles null input parameters. This ensures that the application does not crash or cause unintended behavior when null is passed.
+- RPC Parameter nullable: All RPC parameter objects are now nullable. This helps to prevent malformed requests and enhances the robustness of our API communication.
+- Added null checks in RPC methods: Methods like BatchUpdate_Async now check if their required parameters are null before executing. This allows us to fail early and return a useful error message instead of causing an unexpected exception at runtime.
+- Fixed potential NullReferenceExceptions
+- Expanded XML Comments: We have vastly added or expanded XML comments to several classes and methods. These comments serve as in-code documentation and provide useful context and explanations for developers.
+- All compiler warnings within the package have been resolved
+Please refer to the documentation and updated code comments for more detailed information about these updates. As always, feel free to report any issues or provide feedback on these changes.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
     <IncludeSymbols>False</IncludeSymbols>

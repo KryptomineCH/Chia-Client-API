@@ -3,24 +3,45 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
+    /// <summary>
+    /// prioovides the http client for the datalayer node
+    /// </summary>
     public partial class Datalayer_RPC_Client
     {
+        /// <summary>
+        /// Constructor for the Datalayer_RPC_Client class. This method is automatically called 
+        /// whenever an instance of the class is created. It sets up the Datalayer_RPC_Client with
+        /// </summary>
+        /// <param name="targetApiAddress">This parameter sets the address of the target API. 
+        /// This could be an IP address or a domain name. The default value is "localhost", which points to the machine where the code is currently running.</param>
+        /// <param name="targetApiPort">This parameter sets the port number that the client should use to connect to the API. 
+        /// The default value is 8562. The valid range for port numbers is between 1 and 65535, 
+        /// with the range 49152–65535 being the dynamic or private ports typically used for dynamic ports.</param>
+        /// <param name="targetCertificateBaseFolder">This optional parameter sets the file path to the folder that contains the SSL/TLS certificate
+        /// that the client will use to secure its connection to the API. 
+        /// If this parameter is null (which is its default value), it indicates that the client should not use a certificate (the connection won't be secured).</param>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Datalayer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8562, string? targetCertificateBaseFolder = null)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
             // this also sets the client
             if (targetCertificateBaseFolder != null)
             {
-                API_CertificateFolder = targetCertificateBaseFolder;
+                _API_CertificateFolder = targetCertificateBaseFolder;
             }
             else
             {
-                API_CertificateFolder = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
+                _API_CertificateFolder = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
+                    @".chia\mainnet\config\ssl\");
             }
+            SetNewCerticifactes();
         }
+        /// <summary>
+        /// this is the client through which requests are made
+        /// </summary>
         private HttpClient _Client { get; set; }
         /// <summary>
         /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)

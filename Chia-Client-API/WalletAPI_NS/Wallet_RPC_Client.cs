@@ -6,6 +6,19 @@ namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class Wallet_RPC_Client
     {
+        /// <summary>
+        /// Initializes a new instance of the Wallet_RPC_Client class that can be used to interact with a Chia wallet.
+        /// </summary>
+        /// <param name="targetApiAddress">The IP address of the Chia wallet's RPC server. Defaults to 'localhost'.</param>
+        /// <param name="targetApiPort">The port number of the Chia wallet's RPC server. Defaults to 9256.</param>
+        /// <param name="targetCertificateBaseFolder">The base directory for the SSL/TLS certificate. This certificate is used to establish a secure connection with the Chia wallet's RPC server. If null, the default certificate location will be used.</param>
+        /// <remarks>
+        /// This constructor configures the connection details for the Chia wallet's RPC server. It is important to ensure the correctness of these details for successful communication with the wallet. 
+        /// The 'localhost' default for the targetApiAddress parameter is suitable for scenarios where the wallet and the application are running on the same machine. 
+        /// For remote wallets, provide the appropriate IP address.
+        /// The default targetApiPort is the default port number where the Chia Wallet RPC server is configured to listen for incoming requests.
+        /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the wallet's RPC server. If left null, it assumes the certificate is in the default location.
+        /// </remarks>
         public Wallet_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 9256, string? targetCertificateBaseFolder = null)
         {
             TargetApiAddress = targetApiAddress;
@@ -13,16 +26,17 @@ namespace Chia_Client_API.WalletAPI_NS
             // this also sets the client
             if (targetCertificateBaseFolder != null)
             {
-                API_CertificateFolder = targetCertificateBaseFolder;
+                _API_CertificateFolder = targetCertificateBaseFolder;
             }
             else
             {
-                API_CertificateFolder = Path.Combine(
+                _API_CertificateFolder = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     @".chia\mainnet\config\ssl\");
             }
+            SetNewCerticifactes();
         }
-        private HttpClient _Client { get; set; }
+        private HttpClient? _Client { get; set; }
         /// <summary>
         /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
         /// </summary>
@@ -34,12 +48,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
         /// </summary>
-        public string API_CertificateFolder 
+        public string? API_CertificateFolder 
         {
             get { return _API_CertificateFolder; } 
             set { _API_CertificateFolder = value; SetNewCerticifactes(); } 
         }
-        private string _API_CertificateFolder;
+        private string? _API_CertificateFolder;
         /// <summary>
         /// this function creates a new http cliet with the set certificates
         /// </summary>
@@ -48,6 +62,10 @@ namespace Chia_Client_API.WalletAPI_NS
             if (_Client != null) _Client.Dispose();
             // initialize http client with proper certificate
             var handler = new HttpClientHandler();
+            if (_API_CertificateFolder == null)
+            {
+                throw new ArgumentNullException(nameof(_API_CertificateFolder));
+            }
             X509Certificate2 privateCertificate = CertificateLoader.GetCertificate(Endpoint.wallet, _API_CertificateFolder);
             handler.ServerCertificateCustomValidationCallback = (requestMessage, certificate, chain, policyErrors) => true;
             handler.ClientCertificates.Add(privateCertificate);
@@ -59,11 +77,15 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="function"></param>
         /// <param name="json"></param>
         /// <returns></returns>
-        public async Task<string> SendCustomMessage_Async(string function, string json = " { } ")
+        public async Task<string> SendCustomMessage_Async(string function, string? json = " { } ")
         {
+            if (_Client == null)
+            {
+                throw new NullReferenceException(nameof(_Client));
+            }
             using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://" + TargetApiAddress + ":"+TargetApiPort.ToString()+"/" + function))
             {
-                request.Content = new StringContent(json);
+                request.Content = new StringContent(json ?? "");
                 request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
                 var response = await _Client.SendAsync(request);
                 response.EnsureSuccessStatusCode();
@@ -97,10 +119,10 @@ namespace Chia_Client_API.WalletAPI_NS
             bool success = false;
             while (!cancellation.IsCancellationRequested)
             {
-                GetWalletSyncStatus_Response syncStatus = await GetSyncStatus_Async();
-                if (!syncStatus.success)
+                GetWalletSyncStatus_Response? syncStatus = await GetSyncStatus_Async();
+                if (syncStatus == null || !(syncStatus.success ?? false))
                 {
-                    if (syncStatus.error == "wallet state manager not assigned")
+                    if (syncStatus != null && syncStatus.error == "wallet state manager not assigned")
                     {
                         throw new Exception("no wallet is logged in!");
                     }
@@ -115,7 +137,7 @@ namespace Chia_Client_API.WalletAPI_NS
                     }
                     // timeout is not met, wait for the wallet to start syncing
                 }
-                else if (syncStatus.success && (syncStatus.syncing || syncStatus.synced))
+                else if ((syncStatus.success ?? false) && (syncStatus.syncing || syncStatus.synced))
                 {
                     // currently syncing, so we want to extend the timeout
                     timeOutTracker = DateTime.Now;
@@ -128,7 +150,6 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// waits until the wallet is fully synced with the blockchain
         /// </summary>
-        /// <param name="cancellation"></param>
         /// <param name="timeoutSeconds"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>

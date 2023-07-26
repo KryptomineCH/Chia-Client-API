@@ -5,22 +5,36 @@ namespace Chia_Client_API.FarmerAPI_NS
 {
     public partial class Farmer_RPC_Client
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Farmer_RPC_Client"/> class.
+        /// </summary>
+        /// <param name="targetApiAddress">The address of the target API. Defaults to "localhost".</param>
+        /// <param name="targetApiPort">The port number for the API connection. Defaults to 8559.</param>
+        /// <param name="targetCertificateBaseFolder">The file path to the folder containing the SSL/TLS certificate. 
+        /// This is optional and if not provided, defaults to a standard certificate location in the user's profile.</param>
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Farmer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8559, string? targetCertificateBaseFolder = null)
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
             // this also sets the client
             if (targetCertificateBaseFolder != null)
             {
-                API_CertificateFolder = targetCertificateBaseFolder;
+                _API_CertificateFolder = targetCertificateBaseFolder;
             }
             else
             {
-                API_CertificateFolder = Path.Combine(
+                _API_CertificateFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
             @".chia\mainnet\config\ssl\");
             }
+            SetNewCerticifactes();
         }
+        /// <summary>
+        /// Gets or sets the HTTP client used for communication with the API.
+        /// </summary>
         private HttpClient _Client { get; set; }
         /// <summary>
         /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
