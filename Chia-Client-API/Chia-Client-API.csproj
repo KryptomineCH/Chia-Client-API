@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.2.2</Version>
+    <Version>1.8.2.3</Version>
     <Authors>KryptoMine.ch</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.2.2
+    <PackageReleaseNotes>1.8.2.3
+- timestamps can now be read as DateTime
+- improved resiliense and error handling in case of serialisation failures
+
+1.8.2.2
 - Included Peer object
 - updated transaction documentationfor `sent_to` and `sent`
 - changed `sent_to`  from `dynamic?` to `Peer[]?`
