@@ -26,7 +26,8 @@ namespace Chia_Client_API
                 throw new Exception($"certificate file for endpoint {endpoint} not found!");
             }
             certificate = X509Certificate2.CreateFromPemFile(certFile.FullName, keyFile.FullName);
-            certificate = new X509Certificate2(certificate.Export(X509ContentType.Pfx));
+            byte[] pfxData = certificate.Export(X509ContentType.Pfx, "SomeStrongPassword");
+            certificate = new X509Certificate2(pfxData, "SomeStrongPassword", X509KeyStorageFlags.MachineKeySet);
             Certificates[endpoint] = certificate;
             return certificate;
         }
