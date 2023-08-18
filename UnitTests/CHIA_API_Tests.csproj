@@ -24,8 +24,4 @@
     <ProjectReference Include="..\Chia-Client-API\Chia-Client-API.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TestAssets\" />
-  </ItemGroup>
-
 </Project>

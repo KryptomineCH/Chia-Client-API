@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>1.8.2.8</Version>
+    <Version>1.8.2.9</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,49 +16,52 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>1.8.2.x
-- updated function to get primary coin from transaction to be more resilient
-- added amount in cat to transaction
-- made coin documentation clearer
-- Marked GetCoinID() as deprecated (use CoinName property instead)
-- implemented lazy loading and caching for CoinName
-- added amount in cat property to coin
+    <PackageReleaseNotes>
+		1.8.2.x
+		- updated function to get primary coin from transaction to be more resilient
+		- added amount in cat to transaction
+		- made coin documentation clearer
+		- Marked GetCoinID() as deprecated (use CoinName property instead)
+		- implemented lazy loading and caching for CoinName
+		- added amount in cat property to coin
+		- reworked getPrimaryCoin
+		added custom transaction type
 
-1.8.2.5
-- added property `is_valid` to transaction. This value is beeing checked against the peer node responses to see if they returned an error
-- created_at_time can now be fetched as DateTime
+		1.8.2.5
+		- added property `is_valid` to transaction. This value is beeing checked against the peer node responses to see if they returned an error
+		- created_at_time can now be fetched as DateTime
 
-1.8.2.4
-- hotfix for peer (has no attribute names)
-- added unit test
+		1.8.2.4
+		- hotfix for peer (has no attribute names)
+		- added unit test
 
-1.8.2.3
-- timestamps can now be read as DateTime
-- improved resiliense and error handling in case of serialisation failures
+		1.8.2.3
+		- timestamps can now be read as DateTime
+		- improved resiliense and error handling in case of serialisation failures
 
-1.8.2.2
-- Included Peer object
-- updated transaction documentationfor `sent_to` and `sent`
-- changed `sent_to`  from `dynamic?` to `Peer[]?`
-related documentation: https://docs.chia.net/walletconnect-commands?_highlight=sent#transactionrecord
+		1.8.2.2
+		- Included Peer object
+		- updated transaction documentationfor `sent_to` and `sent`
+		- changed `sent_to`  from `dynamic?` to `Peer[]?`
+		related documentation: https://docs.chia.net/walletconnect-commands?_highlight=sent#transactionrecord
 
-1.8.2.1
-This is a minor update that introduces changes to Transaction, Transaction Dict Memos, Transaction no memos, and GetTransaction:
-- Added the TransactionType enum, making it easier to identify the type of a transaction.
-- Added an unknown wallet type, "Ratelimited Wallet," to the WalletType enum.
+		1.8.2.1
+		This is a minor update that introduces changes to Transaction, Transaction Dict Memos, Transaction no memos, and GetTransaction:
+		- Added the TransactionType enum, making it easier to identify the type of a transaction.
+		- Added an unknown wallet type, "Ratelimited Wallet," to the WalletType enum.
 
-1.8.2
-This release presents a major overhaul of the package, implementing nullable types for all endpoints. It's likely that this will necessitate code changes, or at the very least, produce numerous null value compiler warnings.
+		1.8.2
+		This release presents a major overhaul of the package, implementing nullable types for all endpoints. It's likely that this will necessitate code changes, or at the very least, produce numerous null value compiler warnings.
 
-Enhanced features:
-- Improved Null Parameter Handling: The RPC interface now accurately manages null input parameters. This ensures the application won't crash or exhibit unintended behavior when a null value is passed.
-- RPC Parameter Nullability: All RPC parameter objects are now nullable, enhancing request integrity and the stability of our API communication.
-- Null Checks in RPC Methods: Functions, such as BatchUpdate_Async, now ascertain if their essential parameters are null prior to execution. This preemptive action helps detect issues early, returning a helpful error message instead of triggering unexpected runtime exceptions.
-- Null Reference Exception Fixes: Addressed potential NullReferenceExceptions.
-- Expanded XML Comments: We have significantly added to or expanded the XML comments across numerous classes and methods. These annotations act as in-code documentation, offering valuable context and guidance for developers.
-- Compiler Warnings: Resolved all compiler warnings within the package.
+		Enhanced features:
+		- Improved Null Parameter Handling: The RPC interface now accurately manages null input parameters. This ensures the application won't crash or exhibit unintended behavior when a null value is passed.
+		- RPC Parameter Nullability: All RPC parameter objects are now nullable, enhancing request integrity and the stability of our API communication.
+		- Null Checks in RPC Methods: Functions, such as BatchUpdate_Async, now ascertain if their essential parameters are null prior to execution. This preemptive action helps detect issues early, returning a helpful error message instead of triggering unexpected runtime exceptions.
+		- Null Reference Exception Fixes: Addressed potential NullReferenceExceptions.
+		- Expanded XML Comments: We have significantly added to or expanded the XML comments across numerous classes and methods. These annotations act as in-code documentation, offering valuable context and guidance for developers.
+		- Compiler Warnings: Resolved all compiler warnings within the package.
 
-Please refer to the documentation and the updated code comments for a deeper understanding of these updates. As always, we welcome any issue reports or feedback on these modifications.</PackageReleaseNotes>
+		Please refer to the documentation and the updated code comments for a deeper understanding of these updates. As always, we welcome any issue reports or feedback on these modifications.</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
     <IncludeSymbols>False</IncludeSymbols>
