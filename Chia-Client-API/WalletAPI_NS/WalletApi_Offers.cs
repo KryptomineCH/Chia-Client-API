@@ -2,14 +2,13 @@
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.Offer_NS;
-using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// Cancel an offer with a specific identifier
+        /// Cancel an Offer with a specific identifier
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offer"/></remarks>
         /// <param name="rpc"></param>
@@ -21,7 +20,7 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Cancel an offer with a specific identifier
+        /// Cancel an Offer with a specific identifier
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#cancel_offer"/></remarks>
         /// <param name="rpc"></param>
@@ -59,7 +58,7 @@ namespace Chia_Client_API.WalletAPI_NS
         }
 
         /// <summary>
-        /// Checks whether a specific offer is valid (see below for definitions)
+        /// Checks whether a specific Offer is valid (see below for definitions)<br/><br/>
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#check_offer_validity"/></remarks>
         /// <param name="rpc"></param>
@@ -71,7 +70,7 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Checks whether a specific offer is valid (see below for definitions)
+        /// Checks whether a specific Offer is valid (see below for definitions)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#check_offer_validity"/></remarks>
         /// <param name="rpc"></param>
@@ -84,7 +83,7 @@ namespace Chia_Client_API.WalletAPI_NS
         }
 
         /// <summary>
-        /// Creates a new offer
+        /// Creates a new Offer
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#create_offer_for_ids"/></remarks>
         /// <param name="rpc"></param>
@@ -96,7 +95,7 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Creates a new offer
+        /// Creates a new Offer
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#create_offer_for_ids"/></remarks>
         /// <param name="rpc"></param>
@@ -109,7 +108,7 @@ namespace Chia_Client_API.WalletAPI_NS
         }
 
         /// <summary>
-        /// Gets multiple offers for the current wallet, depending on the supplied parameters
+        /// Gets multiple Offers for the current wallet, depending on the supplied parameters
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
         /// <param name="rpc"></param>
@@ -121,7 +120,7 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Gets multiple offers for the current wallet, depending on the supplied parameters
+        /// Gets multiple Offers for the current wallet, depending on the supplied parameters
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
         /// <param name="rpc"></param>
@@ -184,7 +183,7 @@ namespace Chia_Client_API.WalletAPI_NS
         }
 
         /// <summary>
-        /// Takes (accepts) a specific offer, with a given fee
+        /// Takes (accepts) a specific Offer, with a given fee
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#take_offer"/></remarks>
         /// <param name="rpc"></param>
@@ -196,7 +195,7 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Takes (accepts) a specific offer, with a given fee
+        /// Takes (accepts) a specific Offer, with a given fee
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/offer-rpc#take_offer"/></remarks>
         /// <param name="rpc"></param>
