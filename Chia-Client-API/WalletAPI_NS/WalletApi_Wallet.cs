@@ -403,6 +403,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactions_Response?> GetTransactions_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
@@ -410,13 +413,16 @@ namespace Chia_Client_API.WalletAPI_NS
             GetTransactions_Response? deserializedObject = GetTransactions_Response.LoadResponseFromString(responseJson);
             return deserializedObject;
         }
-        
+
         /// <summary>
         /// Get all transactions for a given wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactions_Response? GetTransactions_Sync(WalletID_RPC rpc)
         {
             Task<GetTransactions_Response?> data = Task.Run(() => GetTransactions_Async(rpc));
@@ -429,6 +435,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactions_Response?> GetTransactions_Async(GetTransactions_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
@@ -442,6 +451,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactions_Response? GetTransactions_Sync(GetTransactions_RPC rpc)
         {
             Task<GetTransactions_Response?> data = Task.Run(() => GetTransactions_Async(rpc));
@@ -455,6 +467,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactionCount_Response?> GetTransactionCount_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transaction_count", rpc.ToString());
@@ -467,6 +482,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
+        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
+            "The wallet does its best effort. We are striving to improve this going forward. " +
+            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactionCount_Response? GetTransactionCount_Sync(WalletID_RPC rpc)
         {
             Task<GetTransactionCount_Response?> data = Task.Run(() => GetTransactionCount_Async(rpc));
