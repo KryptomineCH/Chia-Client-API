@@ -320,7 +320,20 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
-
+        /*
+        public GetNextAddress_Response? GetWalletAddresses_Sync(GetWalletAddresses_RPC rpc)
+        {
+            Task<GetNextAddress_Response?> data = Task.Run(() => GetWalletAddresses_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        public async Task<GetNextAddress_Response?> GetWalletAddresses_Async(GetWalletAddresses_RPC rpc)
+        {
+            string responseJson = await SendCustomMessage_Async("get_wallet_addresses", rpc.ToString());
+            GetNextAddress_Response? deserializedObject = GetNextAddress_Response.LoadResponseFromString(responseJson);
+            return deserializedObject;
+        }
+        */
         /// <summary>
         /// Obtain current notifications
         /// </summary>

@@ -153,7 +153,24 @@ namespace CHIA_API_Tests.Wallet_NS
             {
                 throw new Exception("obtaining a new adress failed! Adresses are equal!");
             }
-        }
+        }/*
+        [Fact]
+        public void GetWalletAddresses()
+        {
+            GetWalletAddresses_RPC same_address = new GetWalletAddresses_RPC
+            {
+                wallet_id = 1,
+                index = 0,
+                count = 5
+            };
+            GetRoutes_Response response = Testnet_Wallet.Wallet_Client.GetRoutes_Sync();
+            GetNextAddress_Response? response1 = Testnet_Wallet.Wallet_Client.GetWalletAddresses_Async(same_address).Result;
+            Assert.NotNull(response1);
+            if (!(response1!.success ?? false))
+            {
+                throw new Exception(response1.error);
+            }
+        }*/
         /// <summary>
         /// Send a (chia) transaction
         /// </summary>
