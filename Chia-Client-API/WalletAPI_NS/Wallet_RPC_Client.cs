@@ -19,7 +19,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// The default targetApiPort is the default port number where the Chia Wallet RPC server is configured to listen for incoming requests.
         /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the wallet's RPC server. If left null, it assumes the certificate is in the default location.
         /// </remarks>
-        public Wallet_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 9256, string? targetCertificateBaseFolder = null)
+        public Wallet_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 9256, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
@@ -35,6 +35,7 @@ namespace Chia_Client_API.WalletAPI_NS
                     @".chia\mainnet\config\ssl\");
             }
             SetNewCerticifactes();
+            _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
         }
         private HttpClient? _Client { get; set; }
         /// <summary>

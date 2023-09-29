@@ -21,7 +21,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// that the client will use to secure its connection to the API. 
         /// If this parameter is null (which is its default value), it indicates that the client should not use a certificate (the connection won't be secured).</param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Datalayer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8562, string? targetCertificateBaseFolder = null)
+        public Datalayer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8562, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -38,6 +38,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
                     @".chia\mainnet\config\ssl\");
             }
             SetNewCerticifactes();
+            _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
         }
         /// <summary>
         /// this is the client through which requests are made

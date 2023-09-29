@@ -12,7 +12,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <param name="targetApiPort">the port which to coinnect to</param>
         /// <param name="targetCertificateBaseFolder">the base (ssl) folder path</param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public FullNode_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null)
+        public FullNode_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -30,6 +30,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
                     @".chia\mainnet\config\ssl\");
             }
             SetNewCerticifactes();
+            _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
         }
         private HttpClient _Client { get; set; }
         /// <summary>

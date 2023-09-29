@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace Chia_Client_API.HarvesterAPI_NS
 {
@@ -12,7 +13,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <param name="targetApiPort"></param>
         /// <param name="targetCertificateBaseFolder"></param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Harvester_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8560, string? targetCertificateBaseFolder = null)
+        public Harvester_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8560, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -29,6 +30,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
                     @".chia\mainnet\config\ssl\");
             }
             SetNewCerticifactes();
+            _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
         }
         private HttpClient _Client { get; set; }
         /// <summary>
