@@ -1,6 +1,7 @@
 ﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
+using System.Threading;
 
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -81,7 +82,10 @@ namespace Chia_Client_API.WalletAPI_NS
             TransactionID_RPC transactionID_RPC,
             CancellationToken cancellation, double timeoutInMinutes = 5)
         {
-            return AwaitTransactionToConfirm_Sync(transactionID_RPC, cancellation, timeoutInMinutes);
+            TimeSpan timeout = TimeSpan.FromMinutes(timeoutInMinutes);
+            Task<GetTransaction_Response?> data = Task.Run(() => AwaitTransactionToConfirm_Async(transactionID_RPC, cancellation, timeout));
+            data.Wait();
+            return data.Result;
         }
         /// <summary>
         /// waits for a transaction to fully execute or fail
