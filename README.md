@@ -94,7 +94,7 @@ FingerPrint_Response loginResponse = Clients.Wallet_Client.LogIn_Sync(rpc);
 Clients.Wallet_Client.AwaitWalletSync_Sync(timeoutSeconds: 1000);
 
 // send transaction
-SendTransaction_RPC XchTransactionRPC = new SendTransaction_RPC(0, "TargetAdress", amount_mojos: 1000, fee_mojos: 0);
+SendTransaction_RPC XchTransactionRPC = new SendTransaction_RPC(1, "TargetAdress", amount_mojos: 1000, fee_mojos: 0);
 GetTransaction_Response sendTransaction_Result = Clients.Wallet_Client.SendTransaction_Sync(transaction);
 
 // wait to complete transaction (recommended)
