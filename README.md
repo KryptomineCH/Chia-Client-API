@@ -83,6 +83,24 @@ this actually connects to the node and makes the request
 
 Refer to the documentation for specific usage instructions for each API endpoint.
 
+### Sending a transaction
+Sending a standard transaction is straight forward, you can use the following procedure:
+```
+// login
+FingerPrint_RPC myFingerprint = new FingerPrint_RPC(1234567890);
+FingerPrint_Response loginResponse = Clients.Wallet_Client.LogIn_Sync(rpc);
+
+// wait for the wallet to fully sync
+Clients.Wallet_Client.AwaitWalletSync_Sync(timeoutSeconds: 1000);
+
+// send transaction
+SendTransaction_RPC XchTransactionRPC = new SendTransaction_RPC(0, "TargetAdress", amount_mojos: 1000, fee_mojos: 0);
+GetTransaction_Response sendTransaction_Result = Clients.Wallet_Client.SendTransaction_Sync(transaction);
+
+// wait to complete transaction (recommended)
+Clients.Wallet_Client.AwaitTransactionToConfirm_Sync(sendTransaction_Result, CancellationToken.None, timeoutInMinutes: 60);
+```
+
 ### Creating a cat offer
 this is how you offer Cat vs chia:
 ```
