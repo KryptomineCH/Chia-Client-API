@@ -1,5 +1,6 @@
 ﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
+using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using System.Threading;
 
@@ -99,6 +100,57 @@ namespace Chia_Client_API.WalletAPI_NS
             CancellationToken cancellation, TimeSpan timeout)
         {
             Task<GetTransaction_Response?> data = Task.Run(() => AwaitTransactionToConfirm_Async(transactionID_RPC, cancellation, timeout));
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
+        /// waits for an offer to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeOut"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public async Task<CheckOfferValidity_Response?> AwaitOfferToExecuteOrCancel_Async(
+            OfferFile offer,
+            CancellationToken cancellation, TimeSpan timeOut)
+        {
+            DateTime startTime = DateTime.Now;
+            CheckOfferValidity_Response? responseJson = null;
+            while (!cancellation.IsCancellationRequested)
+            {
+                
+                responseJson = await CheckOfferValidity_Async(offer);
+                if (responseJson == null)
+                {
+                    throw new InvalidOperationException("unable to fetch GetTransaction_Response!");
+                }
+                if ((responseJson.success ?? false) && !(responseJson.valid ?? false))
+                {
+                    return responseJson;
+                }
+                await Task.Delay(1000, cancellation);
+                if (DateTime.Now > startTime + timeOut)
+                {
+                    break;
+                }
+            }
+            return responseJson;
+        }
+        /// <summary>
+        /// waits for a offer to fully execute or fail
+        /// </summary>
+        /// <param name="transactionID_RPC"></param>
+        /// <param name="cancellation"></param>
+        /// <param name="timeoutInMinutes"></param>
+        /// <returns></returns>
+        public CheckOfferValidity_Response? AwaitOfferToExecuteOrCancel_Sync(
+            OfferFile offer,
+            CancellationToken cancellation, double timeoutInMinutes = 5)
+        {
+            TimeSpan timeout = TimeSpan.FromMinutes(timeoutInMinutes);
+            Task<CheckOfferValidity_Response?> data = Task.Run(() => AwaitOfferToExecuteOrCancel_Async(offer, cancellation, timeout));
             data.Wait();
             return data.Result;
         }
