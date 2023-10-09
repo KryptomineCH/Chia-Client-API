@@ -462,7 +462,9 @@ namespace Chia_Client_API.WalletAPI_NS
         }
 
         /// <summary>
-        /// Transfer an NFT to a new wallet address
+        /// Transfer an NFT to a new wallet address.<br/>
+        /// This causes a blockchain transaction.<br/>
+        /// In order to validate the transaction, fetch the NFT with [] and access its properties
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_nft"/></remarks>
         /// <param name="rpc"></param>
@@ -474,7 +476,9 @@ namespace Chia_Client_API.WalletAPI_NS
             return deserializedObject;
         }
         /// <summary>
-        /// Transfer an NFT to a new wallet address
+        /// Transfer an NFT to a new wallet address.<br/>
+        /// This causes a blockchain transaction.<br/>
+        /// In order to validate the transaction, fetch the NFT with [] and access its properties
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_nft"/></remarks>
         /// <param name="rpc"></param>
