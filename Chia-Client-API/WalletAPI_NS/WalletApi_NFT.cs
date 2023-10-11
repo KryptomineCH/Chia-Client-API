@@ -4,6 +4,7 @@ using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Text.Json;
+using System.Threading;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
@@ -181,7 +182,60 @@ namespace Chia_Client_API.WalletAPI_NS
                 error = "nft could not be found in any wallet!"
             };
         }
-
+        /// <summary>
+        /// Awaits the completion of an NFT transfer operation for a given wallet and NFT.
+        /// </summary>
+        /// <param name="walletId">The unique identifier of the wallet involved in the NFT transfer.</param>
+        /// <param name="nft">An object representing the NFT to be transferred.</param>
+        /// <param name="timeOut">The maximum time duration to wait for the transfer to complete.</param>
+        /// <param name="requestTimerMS">The time interval, in milliseconds, between successive checks for transfer completion.</param>
+        /// <returns>
+        /// <c>true</c> if the transfer is complete within the specified <see cref="timeOut"/>, otherwise <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// This function continuously checks the transfer status of an NFT by invoking <see cref="NftGetInfo_Async"/>.<br/>
+        /// The function exits and returns <c>true</c> as soon as the pending transaction is complete.<br/>
+        /// If the <see cref="timeOut"/> is reached before the transaction is complete, the function exits and returns <c>false</c>.
+        /// </remarks>
+        public bool NftAwaitTransferComplete_Sync(ulong walletId, Nft nft, TimeSpan timeOut, int requestTimerMS)
+        {
+            Task<bool> data = Task.Run(() => NftAwaitTransferComplete_Async(walletId, nft, timeOut, requestTimerMS));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// Awaits the completion of an NFT transfer operation for a given wallet and NFT.
+        /// </summary>
+        /// <param name="walletId">The unique identifier of the wallet involved in the NFT transfer.</param>
+        /// <param name="nft">An object representing the NFT to be transferred.</param>
+        /// <param name="timeOut">The maximum time duration to wait for the transfer to complete.</param>
+        /// <param name="requestTimerMS">The time interval, in milliseconds, between successive checks for transfer completion.</param>
+        /// <returns>
+        /// <c>true</c> if the transfer is complete within the specified <see cref="timeOut"/>, otherwise <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        /// This function continuously checks the transfer status of an NFT by invoking <see cref="NftGetInfo_Async"/>.<br/>
+        /// The function exits and returns <c>true</c> as soon as the pending transaction is complete.<br/>
+        /// If the <see cref="timeOut"/> is reached before the transaction is complete, the function exits and returns <c>false</c>.
+        /// </remarks>
+        public async Task<bool> NftAwaitTransferComplete_Async(ulong walletId, Nft nft, TimeSpan timeOut, int requestTimerMS)
+        {
+            NftGetInfo_RPC infoRpc = new NftGetInfo_RPC(nft.nft_coin_id, walletId);
+            DateTime end = DateTime.Now + timeOut;
+            while (true)
+            {
+                NftGetInfo_Response info = await NftGetInfo_Async(infoRpc);
+                if (!info.nft_info.pending_transaction)
+                {
+                    return true;
+                }
+                if (DateTime.Now > end)
+                {
+                    return false;
+                }
+                await Task.Delay(requestTimerMS);
+            }
+        }
         /* documentation endpoints */
         /// <summary>
         /// Add a new URI to the location URI list
