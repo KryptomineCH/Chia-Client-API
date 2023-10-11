@@ -1,6 +1,8 @@
 ﻿using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
+using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
@@ -127,6 +129,57 @@ namespace Chia_Client_API.WalletAPI_NS
                 wallet_id = nftMint.wallet_id
             };
             return await NftGetInfo_Async(nftRequest).ConfigureAwait(false);
+        }
+        /// <summary>
+        /// searches for the nft in all wallets and returns the wallet id which the nft is located in.
+        /// </summary>
+        /// <remarks>
+        /// for performance reasons, better avoid this function
+        /// </remarks>
+        /// <param name="nft"></param>
+        /// <returns></returns>
+        public WalletID_Response NftGetwallet_Sync(Nft nft)
+        {
+            Task<WalletID_Response> data = Task.Run(() => NftGetwallet_Async(nft));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// searches for the nft in all wallets and returns the wallet id which the nft is located in.
+        /// </summary>
+        /// <remarks>
+        /// for performance reasons, better avoid this function
+        /// </remarks>
+        /// <param name="nft"></param>
+        /// <returns></returns>
+        public async Task<WalletID_Response> NftGetwallet_Async(Nft nft)
+        {
+            GetWallets_Response wallets = await GetWallets_Async();
+            {
+                foreach (Wallets_info info in wallets.wallets)
+                {
+                    if (info.type == WalletType.NFT)
+                    {
+                        NftGetNfts_Response nfts = await NftGetNfts_Async(info.GetWalletID_RPC());
+                        foreach (Nft walletNft in nfts.nft_list)
+                        {
+                            if (walletNft.launcher_id == nft.launcher_id)
+                            {
+                                return new WalletID_Response()
+                                {
+                                    success = true,
+                                    wallet_id = info.id
+                                };
+                            }
+                        }
+                    }
+                }
+            }
+            return new WalletID_Response()
+            {
+                success = false,
+                error = "nft could not be found in any wallet!"
+            };
         }
 
         /* documentation endpoints */
