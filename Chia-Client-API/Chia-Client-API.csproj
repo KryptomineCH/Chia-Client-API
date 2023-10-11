@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.1.0</Version>
+    <Version>2.1.0.1</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -21,6 +21,9 @@
 - Added functionality to await until an offer is executed or cancalled/invaild
 - Added implicit conversion for takeOffer RPC
 - update AddOfferPosition (now supports cat and updated documentation)
+- added a function to look up the wallet id of an nft in wallet client
+- added functionality to await an nft transfer
+- add SimpleTransfer_Async: one endpoint for standard chia, cat and nft transfers
 
 2.0.1
 - Update README
