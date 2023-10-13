@@ -3,7 +3,9 @@ using CHIA_RPC.Datalayer_NS.DatalayerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.DLWallet_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
+using System.Security.Cryptography;
 using System.Text.Json;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
@@ -862,7 +864,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// Unsubscribe from a store ID
         /// </summary>
         /// <remarks>
-        /// This RPC does not remove any data from the database or the filesystem.<br/><br/>
+        /// The `unsubscribe` RPC may or may not delete any data, depending on which version of Chia you are running<br/>
+        /// - Prior to version 2.1, the command did not delete the.dat files, nor did it delete from the database.<br/>
+        /// - As of version 2.1, the command deletes the .dat files, but does not delete from the database.<br/>
+        /// - In a future release, the command will also delete from the database<br/>
         /// <see href="https://docs.chia.net/datalayer-rpc#unsubscribe"/>
         /// </remarks>
         /// <param name="rpc"></param>
@@ -878,7 +883,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// Unsubscribe from a store ID
         /// </summary>
         /// <remarks>
-        /// This RPC does not remove any data from the database or the filesystem.<br/>
+        /// The `unsubscribe` RPC may or may not delete any data, depending on which version of Chia you are running<br/>
+        /// - Prior to version 2.1, the command did not delete the.dat files, nor did it delete from the database.<br/>
+        /// - As of version 2.1, the command deletes the .dat files, but does not delete from the database.<br/>
+        /// - In a future release, the command will also delete from the database<br/>
         /// <see href="https://docs.chia.net/datalayer-rpc#unsubscribe"/>
         /// </remarks>
         /// <param name="rpc"></param>
