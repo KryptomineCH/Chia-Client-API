@@ -16,7 +16,7 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.0
+    <PackageReleaseNotes>2.1.1
 - Improved nft documentation
 - Added functionality to await until an offer is executed or cancalled/invaild
 - Added implicit conversion for takeOffer RPC

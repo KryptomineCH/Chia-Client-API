@@ -5,7 +5,6 @@ using CHIA_RPC.Wallet_NS.DLWallet_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
 using System.Security.Cryptography;
 using System.Text.Json;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
