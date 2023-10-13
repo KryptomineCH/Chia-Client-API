@@ -923,7 +923,33 @@ namespace Chia_Client_API.DatalayerAPI_NS
             data.Wait();
             return data.Result;
         }
+        /// <summary>
+        /// Request that the wallet service be logged in to the specified fingerprint
+        /// </summary>
+        /// <remarks>
+        /// <see href="https://docs.chia.net/datalayer-rpc#wallet_log_in"/>
+        /// </remarks>
+        /// <returns></returns>
+        public async Task<Success_Response?> WalletLogIn_Async(FingerPrint_RPC rpc)
+        {
+            string response = await SendCustomMessage_Async("wallet_log_in", rpc.ToString());
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            return deserializedObject;
+        }
 
+        /// <summary>
+        /// Request that the wallet service be logged in to the specified fingerprint
+        /// </summary>
+        /// <remarks>
+        /// <see href="https://docs.chia.net/datalayer-rpc#wallet_log_in"/>
+        /// </remarks>
+        /// <returns></returns>
+        public Success_Response? WalletLogIn_Sync(FingerPrint_RPC rpc)
+        {
+            Task<Success_Response?> data = Task.Run(() => WalletLogIn_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
         /// <summary>
         /// Close an active connection
         /// </summary>
@@ -1047,5 +1073,6 @@ namespace Chia_Client_API.DatalayerAPI_NS
             data.Wait();
             return data.Result;
         }
+        
     }
 }
