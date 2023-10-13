@@ -24,6 +24,7 @@
 - added a function to look up the wallet id of an nft in wallet client
 - added functionality to await an nft transfer
 - add SimpleTransfer_Async: one endpoint for standard chia, cat and nft transfers
+- implemented daemon rpc endpoints
 
 2.0.1
 - Update README
