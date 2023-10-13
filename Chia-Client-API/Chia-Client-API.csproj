@@ -25,6 +25,7 @@
 - added functionality to await an nft transfer
 - add SimpleTransfer_Async: one endpoint for standard chia, cat and nft transfers
 - implemented daemon rpc endpoints
+- Implemented Verifiable Credentials endpoints
 
 2.0.1
 - Update README
@@ -72,7 +73,7 @@ https://github.com/Chia-Network/chia-blockchain/issues/16180
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CHIA-RPC" Version="1.8.1.8" />
+    <PackageReference Include="CHIA-RPC" Version="2.1.0.1" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
   </ItemGroup>
 
