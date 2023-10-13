@@ -29,6 +29,7 @@
 - add clear_pending_roots endpoint according to documentation
 - update unsubscribe documentation
 - add dl wallet log in according to documentation
+- implemented time-limited offers
 
 2.0.1
 - Update README
