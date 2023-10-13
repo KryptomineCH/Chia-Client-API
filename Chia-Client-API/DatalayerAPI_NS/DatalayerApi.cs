@@ -1,6 +1,7 @@
 ﻿using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.Datalayer_NS.DatalayerObjects_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.Wallet_NS.DLWallet_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
 using System.Text.Json;
 
@@ -221,6 +222,27 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public CheckPlugins_Response? CheckPlugins_Sync()
         {
             Task<CheckPlugins_Response?> data = Task.Run(() => CheckPlugins_Async());
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// Clear pending roots that will not be published, associated data may not be recoverable
+        /// </summary>
+        /// <returns>ClearPendingRoots_Response</returns>
+        public async Task<ClearPendingRoots_Response?> ClearPendingRoots_Async(ClearPendingRoots_RPC rpc)
+        {
+            string response = await SendCustomMessage_Async("check_plugins", rpc.ToString());
+            ClearPendingRoots_Response? deserializedObject = ClearPendingRoots_Response.LoadResponseFromString(response);
+            return deserializedObject;
+        }
+
+        /// <summary>
+        /// Clear pending roots that will not be published, associated data may not be recoverable
+        /// </summary>
+        /// <returns>ClearPendingRoots_Response</returns>
+        public ClearPendingRoots_Response? ClearPendingRoots_Sync(ClearPendingRoots_RPC rpc)
+        {
+            Task<ClearPendingRoots_Response?> data = Task.Run(() => ClearPendingRoots_Async(rpc));
             data.Wait();
             return data.Result;
         }
