@@ -13,13 +13,22 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="targetApiPort">The port number of the Chia wallet's RPC server. Defaults to 9256.</param>
         /// <param name="targetCertificateBaseFolder">The base directory for the SSL/TLS certificate. This certificate is used to establish a secure connection with the Chia wallet's RPC server. If null, the default certificate location will be used.</param>
         /// <remarks>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// ChiaVersion<br/>
+        /// ApiVersion<br/>
+        /// RpcVersion<br/>
+        /// ErrorTime<br/>
+        /// ErrorText<br/>
+        /// RawServerResponse<br/>
+        /// Preferrably use on testnet or with a testwallet<br/>
+        /// Any responses with potential key / authentication information are omitted</param>
         /// This constructor configures the connection details for the Chia wallet's RPC server. It is important to ensure the correctness of these details for successful communication with the wallet. 
         /// The 'localhost' default for the targetApiAddress parameter is suitable for scenarios where the wallet and the application are running on the same machine. 
         /// For remote wallets, provide the appropriate IP address.
         /// The default targetApiPort is the default port number where the Chia Wallet RPC server is configured to listen for incoming requests.
         /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the wallet's RPC server. If left null, it assumes the certificate is in the default location.
         /// </remarks>
-        public Wallet_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 9256, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
+        public Wallet_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 9256, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
         {
             TargetApiAddress = targetApiAddress;
             TargetApiPort = targetApiPort;
@@ -36,6 +45,7 @@ namespace Chia_Client_API.WalletAPI_NS
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
+            ReportResponseErrors = reportResponseErrors;
         }
         private HttpClient? _Client { get; set; }
         /// <summary>
@@ -46,6 +56,10 @@ namespace Chia_Client_API.WalletAPI_NS
         /// the port which should be used. defaults to 9256
         /// </summary>
         public int TargetApiPort { get; set;}
+        /// <summary>
+        /// specifies if RPC response errors should be reported for api improvements
+        /// </summary>
+        public bool ReportResponseErrors { get; set; }
         /// <summary>
         /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
         /// </summary>

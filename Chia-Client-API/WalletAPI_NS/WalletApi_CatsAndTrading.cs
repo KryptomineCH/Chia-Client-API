@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using System.Text.Json;
@@ -17,6 +18,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cancel_offers", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cancel_offers"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -42,6 +47,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cat_asset_id_to_name", rpc.ToString());
             CatAssetIdToName_Response? deserializedObject = CatAssetIdToName_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cat_asset_id_to_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -67,6 +76,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cat_get_asset_id", rpc.ToString());
             CatGetAssetId_Response? deserializedObject = CatGetAssetId_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cat_get_asset_id"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -92,6 +105,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cat_get_name", rpc.ToString());
             CatAssetIdToName_Response? deserializedObject = CatAssetIdToName_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cat_get_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -117,6 +134,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cat_set_name", rpc.ToString());
             WalletID_Response? deserializedObject = WalletID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cat_set_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -142,6 +163,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cat_spend", rpc.ToString());
             CatSpend_Response? deserializedObject = CatSpend_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "cat_spend"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -193,6 +218,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_cat_list");
             GetCatList_Response? deserializedObject = GetCatList_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "get_cat_list"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -216,6 +245,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_offers_count");
             GetOffersCount_Response? deserializedObject = GetOffersCount_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "get_offers_count"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -240,6 +273,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_offer_summary", rpc.ToString());
             GetCatOfferSummary_Response? deserializedObject = GetCatOfferSummary_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "get_offer_summary"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -264,6 +301,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_stray_cats");
             GetStrayCats_Response? deserializedObject = GetStrayCats_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "get_stray_cats"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -288,6 +329,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("take_offer", rpc.ToString());
             TradeRecord_Response? deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_CatsAndTrading", "take_offer"));
+            }
             return deserializedObject;
         }
         /// <summary>

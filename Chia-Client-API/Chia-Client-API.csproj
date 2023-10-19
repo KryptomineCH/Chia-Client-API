@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.1.1</Version>
+    <Version>2.1.1.1</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.1
+    <PackageReleaseNotes>2.1.1.1
+- Fixed an error where AwaitOfferToExecuteOrCancel gets stuck when called with an invalid offer
+- Implemented Globalvar - packageVersion
+
+2.1.1
 - Improved nft documentation
 - Added functionality to await until an offer is executed or cancalled/invaild
 - Added implicit conversion for takeOffer RPC
@@ -66,6 +70,11 @@ https://github.com/Chia-Network/chia-blockchain/issues/16180
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="encrypt.xml" />
+    <None Remove="errorlog" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -78,11 +87,17 @@ https://github.com/Chia-Network/chia-blockchain/issues/16180
 
   <ItemGroup>
     <PackageReference Include="CHIA-RPC" Version="2.1.0.1" />
+    <PackageReference Include="SSH.NET" Version="2023.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="encrypt.xml" />
+    <EmbeddedResource Include="errorlog" />
   </ItemGroup>
 
 </Project>

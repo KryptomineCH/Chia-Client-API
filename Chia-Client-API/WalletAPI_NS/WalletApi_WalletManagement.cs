@@ -1,10 +1,9 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.DID_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
-using System.Text.Json;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
@@ -17,8 +16,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response?> CreateNewCatWallet_Async(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewCatWallet_RPC.ToString());
+            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewCatWallet_RPC.ToString());
             CreateNewWallet_Response? deserializedObject = CreateNewWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletmanagement", "create_new_wallet"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -42,8 +45,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response?> CreateNewDidWallet_Async(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewDIDWallet_RPC.ToString());
+            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewDIDWallet_RPC.ToString());
             CreateNewWallet_Response? deserializedObject = CreateNewWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletmanagement", "create_new_wallet"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -68,8 +75,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response?> CreateNewNftWallet_Async(CreateNewNFTWallet_RPC createNewNFTWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet ", createNewNFTWallet_RPC.ToString());
+            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewNFTWallet_RPC.ToString());
             CreateNewWallet_Response? deserializedObject = CreateNewWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletmanagement", "create_new_wallet"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -96,6 +107,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_wallets", rpc.ToString());
             GetWallets_Response? deserializedObject = GetWallets_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletmanagement", "get_wallets"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -158,6 +173,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
             CreateNewWallet_Response? deserializedObject = CreateNewWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletmanagement", "create_new_wallet"));
+            }
             return deserializedObject;
         }
         /// <summary>

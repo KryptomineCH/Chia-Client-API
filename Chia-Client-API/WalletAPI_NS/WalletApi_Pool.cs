@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.PoolWallet_NS;
 using System.Text.Json;
 
@@ -17,6 +18,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("pw_absorb_rewards", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Pool", "pw_absorb_rewards"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -43,6 +48,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
             PwJoinPool_Response? deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Pool", "pw_join_pool"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -68,6 +77,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
             PwJoinPool_Response? deserializedObject = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Pool", "pw_self_pool"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -93,6 +106,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("pw_status", rpc.ToString());
             PwStatus_Response? deserializedObject = PwStatus_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Pool", "pw_status"));
+            }
             return deserializedObject;
         }
         /// <summary>

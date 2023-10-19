@@ -8,13 +8,22 @@ namespace Chia_Client_API.FarmerAPI_NS
         /// <summary>
         /// Initializes a new instance of the <see cref="Farmer_RPC_Client"/> class.
         /// </summary>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// ChiaVersion<br/>
+        /// ApiVersion<br/>
+        /// RpcVersion<br/>
+        /// ErrorTime<br/>
+        /// ErrorText<br/>
+        /// RawServerResponse<br/>
+        /// Preferrably use on testnet or with a testwallet<br/>
+        /// Any responses with potential key / authentication information are omitted</param>
         /// <param name="targetApiAddress">The address of the target API. Defaults to "localhost".</param>
         /// <param name="targetApiPort">The port number for the API connection. Defaults to 8559.</param>
         /// <param name="targetCertificateBaseFolder">The file path to the folder containing the SSL/TLS certificate. 
         /// This is optional and if not provided, defaults to a standard certificate location in the user's profile.</param>
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Farmer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8559, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
+        public Farmer_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 8559, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -32,11 +41,16 @@ namespace Chia_Client_API.FarmerAPI_NS
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
+            ReportResponseErrors = reportResponseErrors;
         }
         /// <summary>
         /// Gets or sets the HTTP client used for communication with the API.
         /// </summary>
         private HttpClient _Client { get; set; }
+        /// <summary>
+        /// specifies if RPC response errors should be reported for api improvements
+        /// </summary>
+        public bool ReportResponseErrors { get; set; }
         /// <summary>
         /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
         /// </summary>

@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.Farmer_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.Farmer_NS;
 using CHIA_RPC.Farmer_NS.FarmerObjects_NS;
 using CHIA_RPC.General_NS;
 
@@ -24,6 +25,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters");
             GetHarvesters_Response? deserializedObject = GetHarvesters_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -47,6 +52,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvesters_summary");
             GetHarvestersSummary_Response? deserializedObject = GetHarvestersSummary_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvesters_summary"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -71,6 +80,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_duplicates", rpc.ToString());
             GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvester_plots_duplicates"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -96,6 +109,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_invalid", rpc.ToString());
             GetHarvesterPlotsInvalid_Response? deserializedObject = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvester_plots_invalid"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -121,6 +138,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_keys_missing", rpc.ToString());
             GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvester_plots_keys_missing"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -146,6 +167,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_harvester_plots_valid", rpc.ToString());
             GetHarvesterPlots_Response? deserializedObject = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_harvester_plots_valid"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -171,6 +196,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_pool_login_link", rpc.ToString());
             GetPoolLoginLink_Response? deserializedObject = GetPoolLoginLink_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_pool_login_link"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -195,6 +224,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_pool_state");
             GetPoolState_Response? deserializedObject = GetPoolState_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_pool_state"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -219,6 +252,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_reward_targets", rpc.ToString());
             GetRewardTargets_Response? deserializedObject = GetRewardTargets_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_reward_targets"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -243,6 +280,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_routes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -267,6 +308,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_signage_point", rpc.ToString());
             SignagePointWithProofs? deserializedObject = SignagePointWithProofs.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_signage_point"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -291,6 +336,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_signage_points");
             GetSignagePoints_Response? deserializedObject = GetSignagePoints_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "get_signage_points"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -315,6 +364,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("set_payout_instructions", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "set_payout_instructions"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -340,6 +393,10 @@ namespace Chia_Client_API.FarmerAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("set_reward_targets", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Farmer", "set_reward_targets"));
+            }
             return deserializedObject;
         }
         /// <summary>

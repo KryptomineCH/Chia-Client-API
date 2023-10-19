@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
@@ -326,7 +327,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// waits for an offer to fully execute or fail
         /// </summary>
-        /// <param name="transactionID_RPC"></param>
+        /// <param name="offer"></param>
         /// <param name="cancellation"></param>
         /// <param name="timeOut"></param>
         /// <returns></returns>
@@ -335,6 +336,14 @@ namespace Chia_Client_API.WalletAPI_NS
             OfferFile offer,
             CancellationToken cancellation, TimeSpan timeOut)
         {
+            if (offer.offer == null || offer.error != null)
+            {
+                CheckOfferValidity_Response response = new CheckOfferValidity_Response();
+                response.success = offer.success;
+                response.error = offer.error;
+                response.valid = false;
+                return response;
+            }
             DateTime startTime = DateTime.Now;
             CheckOfferValidity_Response? responseJson = null;
             while (!cancellation.IsCancellationRequested)
@@ -360,7 +369,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// waits for a offer to fully execute or fail
         /// </summary>
-        /// <param name="transactionID_RPC"></param>
+        /// <param name="offer"></param>
         /// <param name="cancellation"></param>
         /// <param name="timeoutInMinutes"></param>
         /// <returns></returns>
@@ -385,6 +394,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_farmed_amount", rpc.ToString());
             GetTransaction_Response? deserializedObject = GetTransaction_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_farmed_amount"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -411,6 +424,10 @@ namespace Chia_Client_API.WalletAPI_NS
             string? rpcString = rpc?.ToString() ?? null;
             string responseJson = await SendCustomMessage_Async("delete_notifications", rpcString);
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "delete_notifications"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -435,8 +452,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response?> DeleteUnconfirmedTransactions_Async(ulong walletID)
         {
             string responseJson = await SendCustomMessage_Async("delete_unconfirmed_transactions", "{\"wallet_id\": " + walletID + "}");
-            Success_Response? success = Success_Response.LoadResponseFromString(responseJson);
-            return success;
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "delete_unconfirmed_transactions"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Delete all transactions that have yet to be confirmed on the blockchain from the given wallet
@@ -447,8 +468,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response?> DeleteUnconfirmedTransactions_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("delete_unconfirmed_transactions", rpc.ToString());
-            Success_Response? success = Success_Response.LoadResponseFromString(responseJson);
-            return success;
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "delete_unconfirmed_transactions"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Delete all transactions that have yet to be confirmed on the blockchain from the given wallet
@@ -485,6 +510,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("extend_derivation_index", rpc.ToString());
             Index_Response? deserializedObject = Index_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "extend_derivation_index"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -510,6 +539,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_names", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_coin_records_by_names"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -534,6 +567,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_current_derivation_index");
             Index_Response? deserializedObject = Index_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_current_derivation_index"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -557,6 +594,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_farmed_amount");
             GetFarmedAmount_Response? deserializedObject = GetFarmedAmount_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_farmed_amount"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -581,6 +622,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_next_address", rpc.ToString());
             GetNextAddress_Response? deserializedObject = GetNextAddress_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_next_address"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -620,6 +665,10 @@ namespace Chia_Client_API.WalletAPI_NS
             string? rpcString = rpc?.ToString() ?? null;
             string responseJson = await SendCustomMessage_Async("get_notifications", rpcString);
             GetNotifications_Response? deserializedObject = GetNotifications_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_notifications"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -645,6 +694,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_spendable_coins", rpc.ToString());
             GetSpendableCoins_Response? deserializedObject = GetSpendableCoins_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_spendable_coins"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -670,6 +723,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_transaction", rpc.ToString());
             GetTransaction_Response? deserializedObject = GetTransaction_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_transaction"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -699,6 +756,10 @@ namespace Chia_Client_API.WalletAPI_NS
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
             //GetTransactions_Response? deserializedObject = JsonSerializer.Deserialize<GetTransactions_Response?>(responseJson);
             GetTransactions_Response? deserializedObject = GetTransactions_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_transactions"));
+            }
             return deserializedObject;
         }
 
@@ -731,6 +792,10 @@ namespace Chia_Client_API.WalletAPI_NS
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
             //GetTransactions_Response? deserializedObject = JsonSerializer.Deserialize<GetTransactions_Response?>(responseJson);
             GetTransactions_Response? deserializedObject = GetTransactions_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_transactions"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -762,6 +827,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_transaction_count", rpc.ToString());
             GetTransactionCount_Response? deserializedObject = GetTransactionCount_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_transaction_count"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -789,8 +858,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Memo_Response?> GetTransactionMemo_Async(TransactionID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transaction_memo", rpc.ToString());
-            Memo_Response? success = Memo_Response.LoadResponseFromString(responseJson);
-            return success;
+            Memo_Response? deserializedObject = Memo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_transaction_memo"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Obtain the memo for the specified transaction
@@ -815,6 +888,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_wallet_balance", rpc.ToString());
             GetWalletBalance_Response? deserializedObject = GetWalletBalance_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "get_wallet_balance"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -840,6 +917,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("select_coins", rpc.ToString());
             SelectCoins_Response? deserializedObject = SelectCoins_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "select_coins"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -864,8 +945,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SendNotification_Response?> SendNotification_Async(SendNotification_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("send_notification", rpc.ToString());
-            SendNotification_Response? success = SendNotification_Response.LoadResponseFromString(responseJson);
-            return success;
+            SendNotification_Response? deserializedObject = SendNotification_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "send_notification"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Send a notification to a specified puzzle hash
@@ -890,6 +975,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("send_transaction", rpc.ToString());
             GetTransaction_Response? deserializedObject = GetTransaction_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "send_transaction"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -916,6 +1005,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("send_transaction_multi", rpc.ToString());
             GetTransaction_Response? deserializedObject = GetTransaction_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "send_transaction_multi"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -941,8 +1034,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SignMessage_Response?> SignMessageByAddress_Async(SignMessageByAddress_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("sign_message_by_address", rpc.ToString());
-            SignMessage_Response? success = SignMessage_Response.LoadResponseFromString(responseJson);
-            return success;
+            SignMessage_Response? deserializedObject = SignMessage_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "sign_message_by_address"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Sign a message using an XCH address without incurring an on-chain transaction
@@ -966,8 +1063,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SignMessage_Response?> SignMessageByID_Async(SignMessageByID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("sign_message_by_id", rpc.ToString());
-            SignMessage_Response? success = SignMessage_Response.LoadResponseFromString(responseJson);
-            return success;
+            SignMessage_Response? deserializedObject = SignMessage_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "sign_message_by_id"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Sign a message using a DID or NFT ID without incurring an on-chain transaction
@@ -992,8 +1093,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SignMessage_Response?> VerifySignature_Async(VerifySignature_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("verify_signature", rpc.ToString());
-            SignMessage_Response? success = SignMessage_Response.LoadResponseFromString(responseJson);
-            return success;
+            SignMessage_Response? deserializedObject = SignMessage_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Wallet", "verify_signature"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Given a public key, message and signature, verify if it is valid.<br/><br/>

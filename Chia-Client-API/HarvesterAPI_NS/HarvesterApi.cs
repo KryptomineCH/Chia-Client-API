@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Harvester_NS;
 
 namespace Chia_Client_API.HarvesterAPI_NS
@@ -25,6 +26,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("add_plot_directory", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "add_plot_directory"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -52,6 +57,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("delete_plot", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "delete_plot"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -81,6 +90,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_plots");
             GetPlots_Response? deserializedObject = GetPlots_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "get_plots"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -108,6 +121,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_plot_directories");
             GetPlotDirectories_Response? deserializedObject = GetPlotDirectories_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "get_plot_directories"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -131,6 +148,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "get_routes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -154,6 +175,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("refresh_plots");
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "refresh_plots"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -179,6 +204,10 @@ namespace Chia_Client_API.HarvesterAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("remove_plot_directory", rpc.ToString());
             Success_Response? deserializedObject =Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Harvester", "remove_plot_directory"));
+            }
             return deserializedObject;
         }
         /// <summary>

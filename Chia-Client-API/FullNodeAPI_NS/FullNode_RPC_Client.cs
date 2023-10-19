@@ -8,11 +8,20 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// ChiaVersion<br/>
+        /// ApiVersion<br/>
+        /// RpcVersion<br/>
+        /// ErrorTime<br/>
+        /// ErrorText<br/>
+        /// RawServerResponse<br/>
+        /// Preferrably use on testnet or with a testwallet<br/>
+        /// Any responses with potential key / authentication information are omitted</param>
         /// <param name="targetApiAddress">the ip or name where to reach the full-node server</param>
         /// <param name="targetApiPort">the port which to coinnect to</param>
         /// <param name="targetCertificateBaseFolder">the base (ssl) folder path</param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public FullNode_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
+        public FullNode_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -31,6 +40,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
+            ReportResponseErrors = reportResponseErrors;
         }
         private HttpClient _Client { get; set; }
         /// <summary>
@@ -41,6 +51,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// the port which should be used. defaults to 8555
         /// </summary>
         public int TargetApiPort { get; set; }
+        /// <summary>
+        /// specifies if RPC response errors should be reported for api improvements
+        /// </summary>
+        public bool ReportResponseErrors { get; set; }
         /// <summary>
         /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
         /// </summary>

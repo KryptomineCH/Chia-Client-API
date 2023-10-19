@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.DID_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Text.Json;
@@ -142,6 +143,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_get_info", rpc.ToString());
             DidGetInfo_Response? deserializedObject = DidGetInfo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_get_info"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -192,6 +197,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_get_metadata", rpc.ToString());
             DidGetMetadata_Response? deserializedObject = DidGetMetadata_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_get_metadata"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -217,6 +226,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_get_pubkey", rpc.ToString());
             DidGetPubkey_Response? deserializedObject = DidGetPubkey_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_get_pubkey"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -267,6 +280,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_get_wallet_name", rpc.ToString());
             DidGetWalletName_Response? deserializedObject = DidGetWalletName_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_get_wallet_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -342,6 +359,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_set_wallet_name", rpc.ToString());
             WalletID_Response? deserializedObject = WalletID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_set_wallet_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -367,6 +388,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_update_metadata", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_update_metadata"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -422,6 +447,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("create_new_wallet", rpc.ToString());
             CreateNewDIDWallet_Response? deserializedObject = CreateNewDIDWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "create_new_wallet"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -449,6 +478,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("did_transfer_did", rpc.ToString());
             DidTransferDid_Response? deserializedObject = DidTransferDid_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Did", "did_transfer_did"));
+            }
             return deserializedObject;
         }
         /// <summary>

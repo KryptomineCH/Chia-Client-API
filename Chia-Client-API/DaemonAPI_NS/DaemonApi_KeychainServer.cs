@@ -1,6 +1,5 @@
-﻿using CHIA_RPC.Daemon_NS.KeychainServer_NS;
-using CHIA_RPC.Daemon_NS.KeychainServer_NS.KeychainServerObjects_NS;
-using CHIA_RPC.Daemon_NS.Plotter_NS.PlotterObjects_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.Daemon_NS.KeychainServer_NS;
 using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API.DaemonAPI_NS
@@ -297,6 +296,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("set_label", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "set_label"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -323,6 +326,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("delete_label", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "delete_label"));
+            }
             return deserializedObject;
         }
         /// <summary>

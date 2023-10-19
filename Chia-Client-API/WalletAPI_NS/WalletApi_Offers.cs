@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.Offer_NS;
@@ -17,6 +18,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cancel_offer", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Offers", "cancel_offer"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -42,6 +47,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("cancel_offers", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Offers", "cancel_offers"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -67,6 +76,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("check_offer_validity", rpc.ToString());
             CheckOfferValidity_Response? deserializedObject = CheckOfferValidity_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Offers", "check_offer_validity"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -142,6 +155,7 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_offer", rpc.ToString());
             OfferFile? deserializedObject = OfferFile.LoadObjectFromString(responseJson);
+
             return deserializedObject;
         }
         /// <summary>
@@ -167,6 +181,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_offer_summary", rpc.ToString());
             GetOfferSummary_Response? deserializedObject = GetOfferSummary_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Offers", "get_offer_summary"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -192,6 +210,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("take_offer", rpc.ToString());
             TradeRecord_Response? deserializedObject = TradeRecord_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Offers", "take_offer"));
+            }
             return deserializedObject;
         }
         /// <summary>

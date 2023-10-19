@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.VerifiableCredentials_NS;
 using System.Text.Json;
 
@@ -40,6 +41,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("vc_get", rpc.ToString());
             VcGet_Response? deserializedObject = VcGet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -64,6 +69,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("vc_get_list", rpc.ToString());
             VcGetList_Response? deserializedObject = VcGetList_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get_list"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -89,6 +98,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("vc_get_proofs_for_root", rpc.ToString());
             VcGetProofsForRoot_Response? deserializedObject = VcGetProofsForRoot_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get_proofs_for_root"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -114,6 +127,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("vc_mint", rpc.ToString());
             VcMint_Response? deserializedObject = VcMint_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_mint"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -138,6 +155,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("vc_revoke", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_revoke"));
+            }
             return deserializedObject;
         }
         /// <summary>

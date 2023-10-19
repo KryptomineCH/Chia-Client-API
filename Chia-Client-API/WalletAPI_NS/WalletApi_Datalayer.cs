@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.DLWallet_NS;
 using System.Text.Json;
 
@@ -16,7 +17,11 @@ namespace Chia_Client_API.WalletAPI_NS
 		{
 			string responseJson = await SendCustomMessage_Async("create_new_dl", rpc.ToString());
 			CreateNewDL_Response? deserializedObject = CreateNewDL_Response.LoadResponseFromString(responseJson);
-			return deserializedObject;
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "create_new_dl"));
+            }
+            return deserializedObject;
 		}
 		/// <summary>
 		/// Create a new DataLayer wallet
@@ -53,6 +58,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_delete_mirror", rpc.ToString());
             DlNewMirror_Response? deserializedObject = DlNewMirror_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_delete_mirror"));
+            }
             return deserializedObject;
         }
 
@@ -65,6 +74,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_get_mirrors");
             DlGetMirrors_Response? deserializedObject = DlGetMirrors_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_get_mirrors"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -89,6 +102,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_history", rpc.ToString());
             DlHistory_Response? deserializedObject = DlHistory_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_history"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -114,6 +131,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_latest_singleton", rpc.ToString());
             DlLatestSingleton_Response? deserializedObject = DlLatestSingleton_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_latest_singleton"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -139,6 +160,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_new_mirror", rpc.ToString());
             DlNewMirror_Response? deserializedObject = DlNewMirror_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_new_mirror"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -163,6 +188,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_owned_singletons");
             DlOwnedSingletons_Response? deserializedObject = DlOwnedSingletons_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_owned_singletons"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -187,6 +216,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_singletons_by_root", rpc.ToString());
             DlSingletonsByRoot_Response? deserializedObject = DlSingletonsByRoot_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_singletons_by_root"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -212,6 +245,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("dl_stop_tracking", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_stop_tracking"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -237,6 +274,10 @@ namespace Chia_Client_API.WalletAPI_NS
 		{
 			string responseJson = await SendCustomMessage_Async("dl_track_new", rpc.ToString());
 			Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_track_new"));
+            }
             return deserializedObject;
 		}
 		/// <summary>
@@ -262,6 +303,10 @@ namespace Chia_Client_API.WalletAPI_NS
 		{
 			string responseJson = await SendCustomMessage_Async("dl_update_root", rpc.ToString());
 			DlUpdateRoot_Response? deserializedObject = DlUpdateRoot_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_DataLayer", "dl_update_root"));
+            }
             return deserializedObject;
 		}
 		/// <summary>

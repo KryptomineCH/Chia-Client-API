@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.FullNode_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
@@ -129,7 +130,9 @@ namespace Chia_Client_API.WalletAPI_NS
                 coin_id = coinID,
                 wallet_id = nftMint.wallet_id
             };
-            return await NftGetInfo_Async(nftRequest).ConfigureAwait(false);
+            NftGetInfo_Response response =  await NftGetInfo_Async(nftRequest).ConfigureAwait(false);
+            
+            return response;
         }
         /// <summary>
         /// searches for the nft in all wallets and returns the wallet id which the nft is located in.
@@ -247,6 +250,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_add_uri", rpc.ToString());
             SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_add_uri"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -272,6 +279,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_calculate_royalties", rpc.ToString());
             NftCalculateRoyalties_Response? deserializedObject = NftCalculateRoyalties_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_calculate_royalties"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -297,6 +308,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_count_nfts", rpc.ToString());
             NftCountNfts_Response? deserializedObject = NftCountNfts_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_count_nfts"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -322,6 +337,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_get_by_did", rpc.ToString());
             WalletID_Response? deserializedObject = WalletID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_by_did"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -347,6 +366,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_get_info", rpc.ToString());
             NftGetInfo_Response? deserializedObject = NftGetInfo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_info"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -372,6 +395,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_get_nfts", rpc.ToString());
             NftGetNfts_Response? deserializedObject = NftGetNfts_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_nfts"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -396,6 +423,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_get_wallets_with_dids");
             NftGetWalletsWithDIDs_Response? deserializedObject = NftGetWalletsWithDIDs_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_wallets_with_dids"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -420,6 +451,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_get_wallet_did", rpc.ToString());
             DidID_Response? deserializedObject = DidID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_wallet_did"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -447,6 +482,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_mint_bulk", rpc.ToString());
             SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_mint_bulk"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -476,6 +515,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_mint_nft", rpc.ToString());
             NftMintNFT_Response? deserializedObject = NftMintNFT_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_mint_nft"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -503,6 +546,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_set_did_bulk", rpc.ToString());
             SpendBundle_MultiWallet_Response? deserializedObject = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_did_bulk"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -528,6 +575,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_set_nft_did", rpc.ToString());
             NftSetNftDID_Response? deserializedObject = NftSetNftDID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_nft_did"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -553,6 +604,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_set_nft_status", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_nft_status"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -580,6 +635,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_transfer_nft", rpc.ToString());
             SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_transfer_nft"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -607,6 +666,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("nft_transfer_bulk", rpc.ToString());
             SpendBundle_MultiWallet_Response? deserializedObject = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_transfer_bulk"));
+            }
             return deserializedObject;
         }
         /// <summary>

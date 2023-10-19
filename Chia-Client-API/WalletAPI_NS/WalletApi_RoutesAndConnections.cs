@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.Datalayer_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
 using System.Text.Json;
@@ -17,6 +18,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("close_connection", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_RoutesAndConnections", "close_connection"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -41,6 +46,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_connections");
             GetConnections_Response? deserializedObject = GetConnections_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_RoutesAndConnections", "get_connections"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -64,6 +73,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_RoutesAndConnections", "get_routes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -88,6 +101,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("open_connection", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_RoutesAndConnections", "open_connection"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -112,6 +129,10 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("stop_node");
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_RoutesAndConnections", "stop_node"));
+            }
             return deserializedObject;
         }
         /// <summary>

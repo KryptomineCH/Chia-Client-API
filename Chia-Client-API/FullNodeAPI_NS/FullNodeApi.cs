@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.FullNode_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 
@@ -71,6 +72,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_additions_and_removals", rpc.ToString());
             GetAdditionsAndRemovals_Response? deserializedObject = GetAdditionsAndRemovals_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -95,6 +100,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_all_mempool_items");
             GetAllMempoolItems_Response? deserializedObject = GetAllMempoolItems_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -118,6 +127,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_all_mempool_tx_ids");
             GetAllMempoolTxIDs_Response? deserializedObject = GetAllMempoolTxIDs_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -142,6 +155,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block", rpc.ToString());
             GetBlock_Response? deserializedObject = GetBlock_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -166,6 +183,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_blockchain_state");
             GetBlockchainState_Response? deserializedObject = GetBlockchainState_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -191,6 +212,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_blocks", rpc.ToString());
             GetBlocks_Response? deserializedObject = GetBlocks_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -220,6 +245,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block_count_metrics");
             GetBlockCountMetrics_Response? deserializedObject = GetBlockCountMetrics_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -248,6 +277,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_parent_ids", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -273,6 +306,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block_record", rpc.ToString());
             GetBlockRecord_Response? deserializedObject = GetBlockRecord_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_harvesters"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -298,6 +335,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block_records", rpc.ToString());
             GetBlockRecords_Response? deserializedObject = GetBlockRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_block_records"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -323,6 +364,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block_record_by_height", rpc.ToString());
             GetBlockRecord_Response? deserializedObject = GetBlockRecord_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_block_record_by_height"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -348,6 +393,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_block_spends", rpc.ToString());
             GetBlockSpends_Response? deserializedObject = GetBlockSpends_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_block_spends"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -373,6 +422,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_hint", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_coin_records_by_hint"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -398,6 +451,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_puzzle_hash", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_coin_records_by_puzzle_hash"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -423,6 +480,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_puzzle_hashes", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_coin_records_by_puzzle_hashes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -448,6 +509,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_record_by_name", rpc.ToString());
             GetCoinRecordByName_Response? deserializedObject = GetCoinRecordByName_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_coin_record_by_name"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -473,6 +538,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_coin_records_by_names", rpc.ToString());
             GetCoinRecords_Response? deserializedObject = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_coin_records_by_names"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -504,6 +573,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_fee_estimate", rpc.ToString());
             GetFeeEstimate_Response? deserializedObject = GetFeeEstimate_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_fee_estimate"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -535,6 +608,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_mempool_item_by_tx_id", rpc.ToString());
             GetMempoolItemByTxID_Response? deserializedObject = GetMempoolItemByTxID_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_mempool_item_by_tx_id"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -559,6 +636,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_network_info");
             GetNetworkInfo_Response? deserializedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_network_info"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -583,6 +664,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_network_space", rpc.ToString());
             GetNetworkSpace_Response? deserializedObject = GetNetworkSpace_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_network_space"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -609,6 +694,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_puzzle_and_solution", rpc.ToString());
             GetPuzzleAndSolution_Response? deserializedObject = GetPuzzleAndSolution_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_puzzle_and_solution"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -635,6 +724,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_recent_signage_point_or_eos", rpc.ToString());
             GetRecentSignagePointOrEos_Response? deserializedObject = GetRecentSignagePointOrEos_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_recent_signage_point_or_eos"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -659,6 +752,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_routes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -682,6 +779,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_unfinished_block_headers");
             GetUnfinishedBlockHeaders_Response? deserializedObject = GetUnfinishedBlockHeaders_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "get_unfinished_block_headers"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -705,6 +806,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("healthz");
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "healthz"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -729,6 +834,10 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
             PushTx_Response? deserializedObject = PushTx_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Fullnode", "push_tx"));
+            }
             return deserializedObject;
         }
         /// <summary>

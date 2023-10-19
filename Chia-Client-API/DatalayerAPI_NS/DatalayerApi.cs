@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.Datalayer_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.Datalayer_NS;
 using CHIA_RPC.Datalayer_NS.DatalayerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.DLWallet_NS;
@@ -20,6 +21,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("add_mirror", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "add_mirror"));
+            }
             return deserializedObject;
         }
 
@@ -49,6 +54,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("add_missing_files", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "add_missing_files"));
+            }
             return deserializedObject;
         }
 
@@ -154,6 +163,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
 
             string response = await SendCustomMessage_Async("batch_update", rpc.ToString());
             TxID_Response? deserializedObject = TxID_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "batch_update"));
+            }
             return deserializedObject;
         }
 
@@ -189,6 +202,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("cancel_offer", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "cancel_offer"));
+            }
             return deserializedObject;
         }
 
@@ -213,6 +230,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("check_plugins");
             CheckPlugins_Response? deserializedObject = CheckPlugins_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "check_plugins"));
+            }
             return deserializedObject;
         }
 
@@ -234,6 +255,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("check_plugins", rpc.ToString());
             ClearPendingRoots_Response? deserializedObject = ClearPendingRoots_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "check_plugins"));
+            }
             return deserializedObject;
         }
 
@@ -259,6 +284,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
 
             string response = await SendCustomMessage_Async("create_data_store", rpc.ToString());
             CreateDataStore_Response? deserializedObject = CreateDataStore_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "create_data_store"));
+            }
             return deserializedObject;
         }
 
@@ -321,6 +350,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("delete_mirror", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "delete_mirror"));
+            }
             return deserializedObject;
         }
 
@@ -493,6 +526,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_mirrors", rpc.ToString());
             GetMirrors_Response? deserializedObject = GetMirrors_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_mirrors"));
+            }
             return deserializedObject;
         }
 
@@ -518,6 +555,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_owned_stores");
             GetOwnedStores_Response? deserializedObject = GetOwnedStores_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_owned_stores"));
+            }
             return deserializedObject;
         }
 
@@ -545,6 +586,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_root", rpc.ToString());
             GetRoot_Response? deserializedObject = GetRoot_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_root"));
+            }
             return deserializedObject;
         }
 
@@ -574,6 +619,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_roots", rpc.ToString());
             GetRoots_Response? deserializedObject = GetRoots_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_roots"));
+            }
             return deserializedObject;
         }
 
@@ -601,6 +650,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_root_history", rpc.ToString());
             GetRootHistory_Response? deserializedObject = GetRootHistory_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_root_history"));
+            }
             return deserializedObject;
         }
 
@@ -626,6 +679,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_routes"));
+            }
             return deserializedObject;
         }
 
@@ -651,6 +708,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_sync_status", rpc.ToString());
             GetDatalayerSyncStatus_Response? deserializedObject = GetDatalayerSyncStatus_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_sync_status"));
+            }
             return deserializedObject;
         }
 
@@ -681,6 +742,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_value", rpc.ToString());
             GetValue_Response? deserializedObject = GetValue_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "get_value"));
+            }
             return deserializedObject;
         }
 
@@ -711,6 +776,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("insert", rpc.ToString());
             TxID_Response? deserializedObject = TxID_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "insert"));
+            }
             return deserializedObject;
         }
 
@@ -737,6 +806,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("make_offer", rpc.ToString());
             MakeOffer_Response? deserializedObject = MakeOffer_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "make_offer"));
+            }
             return deserializedObject;
         }
 
@@ -765,6 +838,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("remove_subscriptions", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "remove_subscriptions"));
+            }
             return deserializedObject;
         }
 
@@ -793,6 +870,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("subscribe", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "subscribe"));
+            }
             return deserializedObject;
         }
 
@@ -818,6 +899,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("subscriptions");
             Subscriptions_Response? deserializedObject = Subscriptions_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "subscriptions"));
+            }
             return deserializedObject;
         }
 
@@ -843,6 +928,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("take_offer", rpc.ToString());
             TradeID_Response? deserializedObject = TradeID_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "take_offer"));
+            }
             return deserializedObject;
         }
 
@@ -875,6 +964,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("unsubscribe", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "unsubscribe"));
+            }
             return deserializedObject;
         }
 
@@ -907,6 +1000,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("verify_offer", rpc.ToString());
             VerifyOffer_Response? deserializedObject = VerifyOffer_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Datalayer", "verify_offer"));
+            }
             return deserializedObject;
         }
         
@@ -962,6 +1059,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("close_connection", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "DataLayer", "close_connection"));
+            }
             return deserializedObject;
         }
 
@@ -993,6 +1094,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("get_connections");
             GetConnections_Response? deserializedObject = GetConnections_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "DataLayer", "get_connections"));
+            }
             return deserializedObject;
         }
 
@@ -1024,6 +1129,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("open_connection", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "DataLayer", "open_connection"));
+            }
             return deserializedObject;
         }
 
@@ -1055,6 +1164,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             string response = await SendCustomMessage_Async("stop_node");
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(response);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "DataLayer", "stop_node"));
+            }
             return deserializedObject;
         }
 

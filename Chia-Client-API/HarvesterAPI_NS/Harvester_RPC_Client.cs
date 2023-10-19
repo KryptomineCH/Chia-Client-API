@@ -9,11 +9,20 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <summary>
         /// Provides the client which makes requests against the harvester node
         /// </summary>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// ChiaVersion<br/>
+        /// ApiVersion<br/>
+        /// RpcVersion<br/>
+        /// ErrorTime<br/>
+        /// ErrorText<br/>
+        /// RawServerResponse<br/>
+        /// Preferrably use on testnet or with a testwallet<br/>
+        /// Any responses with potential key / authentication information are omitted</param>
         /// <param name="targetApiAddress"></param>
         /// <param name="targetApiPort"></param>
         /// <param name="targetCertificateBaseFolder"></param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Harvester_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8560, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
+        public Harvester_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 8560, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -31,8 +40,13 @@ namespace Chia_Client_API.HarvesterAPI_NS
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
+            ReportResponseErrors = reportResponseErrors;
         }
         private HttpClient _Client { get; set; }
+        /// <summary>
+        /// specifies if RPC response errors should be reported for api improvements
+        /// </summary>
+        public bool ReportResponseErrors { get; set; }
         /// <summary>
         /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
         /// </summary>

@@ -12,6 +12,15 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// Constructor for the Datalayer_RPC_Client class. This method is automatically called 
         /// whenever an instance of the class is created. It sets up the Datalayer_RPC_Client with
         /// </summary>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// ChiaVersion<br/>
+        /// ApiVersion<br/>
+        /// RpcVersion<br/>
+        /// ErrorTime<br/>
+        /// ErrorText<br/>
+        /// RawServerResponse<br/>
+        /// Preferrably use on testnet or with a testwallet<br/>
+        /// Any responses with potential key / authentication information are omitted</param>
         /// <param name="targetApiAddress">This parameter sets the address of the target API. 
         /// This could be an IP address or a domain name. The default value is "localhost", which points to the machine where the code is currently running.</param>
         /// <param name="targetApiPort">This parameter sets the port number that the client should use to connect to the API. 
@@ -21,7 +30,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// that the client will use to secure its connection to the API. 
         /// If this parameter is null (which is its default value), it indicates that the client should not use a certificate (the connection won't be secured).</param>
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public Datalayer_RPC_Client(string targetApiAddress = "localhost", int targetApiPort = 8562, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
+        public Datalayer_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 8562, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             TargetApiAddress = targetApiAddress;
@@ -39,6 +48,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
+            ReportResponseErrors = reportResponseErrors;
         }
         /// <summary>
         /// this is the client through which requests are made
@@ -52,6 +62,10 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// the port which should be used. defaults to 8555
         /// </summary>
         public int TargetApiPort { get; set; }
+        /// <summary>
+        /// specifies if RPC response errors should be reported for api improvements
+        /// </summary>
+        public bool ReportResponseErrors { get; set; }
         /// <summary>
         /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
         /// </summary>

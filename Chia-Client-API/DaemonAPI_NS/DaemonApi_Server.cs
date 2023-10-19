@@ -1,5 +1,4 @@
-﻿using CHIA_RPC.Daemon_NS.Plotter_NS;
-using CHIA_RPC.Daemon_NS.Plotter_NS.PlotterObjects_NS;
+﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.Daemon_NS.Server_NS;
 using CHIA_RPC.General_NS;
 
@@ -26,6 +25,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("exit");
             Exit_Response? deserializedObject = Exit_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "exit"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -50,6 +53,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_routes");
             GetRoutes_Response? deserializedObject = GetRoutes_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "get_routes"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -74,6 +81,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_status");
             GetStatus_Response? deserializedObject = GetStatus_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "get_status"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -98,6 +109,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_version");
             GetVersion_Response? deserializedObject = GetVersion_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "get_version"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -123,6 +138,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("get_wallet_addresses", rpc.ToString());
             GetWalletAddresses_Response? deserializedObject = GetWalletAddresses_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "get_wallet_addresses"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -173,6 +192,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("is_running", rpc.ToString());
             IsRunning_Response? deserializedObject = IsRunning_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "is_running"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -222,6 +245,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("register_service", rpc.ToString());
             Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "register_service"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -270,6 +297,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("running_services");
             RunningServices_Response? deserializedObject = RunningServices_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "running_services"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -318,6 +349,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("start_service", rpc.ToString());
             Service_Response? deserializedObject = Service_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "start_service"));
+            }
             return deserializedObject;
         }
         /// <summary>
@@ -342,6 +377,10 @@ namespace Chia_Client_API.DaemonAPI_NS
         {
             string responseJson = await SendCustomMessage_Async("stop_service", rpc.ToString());
             Service_Response? deserializedObject = Service_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "stop_service"));
+            }
             return deserializedObject;
         }
         /// <summary>

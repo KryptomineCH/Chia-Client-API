@@ -1,4 +1,5 @@
-﻿using CHIA_RPC.General_NS;
+﻿using Chia_Client_API.Helpers_NS;
+using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using System.Text.Json;
@@ -15,8 +16,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetHeightInfo_Response?> GetHeightInfo_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_height_info");
-            GetHeightInfo_Response? deserialzedObject = GetHeightInfo_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            GetHeightInfo_Response? deserializedObject = GetHeightInfo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "get_height_info"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Show the block height to which the current wallet is synced
@@ -38,8 +43,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetNetworkInfo_Response?> GetNetworkInfo_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_network_info");
-            GetNetworkInfo_Response? deserialzedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            GetNetworkInfo_Response? deserializedObject = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "get_network_info"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Show the current network (eg mainnet) and network prefix (eg XCH)
@@ -61,8 +70,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetWalletSyncStatus_Response?> GetSyncStatus_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_sync_status");
-            GetWalletSyncStatus_Response? deserialzedObject = GetWalletSyncStatus_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            GetWalletSyncStatus_Response? deserializedObject = GetWalletSyncStatus_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "get_sync_status"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Show whether the current wallet is syncing or synced
@@ -85,8 +98,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetTimestampForHeight_Response?> GetTimestampForHeight_Async(Height_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_timestamp_for_height", rpc.ToString());
-            GetTimestampForHeight_Response? deserialzedObject = GetTimestampForHeight_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            GetTimestampForHeight_Response? deserializedObject = GetTimestampForHeight_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "get_timestamp_for_height"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Show the timestamp for a given block height
@@ -112,8 +129,12 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             PushTransactions_RPC rpc = new PushTransactions_RPC { transactions = bundles };
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
-            PushTx_Response? deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            PushTx_Response? deserializedObject = PushTx_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "push_tx"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Push multiple transactions to the blockchain<br/><br/>
@@ -140,8 +161,12 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             PushTx_RPC rpc = new PushTx_RPC { spend_bundle = spendBundle };
             string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
-            PushTx_Response? deserialzedObject = PushTx_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            PushTx_Response? deserializedObject = PushTx_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "push_tx"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Pushes a transaction / spend bundle to the mempool and blockchain. Returns whether the spend bundle was successfully included into the mempool.<br/><br/>
@@ -166,8 +191,12 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response?> SetWalletResyncOnStartup_Async(SetWalletResyncOnStartup_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("set_wallet_resync_on_startup", rpc.ToString());
-            Success_Response? deserialzedObject = Success_Response.LoadResponseFromString(responseJson);
-            return deserialzedObject;
+            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
+            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            {
+                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Walletnode", "set_wallet_resync_on_startup"));
+            }
+            return deserializedObject;
         }
         /// <summary>
         /// Resync the current logged in wallet. The transaction and offer records will be kept
