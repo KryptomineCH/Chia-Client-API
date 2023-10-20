@@ -12,7 +12,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// Constructor for the Datalayer_RPC_Client class. This method is automatically called 
         /// whenever an instance of the class is created. It sets up the Datalayer_RPC_Client with
         /// </summary>
-        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
         /// ChiaVersion<br/>
         /// ApiVersion<br/>
         /// RpcVersion<br/>

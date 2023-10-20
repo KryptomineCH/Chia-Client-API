@@ -13,7 +13,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <param name="targetApiPort">The port number of the Chia wallet's RPC server. Defaults to 9256.</param>
         /// <param name="targetCertificateBaseFolder">The base directory for the SSL/TLS certificate. This certificate is used to establish a secure connection with the Chia wallet's RPC server. If null, the default certificate location will be used.</param>
         /// <remarks>
-        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
         /// ChiaVersion<br/>
         /// ApiVersion<br/>
         /// RpcVersion<br/>

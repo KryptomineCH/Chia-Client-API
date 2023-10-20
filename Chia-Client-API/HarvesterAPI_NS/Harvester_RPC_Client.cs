@@ -9,7 +9,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <summary>
         /// Provides the client which makes requests against the harvester node
         /// </summary>
-        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
         /// ChiaVersion<br/>
         /// ApiVersion<br/>
         /// RpcVersion<br/>

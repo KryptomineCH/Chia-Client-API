@@ -17,8 +17,8 @@ namespace CHIA_API_Tests.Helpers_NS
 
 
             // Act
-            string encryptedText = EncryptionHelper.Encrypt(plaintext);
-            string decryptedText = EncryptionHelper.Decrypt(encryptedText, privateKeyPath);
+            string encryptedText = EncryptionHelper.HybridEncrypt(plaintext);
+            string decryptedText = EncryptionHelper.HybridDecrypt(encryptedText, privateKeyPath);
 
             // Assert
             Assert.Equal(plaintext, decryptedText);

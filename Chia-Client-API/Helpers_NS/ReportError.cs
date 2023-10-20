@@ -12,7 +12,7 @@ namespace Chia_Client_API.Helpers_NS
         private static readonly Dictionary<string, DateTime> FilenameCache = new Dictionary<string, DateTime>();
 
         /// <summary>
-        /// sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
         /// ChiaVersion<br/>
         /// ApiVersion<br/>
         /// RpcVersion<br/>
@@ -49,7 +49,7 @@ namespace Chia_Client_API.Helpers_NS
             FilenameCache[error.Endpoint + error.Function] = DateTime.Now;
 
             // Prepare content and file name
-            string content = EncryptionHelper.Encrypt(JsonSerializer.Serialize(error));
+            string content = EncryptionHelper.HybridEncrypt(JsonSerializer.Serialize(error));
             byte[] fileContents = Encoding.UTF8.GetBytes(content);
             string currentUnixTimestampMs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString();
             string prefixedFilename = $"{currentUnixTimestampMs}-{error.Endpoint}";

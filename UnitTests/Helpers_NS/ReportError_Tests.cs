@@ -42,7 +42,7 @@ namespace CHIA_API_Tests.Helpers_NS
             DirectoryInfo saveDir = new DirectoryInfo("ErrorLogs");
             if (!saveDir.Exists) saveDir.Create();
             // Read Private Key from embedded resources
-            Stream keyStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Chia_Client_API.errorlog");
+            Stream keyStream = typeof(ReportError).Assembly.GetManifestResourceStream("Chia_Client_API.errorlog");
             var keyFile = new PrivateKeyFile(keyStream);
             var keyFiles = new[] { keyFile };
             var methods = new List<AuthenticationMethod>();
@@ -71,7 +71,7 @@ namespace CHIA_API_Tests.Helpers_NS
                             }
 
                             // Decrypt content
-                            string decryptedContent = EncryptionHelper.Decrypt(encryptedContent, privateKeyPath);
+                            string decryptedContent = EncryptionHelper.HybridDecrypt(encryptedContent, privateKeyPath);
 
                             // Save to local disk
                             string localFilePath = Path.Combine(saveDir.FullName, Path.GetFileName(remoteFilePath));

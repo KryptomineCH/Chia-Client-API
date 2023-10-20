@@ -8,7 +8,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <summary>
         /// Initializes a new instance of the <see cref="Daemon_RPC_Client"/> class.
         /// </summary>
-        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 encryption to kryptomine.ch for improving the API: <br/>
+        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
         /// ChiaVersion<br/>
         /// ApiVersion<br/>
         /// RpcVersion<br/>
