@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.1.1.3</Version>
+    <Version>2.1.1.4</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.1.2
+    <PackageReleaseNotes>2.1.1.4 Fix for error report function
+- moved to asymetric aes encryption due to max data length of RSA
+
+2.1.1.2
 - Fixed an error where AwaitOfferToExecuteOrCancel gets stuck when called with an invalid offer
 - Implemented Globalvar - packageVersion
 - added opt-in error transmit feature improvement program. Transmitts error responses of the server in rsa4096 encrypted manner if opted in. More details in the parameter documentation
