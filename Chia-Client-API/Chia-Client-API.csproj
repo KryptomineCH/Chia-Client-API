@@ -16,7 +16,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.1.4 Fix for error report function
+    <PackageReleaseNotes>2.1.1.5
+- improved Documentation for GetTransactions_RPC
+
+2.1.1.4 Fix for error report function
 - moved to asymetric aes encryption due to max data length of RSA
 
 2.1.1.2
