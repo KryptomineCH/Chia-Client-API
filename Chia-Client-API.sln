@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA_RPC_Tests", "..\CHIA-R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC", "..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj", "{1E17E79C-F104-4D52-85FF-4F1B7C8A0B7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDevelopmentFunctions", "CustomDevelopmentFunctions\CustomDevelopmentFunctions.csproj", "{21F2E3E1-0C67-47E0-9F13-1FB07396B939}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{1E17E79C-F104-4D52-85FF-4F1B7C8A0B7C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1E17E79C-F104-4D52-85FF-4F1B7C8A0B7C}.Release|x64.ActiveCfg = Release|x64
 		{1E17E79C-F104-4D52-85FF-4F1B7C8A0B7C}.Release|x64.Build.0 = Release|x64
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Debug|x64.Build.0 = Debug|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Release|x64.ActiveCfg = Release|Any CPU
+		{21F2E3E1-0C67-47E0-9F13-1FB07396B939}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
