@@ -716,7 +716,18 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get a transaction's details from its ID
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transaction"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public async Task<GetTransaction_Response?> GetTransaction_Async(TransactionID_RPC rpc)
@@ -732,7 +743,18 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get a transaction's details from its ID
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transaction"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public GetTransaction_Response? GetTransaction_Sync(TransactionID_RPC rpc)
@@ -745,12 +767,20 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get all transactions for a given wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactions_Response?> GetTransactions_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
@@ -766,12 +796,20 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get all transactions for a given wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactions_Response? GetTransactions_Sync(WalletID_RPC rpc)
         {
             Task<GetTransactions_Response?> data = Task.Run(() => GetTransactions_Async(rpc));
@@ -781,12 +819,20 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get all transactions for a given wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactions_Response?> GetTransactions_Async(GetTransactions_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
@@ -801,12 +847,20 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get all transactions for a given wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transactions"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactions_Response? GetTransactions_Sync(GetTransactions_RPC rpc)
         {
             Task<GetTransactions_Response?> data = Task.Run(() => GetTransactions_Async(rpc));
@@ -817,12 +871,21 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Obtain the number of transactions for a wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/>
+        /// </remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public async Task<GetTransactionCount_Response?> GetTransactionCount_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_transaction_count", rpc.ToString());
@@ -836,12 +899,20 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Obtain the number of transactions for a wallet
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/></remarks>
+        /// <remarks>
+        /// <b>WARNING:</b> The transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain.<br/>
+        /// this means, a couple of details cannot be fetched fully:<br/>
+        /// - The transaction IDs can and will change if you resync the wallet<br/>
+        /// - The transaction time is a <b>rough</b> estimate. When an offer is accepted, the individual offer transactions have different created times
+        /// - For your offers that a 3rd Party accepted, the incoming coins are beeing marked as incoming transaction, not as incoming coin<br/>
+        /// - When cancelling offers, the cancellation Transactions are beeing shown as transaction, not as trade<br/>
+        /// - Offers are split into multiple transactions on the corresponding wallets.<br/>
+        /// - Offer Transactions do not share the same ids. To match them up, it is best to keep the offer files.<br/>
+        /// - Transactions which are not kept in XCH and have a fee will cause a second Transaction in the XCH Wallet<br/>
+        /// For accurate records, you should keep a local record of transactions (TXs) and the Offer files made. <br/><br/>
+        /// <see href="https://docs.chia.net/wallet-rpc#get_transaction_count"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        [Obsolete("Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. " +
-            "The wallet does its best effort. We are striving to improve this going forward. " +
-            "For accurate records, you should keep a local record of transactions (TXs) made.")]
         public GetTransactionCount_Response? GetTransactionCount_Sync(WalletID_RPC rpc)
         {
             Task<GetTransactionCount_Response?> data = Task.Run(() => GetTransactionCount_Async(rpc));

@@ -1,16 +1,10 @@
 ﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
 using Renci.SshNet;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace CHIA_API_Tests.Helpers_NS
+namespace CustomDevelopmentFunctions.ErrorLog_NS
 {
-    public class ReportError_Tests
+    public class ManualTest_FetchDecodeErrorLogs
     {
         [Fact]
         public async Task TestUploadFileAsync()
