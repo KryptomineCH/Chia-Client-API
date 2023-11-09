@@ -49,25 +49,7 @@
 - add clear_pending_roots endpoint according to documentation
 - update unsubscribe documentation
 - add dl wallet log in according to documentation
-- implemented time-limited offers
-
-2.0.1
-- Update README
-- fix recursive call stackoverflow exception on AwaitTransactionToConfirm_Sync
-- add validation for wallet id
-- worked on transactions
-
-2.0.0.2
-- added further warnings and information to transaction
-
-2.0.0.1
-- Marked GetTransactions and corresponding classes/functions as obsolete due to official statement:
-"Transaction history is not deterministic due to heuristics we use to counter privacy features of the blockchain. the wallet does a best effort. we are trying to improve this going forward. for accurate records you should keep a local record of TXs made. If the balance is not the same (within a mojos because of dust filtering) please let us know."
-https://github.com/Chia-Network/chia-blockchain/issues/16180
-
-2.0.0
-- documentation updates according to official documentation
-- added signing_mode to verify_signature</PackageReleaseNotes>
+- implemented time-limited offers</PackageReleaseNotes>
     <PackageIcon>icon.png</PackageIcon>
     <PackageLicenseExpression> MIT-Modern-Variant</PackageLicenseExpression>
     <IncludeSymbols>False</IncludeSymbols>
