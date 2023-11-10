@@ -16,7 +16,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.1.6
+    <PackageReleaseNotes>- Updated GetAllOffers_RPC Documentation
+- Updated get_all_offers sort_key type (string)
+
+2.1.1.6
 - Updated Transactions documentation witn the caviats
 - Removed obsolete marker with the now improved documentation for Get_Transaction and Get_Transactions
 
