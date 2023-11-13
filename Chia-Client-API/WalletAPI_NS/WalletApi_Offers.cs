@@ -123,7 +123,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Gets multiple Offers for the current wallet, depending on the supplied parameters
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
+        /// <remarks>
+        /// Technical Limitations:<br/>
+        /// - accepted_at_time can only be filled if you accepted the offer<br/>
+        /// - accepted_at_index cannot be filled at all currently<br/>
+        /// <see href="https://docs.chia.net/offer-rpc#get_all_offers"/>
+        /// </remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public async Task<OfferFiles?> GetAllOffers_Async(GetAllOffers_RPC rpc)
@@ -135,7 +140,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Gets multiple Offers for the current wallet, depending on the supplied parameters
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/offer-rpc#get_all_offers"/></remarks>
+        /// <remarks>
+        /// Technical Limitations:<br/>
+        /// - accepted_at_time can only be filled if you accepted the offer<br/>
+        /// - accepted_at_index cannot be filled at all currently<br/>
+        /// <see href="https://docs.chia.net/offer-rpc#get_all_offers"/>
+        /// </remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public OfferFiles? GetAllOffers_Sync(GetAllOffers_RPC rpc)
@@ -148,7 +158,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get the details of an Offer
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer"/></remarks>
+        /// <remarks>
+        /// Technical Limitations:<br/>
+        /// - accepted_at_time can only be filled if you accepted the offer<br/>
+        /// - accepted_at_index cannot be filled at all currently<br/>
+        /// <see href="https://docs.chia.net/offer-rpc#get_offer"/>
+        /// </remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public async Task<OfferFile?> GetOffer_Async(GetOffer_RPC rpc)
@@ -161,7 +176,12 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <summary>
         /// Get the details of an Offer
         /// </summary>
-        /// <remarks><see href="https://docs.chia.net/offer-rpc#get_offer"/></remarks>
+        /// <remarks>
+        /// Technical Limitations:<br/>
+        /// - accepted_at_time can only be filled if you accepted the offer<br/>
+        /// - accepted_at_index cannot be filled at all currently<br/>
+        /// <see href="https://docs.chia.net/offer-rpc#get_offer"/>
+        /// </remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
         public OfferFile? GetOffer_Sync(GetOffer_RPC rpc)
