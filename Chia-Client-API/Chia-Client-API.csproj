@@ -21,6 +21,7 @@
 - Updated TradeRecord documentation with findings from offers
 - Trade recod accepted_at_time can now be accessed through DateTime with accepted_at_time_dateTime
 - NftCoinIdAndWalletId is noww a serializable object
+- Format fix GetCoinRecords_Response documentation
 
 2.1.1.6
 - Updated Transactions documentation witn the caviats
