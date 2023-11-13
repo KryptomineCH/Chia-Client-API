@@ -18,6 +18,8 @@
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
     <PackageReleaseNotes>- Updated GetAllOffers_RPC Documentation
 - Updated get_all_offers sort_key type (string)
+- Updated TradeRecord documentation with findings from offers
+- Trade recod accepted_at_time can now be accessed through DateTime with accepted_at_time_dateTime
 
 2.1.1.6
 - Updated Transactions documentation witn the caviats
