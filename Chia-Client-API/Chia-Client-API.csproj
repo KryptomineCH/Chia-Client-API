@@ -17,7 +17,9 @@
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
     <PackageReleaseNotes>2.1.1.8
-Version Bump
+(!) added a critical workaround for chia &lt;= 2.1.1 reporting incorrect amount in OUTGOING_TRADE transactions
+use amount_correct_custom for now
+see https://github.com/Chia-Network/chia-blockchain/issues/16842 for more details
 
 2.1.1.7
 - Updated GetAllOffers_RPC Documentation
