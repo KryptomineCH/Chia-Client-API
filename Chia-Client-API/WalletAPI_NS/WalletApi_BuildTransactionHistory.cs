@@ -1,5 +1,4 @@
-﻿using CHIA_RPC.FullNode_NS;
-using CHIA_RPC.General_NS;
+﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.CustomTransactionHistoryObjects_NS;
@@ -171,7 +170,7 @@ namespace Chia_Client_API.WalletAPI_NS
                                     {
                                         //offerFile was found!
                                         { }
-                                        if (blockTransactions.Count >= 3)
+                                        if (blockTransactions.Count >= 4)
                                         {
                                             { }
                                         }
