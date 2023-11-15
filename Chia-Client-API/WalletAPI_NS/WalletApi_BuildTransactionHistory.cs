@@ -170,7 +170,7 @@ namespace Chia_Client_API.WalletAPI_NS
                                     {
                                         //offerFile was found!
                                         { }
-                                        if (blockTransactions.Count >= 4)
+                                        if (blockTransactions.Count >= 3)
                                         {
                                             { }
                                         }
