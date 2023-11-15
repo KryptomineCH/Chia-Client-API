@@ -1,5 +1,4 @@
-﻿using Chia_Client_API.Helpers_NS;
-using Renci.SshNet;
+﻿using Renci.SshNet;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
@@ -21,7 +20,6 @@ namespace Chia_Client_API.Helpers_NS
         /// RawServerResponse<br/>
         /// </summary>
         /// <param name="error"></param>
-        /// <param name="filename"></param>
         /// <returns></returns>
         public static async Task UploadFileAsync(Error error)
         {
