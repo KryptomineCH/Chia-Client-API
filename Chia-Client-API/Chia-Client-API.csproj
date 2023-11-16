@@ -19,6 +19,9 @@
     <PackageReleaseNotes>2.1.1.9
 - added workaround for amount in cat
 - added AssetIDCache as utility class in chia_client_api.Helpers_NS useful if you need to look up asset ids often
+- added information to offer summary if the offer will generate a separate fee transaction for the person accepting the offer
+- added information to TradeRecord if this offer generates a separate fee transaction for you
+
 
 2.1.1.8
 (!) added a critical workaround for chia &lt;= 2.1.1 reporting incorrect amount in OUTGOING_TRADE transactions
