@@ -21,6 +21,7 @@
 - added AssetIDCache as utility class in chia_client_api.Helpers_NS useful if you need to look up asset ids often
 - added information to offer summary if the offer will generate a separate fee transaction for the person accepting the offer
 - added information to TradeRecord if this offer generates a separate fee transaction for you
+- traderecord status is now the apropriate type TradeStatus
 
 
 2.1.1.8
