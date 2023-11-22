@@ -23,6 +23,7 @@
 - added information to TradeRecord if this offer generates a separate fee transaction for you
 - traderecord status is now the apropriate enum TradeStatus
 - added implicit conversion from TransactionDict to WalletID_RPC
+- added functionality to check if the file exists on disk due to extension
 
 
 2.1.1.8
