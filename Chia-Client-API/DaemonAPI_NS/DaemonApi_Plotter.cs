@@ -1,6 +1,7 @@
 ﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.Daemon_NS.Plotter_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.HelperFunctions_NS;
 
 namespace Chia_Client_API.DaemonAPI_NS
 {
@@ -21,20 +22,32 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#get_keys_for_plotting"/></remarks>
         /// <returns><see cref="GetKeysForPlotting_Response"/></returns>
-        public async Task<GetKeysForPlotting_Response?> GetKeysForPlotting_Async(FingerPrints_RPC rpc)
+        public async Task<GetKeysForPlotting_Response> GetKeysForPlotting_Async(FingerPrints_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("get_keys_for_plotting", rpc.ToString());
-            GetKeysForPlotting_Response? deserializedObject = GetKeysForPlotting_Response.LoadResponseFromString(responseJson);
-            return deserializedObject;
+            ActionResult<GetKeysForPlotting_Response> deserializationResult = GetKeysForPlotting_Response.LoadResponseFromString(responseJson);
+            GetKeysForPlotting_Response response = new GetKeysForPlotting_Response();
+            if (deserializationResult.Data != null)
+            {
+                response = deserializationResult.Data;
+            }
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
         }
+
         /// <summary>
         /// Show the farmer_public_key and pool_public_key for one or more wallet fingerprints (Synchronous)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#get_keys_for_plotting"/></remarks>
         /// <returns><see cref="GetKeysForPlotting_Response"/></returns>
-        public GetKeysForPlotting_Response? GetKeysForPlotting_Sync(FingerPrints_RPC rpc)
+        public GetKeysForPlotting_Response GetKeysForPlotting_Sync(FingerPrints_RPC rpc)
         {
-            Task<GetKeysForPlotting_Response?> data = Task.Run(() => GetKeysForPlotting_Async(rpc));
+            Task<GetKeysForPlotting_Response> data = Task.Run(() => GetKeysForPlotting_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -45,24 +58,36 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#get_plotters"/></remarks>
         /// <returns><see cref="GetPlotters_Response"/></returns>
-        public async Task<GetPlotters_Response?> GetPlotters_Async()
+        public async Task<GetPlotters_Response> GetPlotters_Async()
         {
             string responseJson = await SendCustomMessage_Async("get_plotters");
-            GetPlotters_Response? deserializedObject = GetPlotters_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<GetPlotters_Response> deserializationResult = GetPlotters_Response.LoadResponseFromString(responseJson);
+            GetPlotters_Response response = new GetPlotters_Response();
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "get_plotters"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Daemon", "get_plotters"));
+                }
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
         }
+
         /// <summary>
         /// List all available plotters (Synchronous)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#get_plotters"/></remarks>
         /// <returns><see cref="GetPlotters_Response"/></returns>
-        public GetPlotters_Response? GetPlotters_Sync()
+        public GetPlotters_Response GetPlotters_Sync()
         {
-            Task<GetPlotters_Response?> data = Task.Run(() => GetPlotters_Async());
+            Task<GetPlotters_Response> data = Task.Run(() => GetPlotters_Async());
             data.Wait();
             return data.Result;
         }
@@ -73,24 +98,36 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#start_plotting"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public async Task<Success_Response?> StartPlotting_Async(StartPlotting_RPC rpc)
+        public async Task<Success_Response> StartPlotting_Async(StartPlotting_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("start_plotting", rpc.ToString());
-            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response response = new Success_Response();
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "start_plotting"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Daemon", "start_plotting"));
+                }
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
         }
+
         /// <summary>
         /// Create one or more plots with the desired plotter (Synchronous)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#start_plotting"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public Success_Response? StartPlotting_Sync(StartPlotting_RPC rpc)
+        public Success_Response StartPlotting_Sync(StartPlotting_RPC rpc)
         {
-            Task<Success_Response?> data = Task.Run(() => StartPlotting_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => StartPlotting_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -101,24 +138,36 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#stop_plotting"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public async Task<Success_Response?> StopPlotting_Async(ID_RPC rpc)
+        public async Task<Success_Response> StopPlotting_Async(ID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("stop_plotting", rpc.ToString());
-            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response response = new Success_Response();
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "Daemon", "stop_plotting"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Daemon", "stop_plotting"));
+                }
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
         }
+
         /// <summary>
         /// Stop creating a plot (Synchronous)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/daemon-rpc#stop_plotting"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public Success_Response? StopPlotting_Sync(ID_RPC rpc)
+        public Success_Response StopPlotting_Sync(ID_RPC rpc)
         {
-            Task<Success_Response?> data = Task.Run(() => StopPlotting_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => StopPlotting_Async(rpc));
             data.Wait();
             return data.Result;
         }

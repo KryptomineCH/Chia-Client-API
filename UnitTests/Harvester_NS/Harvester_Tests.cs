@@ -9,7 +9,7 @@ namespace CHIA_API_Tests.Datalayer_NS
         public void Sample_Test()
         {
             //Task<GetRoot_Response> response = Testnet_Datalayer.Datalayer_Client.GetRoot_Sync();
-            //GetRoot_Response results = response.Result;
+            //GetRoot_Response results = response.Data;
 
             { }
         }

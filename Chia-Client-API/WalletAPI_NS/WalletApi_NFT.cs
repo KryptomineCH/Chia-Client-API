@@ -1,6 +1,7 @@
 ﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
@@ -12,259 +13,39 @@ namespace Chia_Client_API.WalletAPI_NS
     public partial class Wallet_RPC_Client
     {
         /// <summary>
-        /// This function is used to check if an NFT minting operation has completed successfully. 
-        /// The function repeatedly checks the status of the minting operation by calling 
-        /// the GetCoinRecordsByNames_Async method and comparing it to the original mintCoinInfo. <br/>
-        /// If the minting is successful or the timeout is reached, 
-        /// the function will return a boolean indicating the success or failure of the operation.
-        /// </summary>
-        /// <param name="nftMint">The responseJson from the NFT minting operation</param>
-        /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
-        /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
-        /// <param name="refreshInterwallSeconds">the time in between each check if the Mint was complete</param>
-        /// <returns>A boolean indicating the success or failure of the operation</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        public async Task<NftGetInfo_Response?> NftAwaitMintComplete_Async(
-            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0, int refreshInterwallSeconds = 60)
-        {
-            if (nftMint.spend_bundle == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint.spend_bundle), "nftMint.spend_bundle == null");
-            }
-            if (nftMint.spend_bundle.coin_solutions == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint.spend_bundle.coin_solutions), "nftMint.spend_bundle.coin_solutions == null");
-            }
-            if (nftMint.spend_bundle.coin_solutions.Length == 0)
-            {
-                throw new InvalidOperationException("nftMint.spend_bundle.coin_solutions.Length == 0");
-            }
-            if (nftMint.spend_bundle.coin_solutions[0].coin == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint), "nftMint.spend_bundle.coin_solutions[0].coin == null");
-            }
-            // set timeout
-            DateTime timeOut = DateTime.Now + TimeSpan.FromMinutes(timeOutInMinutes);
-            // obtain request data to validate transaction
-            string? coinID = nftMint.spend_bundle.coin_solutions[0].coin!.GetCoinID();
-            if (string.IsNullOrEmpty(coinID))
-            {
-                throw new InvalidOperationException("coin id could not be generated!");
-            }
-            GetCoinRecordsByNames_RPC rpc = new GetCoinRecordsByNames_RPC()
-            {
-                names = new[] { coinID },
-                include_spent_coins = true
-            };
-            GetCoinRecordByName_RPC rpc2 = new GetCoinRecordByName_RPC()
-            {
-                name = coinID
-            };
-            // check if mint has been completed sucessfully
-            NftGetInfo_Response? nftInfo = new NftGetInfo_Response();
-            while (!cancel.IsCancellationRequested && DateTime.Now < timeOut)
-            {
-                nftInfo = await VerifyMint(nftMint).ConfigureAwait(false);
-                
-                if (nftInfo != null && (nftInfo.success ?? false))
-                {
-                    return nftInfo;
-                }
-                //rpc.start_height = heightInfo.height;
-                await Task.Delay(refreshInterwallSeconds * 1000);
-            }
-            return nftInfo;
-        }
-        /// <summary>
-        /// This function is used to check if an NFT minting operation has completed successfully. 
-        /// The function repeatedly checks the status of the minting operation by calling 
-        /// the GetCoinRecordsByNames_Async method and comparing it to the original mintCoinInfo. <br/>
-        /// If the minting is successful or the timeout is reached, 
-        /// the function will return a boolean indicating the success or failure of the operation.
-        /// </summary>
-        /// <param name="nftMint">The responseJson from the NFT minting operation</param>
-        /// <param name="cancel">CancellationToken used to cancel the operation if necessary</param>
-        /// <param name="timeOutInMinutes">Timeout for the operation in minutes</param>
-        /// <returns>A boolean indicating the success or failure of the operation</returns>
-        public NftGetInfo_Response? NftAwaitMintComplete_Sync(
-            NftMintNFT_Response nftMint, CancellationToken cancel, double timeOutInMinutes = 15.0)
-        {
-            Task<NftGetInfo_Response?> data = Task.Run(() => NftAwaitMintComplete_Async(nftMint, cancel, timeOutInMinutes));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// this function takes a spend bundle, which is returned from NftMintNFT.
-        /// it converts the coin into a coin ID which can be used to draft an NftGetInfo_Requests.
-        /// </summary>
-        /// <param name="nftMint">spend bundle, which is returned from NftMintNFT</param>
-        /// <returns>It returns the NFT Info of the nft which was/is to be minted.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        public async Task<NftGetInfo_Response?> VerifyMint(NftMintNFT_Response nftMint)
-        {
-            if (nftMint.spend_bundle == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint.spend_bundle), "nftMint.spend_bundle == null");
-            }
-            if (nftMint.spend_bundle.coin_solutions == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint.spend_bundle.coin_solutions), "nftMint.spend_bundle.coin_solutions == null");
-            }
-            if (nftMint.spend_bundle.coin_solutions.Length == 0)
-            {
-                throw new InvalidOperationException("nftMint.spend_bundle.coin_solutions.Length == 0");
-            }
-            if (nftMint.spend_bundle.coin_solutions[0].coin == null)
-            {
-                throw new ArgumentNullException(nameof(nftMint), "nftMint.spend_bundle.coin_solutions[0].coin == null");
-            }
-            string? coinID = nftMint.spend_bundle.coin_solutions[0].coin!.GetCoinID();
-            if (string.IsNullOrEmpty(coinID))
-            {
-                throw new InvalidOperationException("coin id could not be generated!");
-            }
-            NftGetInfo_RPC nftRequest = new NftGetInfo_RPC
-            {
-                coin_id = coinID,
-                wallet_id = nftMint.wallet_id
-            };
-            NftGetInfo_Response response =  await NftGetInfo_Async(nftRequest).ConfigureAwait(false);
-            
-            return response;
-        }
-        /// <summary>
-        /// searches for the nft in all wallets and returns the wallet id which the nft is located in.
-        /// </summary>
-        /// <remarks>
-        /// for performance reasons, better avoid this function
-        /// </remarks>
-        /// <param name="nft"></param>
-        /// <returns></returns>
-        public WalletID_Response NftGetwallet_Sync(Nft nft)
-        {
-            Task<WalletID_Response> data = Task.Run(() => NftGetwallet_Async(nft));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// searches for the nft in all wallets and returns the wallet id which the nft is located in.
-        /// </summary>
-        /// <remarks>
-        /// for performance reasons, better avoid this function
-        /// </remarks>
-        /// <param name="nft"></param>
-        /// <returns></returns>
-        public async Task<WalletID_Response> NftGetwallet_Async(Nft nft)
-        {
-            GetWallets_Response wallets = await GetWallets_Async();
-            {
-                foreach (Wallets_info info in wallets.wallets)
-                {
-                    if (info.type == WalletType.NFT)
-                    {
-                        NftGetNfts_Response nfts = await NftGetNfts_Async(info.GetWalletID_RPC());
-                        foreach (Nft walletNft in nfts.nft_list)
-                        {
-                            if (walletNft.launcher_id == nft.launcher_id)
-                            {
-                                return new WalletID_Response()
-                                {
-                                    success = true,
-                                    wallet_id = info.id
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-            return new WalletID_Response()
-            {
-                success = false,
-                error = "nft could not be found in any wallet!"
-            };
-        }
-        /// <summary>
-        /// Awaits the completion of an NFT transfer operation for a given wallet and NFT.
-        /// </summary>
-        /// <param name="walletId">The unique identifier of the wallet involved in the NFT transfer.</param>
-        /// <param name="nft">An object representing the NFT to be transferred.</param>
-        /// <param name="timeOut">The maximum time duration to wait for the transfer to complete.</param>
-        /// <param name="requestTimerMS">The time interval, in milliseconds, between successive checks for transfer completion.</param>
-        /// <returns>
-        /// <c>true</c> if the transfer is complete within the specified <see cref="timeOut"/>, otherwise <c>false</c>.
-        /// </returns>
-        /// <remarks>
-        /// This function continuously checks the transfer status of an NFT by invoking <see cref="NftGetInfo_Async"/>.<br/>
-        /// The function exits and returns <c>true</c> as soon as the pending transaction is complete.<br/>
-        /// If the <see cref="timeOut"/> is reached before the transaction is complete, the function exits and returns <c>false</c>.
-        /// </remarks>
-        public bool NftAwaitTransferComplete_Sync(ulong walletId, Nft nft, TimeSpan timeOut, int requestTimerMS)
-        {
-            Task<bool> data = Task.Run(() => NftAwaitTransferComplete_Async(walletId, nft, timeOut, requestTimerMS));
-            data.Wait();
-            return data.Result;
-        }
-        /// <summary>
-        /// Awaits the completion of an NFT transfer operation for a given wallet and NFT.
-        /// </summary>
-        /// <param name="walletId">The unique identifier of the wallet involved in the NFT transfer.</param>
-        /// <param name="nft">An object representing the NFT to be transferred.</param>
-        /// <param name="timeOut">The maximum time duration to wait for the transfer to complete.</param>
-        /// <param name="requestTimerMS">The time interval, in milliseconds, between successive checks for transfer completion.</param>
-        /// <returns>
-        /// <c>true</c> if the transfer is complete within the specified <see cref="timeOut"/>, otherwise <c>false</c>.
-        /// </returns>
-        /// <remarks>
-        /// This function continuously checks the transfer status of an NFT by invoking <see cref="NftGetInfo_Async"/>.<br/>
-        /// The function exits and returns <c>true</c> as soon as the pending transaction is complete.<br/>
-        /// If the <see cref="timeOut"/> is reached before the transaction is complete, the function exits and returns <c>false</c>.
-        /// </remarks>
-        public async Task<bool> NftAwaitTransferComplete_Async(ulong walletId, Nft nft, TimeSpan timeOut, int requestTimerMS)
-        {
-            NftGetInfo_RPC infoRpc = new NftGetInfo_RPC(nft.nft_coin_id, walletId);
-            DateTime end = DateTime.Now + timeOut;
-            while (true)
-            {
-                NftGetInfo_Response info = await NftGetInfo_Async(infoRpc);
-                if (!info.nft_info.pending_transaction)
-                {
-                    return true;
-                }
-                if (DateTime.Now > end)
-                {
-                    return false;
-                }
-                await Task.Delay(requestTimerMS);
-            }
-        }
-        /* documentation endpoints */
-        /// <summary>
         /// Add a new URI to the location URI list
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_add_uri"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SpendBundle_Response?> NftAddURI_Async(NftAddURI_RPC rpc)
+        public async Task<SpendBundle_Response> NftAddURI_Async(NftAddURI_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_add_uri", rpc.ToString());
-            SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            SpendBundle_Response response = new SpendBundle_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_add_uri"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Add a new URI to the location URI list
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_add_uri"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SpendBundle_Response? NftAddURI_Sync(NftAddURI_RPC rpc)
+        public SpendBundle_Response NftAddURI_Sync(NftAddURI_RPC rpc)
         {
-            Task<SpendBundle_Response?> data = Task.Run(() => NftAddURI_Async(rpc));
+            Task<SpendBundle_Response> data = Task.Run(() => NftAddURI_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -275,25 +56,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_calculate_royalties"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftCalculateRoyalties_Response?> NftCalculateRoyalties_Async(NftCalculateRoyalties_RPC rpc)
+        public async Task<NftCalculateRoyalties_Response> NftCalculateRoyalties_Async(NftCalculateRoyalties_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_calculate_royalties", rpc.ToString());
-            NftCalculateRoyalties_Response? deserializedObject = NftCalculateRoyalties_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftCalculateRoyalties_Response> deserializationResult = NftCalculateRoyalties_Response.LoadResponseFromString(responseJson);
+            NftCalculateRoyalties_Response response = new NftCalculateRoyalties_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_calculate_royalties"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Given one or more NFTs to be exchanged for one or more fungible assets, calculate the correct royalty payments.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_calculate_royalties"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftCalculateRoyalties_Response? NftCalculateRoyalties_Sync(NftCalculateRoyalties_RPC rpc)
+        public NftCalculateRoyalties_Response NftCalculateRoyalties_Sync(NftCalculateRoyalties_RPC rpc)
         {
-            Task<NftCalculateRoyalties_Response?> data = Task.Run(() => NftCalculateRoyalties_Async(rpc));
+            Task<NftCalculateRoyalties_Response> data = Task.Run(() => NftCalculateRoyalties_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -304,25 +94,35 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_count_nfts"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftCountNfts_Response?> NftCountNfts_Async(WalletID_RPC rpc)
+        public async Task<NftCountNfts_Response> NftCountNfts_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_count_nfts", rpc.ToString());
-            NftCountNfts_Response? deserializedObject = NftCountNfts_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftCountNfts_Response> deserializationResult = NftCountNfts_Response.LoadResponseFromString(responseJson);
+            NftCountNfts_Response response = new NftCountNfts_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_count_nfts"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
+
         /// <summary>
         /// Count the number of NFTs in a wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_count_nfts"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftCountNfts_Response? NftCountNfts_Sync(WalletID_RPC rpc)
+        public NftCountNfts_Response NftCountNfts_Sync(WalletID_RPC rpc)
         {
-            Task<NftCountNfts_Response?> data = Task.Run(() => NftCountNfts_Async(rpc));
+            Task<NftCountNfts_Response> data = Task.Run(() => NftCountNfts_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -333,25 +133,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_by_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<WalletID_Response?> NftGetByDID_Async(DidID_RPC rpc)
+        public async Task<WalletID_Response> NftGetByDID_Async(DidID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_get_by_did", rpc.ToString());
-            WalletID_Response? deserializedObject = WalletID_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<WalletID_Response> deserializationResult = WalletID_Response.LoadResponseFromString(responseJson);
+            WalletID_Response response = new WalletID_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_by_did"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Show the NFT wallet associated with a DID
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_by_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public WalletID_Response? NftGetByDID_Sync(DidID_RPC rpc)
+        public WalletID_Response NftGetByDID_Sync(DidID_RPC rpc)
         {
-            Task<WalletID_Response?> data = Task.Run(() => NftGetByDID_Async(rpc));
+            Task<WalletID_Response> data = Task.Run(() => NftGetByDID_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -362,25 +171,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_info"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftGetInfo_Response?> NftGetInfo_Async(NftGetInfo_RPC rpc)
+        public async Task<NftGetInfo_Response> NftGetInfo_Async(NftGetInfo_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_get_info", rpc.ToString());
-            NftGetInfo_Response? deserializedObject = NftGetInfo_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftGetInfo_Response> deserializationResult = NftGetInfo_Response.LoadResponseFromString(responseJson);
+            NftGetInfo_Response response = new NftGetInfo_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_info"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Get info about an NFT
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_info"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftGetInfo_Response? NftGetInfo_Sync(NftGetInfo_RPC rpc)
+        public NftGetInfo_Response NftGetInfo_Sync(NftGetInfo_RPC rpc)
         {
-            Task<NftGetInfo_Response?> data = Task.Run(() => NftGetInfo_Async(rpc));
+            Task<NftGetInfo_Response> data = Task.Run(() => NftGetInfo_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -391,25 +209,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_nfts"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftGetNfts_Response?> NftGetNfts_Async(WalletID_RPC rpc)
+        public async Task<NftGetNfts_Response> NftGetNfts_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_get_nfts", rpc.ToString());
-            NftGetNfts_Response? deserializedObject = NftGetNfts_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftGetNfts_Response> deserializationResult = NftGetNfts_Response.LoadResponseFromString(responseJson);
+            NftGetNfts_Response response = new NftGetNfts_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_nfts"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Show all NFTs in a given wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_nfts"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftGetNfts_Response? NftGetNfts_Sync(WalletID_RPC rpc)
+        public NftGetNfts_Response NftGetNfts_Sync(WalletID_RPC rpc)
         {
-            Task<NftGetNfts_Response?> data = Task.Run(() => NftGetNfts_Async(rpc));
+            Task<NftGetNfts_Response> data = Task.Run(() => NftGetNfts_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -419,24 +246,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_wallets_with_dids"/></remarks>
         /// <returns></returns>
-        public async Task<NftGetWalletsWithDIDs_Response?> NftGetWalletsWithDIDs_Async()
+        public async Task<NftGetWalletsWithDIDs_Response> NftGetWalletsWithDIDs_Async()
         {
             string responseJson = await SendCustomMessage_Async("nft_get_wallets_with_dids");
-            NftGetWalletsWithDIDs_Response? deserializedObject = NftGetWalletsWithDIDs_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftGetWalletsWithDIDs_Response> deserializationResult = NftGetWalletsWithDIDs_Response.LoadResponseFromString(responseJson);
+            NftGetWalletsWithDIDs_Response response = new NftGetWalletsWithDIDs_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_wallets_with_dids"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Show all NFT wallets that are associated with DIDs
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_wallets_with_dids"/></remarks>
         /// <returns></returns>
-        public NftGetWalletsWithDIDs_Response? NftGetWalletsWithDIDs_Sync()
+        public NftGetWalletsWithDIDs_Response NftGetWalletsWithDIDs_Sync()
         {
-            Task<NftGetWalletsWithDIDs_Response?> data = Task.Run(() => NftGetWalletsWithDIDs_Async());
+            Task<NftGetWalletsWithDIDs_Response> data = Task.Run(() => NftGetWalletsWithDIDs_Async());
             data.Wait();
             return data.Result;
         }
@@ -447,25 +283,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_wallet_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<DidID_Response?> NftGetWalletDID_Async(WalletID_RPC rpc)
+        public async Task<DidID_Response> NftGetWalletDID_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_get_wallet_did", rpc.ToString());
-            DidID_Response? deserializedObject = DidID_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<DidID_Response> deserializationResult = DidID_Response.LoadResponseFromString(responseJson);
+            DidID_Response response = new DidID_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_get_wallet_did"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Get the DID associated with an NFT wallet
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_get_wallet_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public DidID_Response? NftGetWalletDID_Sync(WalletID_RPC rpc)
+        public DidID_Response NftGetWalletDID_Sync(WalletID_RPC rpc)
         {
-            Task<DidID_Response?> data = Task.Run(() => NftGetWalletDID_Async(rpc));
+            Task<DidID_Response> data = Task.Run(() => NftGetWalletDID_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -478,16 +323,25 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_mint_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SpendBundle_Response?> NftMintBulk_Async(NftMintBulk_RPC rpc)
+        public async Task<SpendBundle_Response> NftMintBulk_Async(NftMintBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_mint_bulk", rpc.ToString());
-            SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            SpendBundle_Response response = new SpendBundle_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_mint_bulk"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Create a spend bundle to mint multiple NFTs. (all the same)
         /// Note that this command does not push the spend bundle to the blockchain. 
@@ -496,9 +350,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_mint_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SpendBundle_Response? NftMintBulk_Sync(NftMintBulk_RPC rpc)
+        public SpendBundle_Response NftMintBulk_Sync(NftMintBulk_RPC rpc)
         {
-            Task<SpendBundle_Response?> data = Task.Run(() => NftMintBulk_Async(rpc));
+            Task<SpendBundle_Response> data = Task.Run(() => NftMintBulk_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -511,16 +365,25 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_mint_nft"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftMintNFT_Response?> NftMintNft_Async(NftMintNFT_RPC rpc)
+        public async Task<NftMintNFT_Response> NftMintNft_Async(NftMintNFT_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_mint_nft", rpc.ToString());
-            NftMintNFT_Response? deserializedObject = NftMintNFT_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftMintNFT_Response> deserializationResult = NftMintNFT_Response.LoadResponseFromString(responseJson);
+            NftMintNFT_Response response = new NftMintNFT_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_mint_nft"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// This method asynchronously sends an "nft_mint_nft" message to mint an nft. 
         /// It then deserializes the responseJson into an NftMintNFT_Response? object and returns it. 
@@ -529,9 +392,9 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_mint_nft"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftMintNFT_Response? NftMintNft_Sync(NftMintNFT_RPC rpc)
+        public NftMintNFT_Response NftMintNft_Sync(NftMintNFT_RPC rpc)
         {
-            Task<NftMintNFT_Response?> data = Task.Run(() => NftMintNft_Async(rpc));
+            Task<NftMintNFT_Response> data = Task.Run(() => NftMintNft_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -542,25 +405,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_did_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SpendBundle_MultiWallet_Response?> NftSetDIDBulk_Async(NftSetDidBulk_RPC rpc)
+        public async Task<SpendBundle_MultiWallet_Response> NftSetDIDBulk_Async(NftSetDidBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_set_did_bulk", rpc.ToString());
-            SpendBundle_MultiWallet_Response? deserializedObject = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            SpendBundle_MultiWallet_Response response = new SpendBundle_MultiWallet_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_did_bulk"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Bulk set DID for NFTs across different wallets.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_did_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SpendBundle_MultiWallet_Response? NftSetDIDBulk_Sync(NftSetDidBulk_RPC rpc)
+        public SpendBundle_MultiWallet_Response NftSetDIDBulk_Sync(NftSetDidBulk_RPC rpc)
         {
-            Task<SpendBundle_MultiWallet_Response?> data = Task.Run(() => NftSetDIDBulk_Async(rpc));
+            Task<SpendBundle_MultiWallet_Response> data = Task.Run(() => NftSetDIDBulk_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -571,25 +443,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_nft_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<NftSetNftDID_Response?> NftSetNftDID_Async(NftSetNftDID_RPC rpc)
+        public async Task<NftSetNftDID_Response> NftSetNftDID_Async(NftSetNftDID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_set_nft_did", rpc.ToString());
-            NftSetNftDID_Response? deserializedObject = NftSetNftDID_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<NftSetNftDID_Response> deserializationResult = NftSetNftDID_Response.LoadResponseFromString(responseJson);
+            NftSetNftDID_Response response = new NftSetNftDID_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_nft_did"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Set the DID for a specific NFT (the NFT must support DIDs)
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_nft_did"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public NftSetNftDID_Response? NftSetNftDID_Sync(NftSetNftDID_RPC rpc)
+        public NftSetNftDID_Response NftSetNftDID_Sync(NftSetNftDID_RPC rpc)
         {
-            Task<NftSetNftDID_Response?> data = Task.Run(() => NftSetNftDID_Async(rpc));
+            Task<NftSetNftDID_Response> data = Task.Run(() => NftSetNftDID_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -600,25 +481,34 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_nft_status"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<Success_Response?> NftSetNftStatus_Async(NftSetNftStatus_RPC rpc)
+        public async Task<Success_Response> NftSetNftStatus_Async(NftSetNftStatus_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_set_nft_status", rpc.ToString());
-            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response response = new Success_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_set_nft_status"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Set the transaction status of an NFT
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_set_nft_status"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public Success_Response? NftSetNftStatus_Sync(NftSetNftStatus_RPC rpc)
+        public Success_Response NftSetNftStatus_Sync(NftSetNftStatus_RPC rpc)
         {
-            Task<Success_Response?> data = Task.Run(() => NftSetNftStatus_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => NftSetNftStatus_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -631,16 +521,25 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_nft"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SpendBundle_Response?> NftTransferNft_Async(NftTransferNft_RPC rpc)
+        public async Task<SpendBundle_Response> NftTransferNft_Async(NftTransferNft_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_transfer_nft", rpc.ToString());
-            SpendBundle_Response? deserializedObject = SpendBundle_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            SpendBundle_Response response = new SpendBundle_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_transfer_nft"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Transfer an NFT to a new wallet address.<br/>
         /// This causes a blockchain transaction.<br/>
@@ -649,38 +548,47 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_nft"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SpendBundle_Response? NftTransferNft_Sync(NftTransferNft_RPC rpc)
+        public SpendBundle_Response NftTransferNft_Sync(NftTransferNft_RPC rpc)
         {
-            Task<SpendBundle_Response?> data = Task.Run(() => NftTransferNft_Async(rpc));
+            Task<SpendBundle_Response> data = Task.Run(() => NftTransferNft_Async(rpc));
             data.Wait();
             return data.Result;
         }
-        
+
         /// <summary>
         /// Bulk transfer NFTs to an address.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public async Task<SpendBundle_MultiWallet_Response?> NftTransferBulk_Async(NftTransferBulk_RPC rpc)
+        public async Task<SpendBundle_MultiWallet_Response> NftTransferBulk_Async(NftTransferBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("nft_transfer_bulk", rpc.ToString());
-            SpendBundle_MultiWallet_Response? deserializedObject = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            SpendBundle_MultiWallet_Response response = new SpendBundle_MultiWallet_Response();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_Nft", "nft_transfer_bulk"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Bulk transfer NFTs to an address.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/nft-rpc#nft_transfer_bulk"/></remarks>
         /// <param name="rpc"></param>
         /// <returns></returns>
-        public SpendBundle_MultiWallet_Response? NftTransferBulk_Sync(NftTransferBulk_RPC rpc)
+        public SpendBundle_MultiWallet_Response NftTransferBulk_Sync(NftTransferBulk_RPC rpc)
         {
-            Task<SpendBundle_MultiWallet_Response?> data = Task.Run(() => NftTransferBulk_Async(rpc));
+            Task<SpendBundle_MultiWallet_Response> data = Task.Run(() => NftTransferBulk_Async(rpc));
             data.Wait();
             return data.Result;
         }

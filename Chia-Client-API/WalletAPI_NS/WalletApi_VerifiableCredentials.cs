@@ -1,5 +1,6 @@
 ﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
+using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Wallet_NS.VerifiableCredentials_NS;
 using System.Text.Json;
 
@@ -13,20 +14,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_add_proofs"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public async Task<Success_Response?> VCAddProofs_Async(VcAddProofs_RPC rpc)
+        public async Task<Success_Response> VCAddProofs_Async(VcAddProofs_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_add_proofs", rpc.ToString());
-            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
-            return deserializedObject;
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response response = new ();
+
+            if (deserializationResult.Data != null)
+            {
+                response = deserializationResult.Data;
+            }
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VCAddProofs_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_add_proofs"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public Success_Response? VCAddProofs_Sync(VcAddProofs_RPC rpc)
+        public Success_Response VCAddProofs_Sync(VcAddProofs_RPC rpc)
         {
-            Task<Success_Response?> data = Task.Run(() => VCAddProofs_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => VCAddProofs_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -37,24 +51,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get"/></remarks>
         /// <returns><see cref="VcGet_Response"/></returns>
-        public async Task<VcGet_Response?> VcGet_Async(VcID_RPC rpc)
+        public async Task<VcGet_Response> VcGet_Async(VcID_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_get", rpc.ToString());
-            VcGet_Response? deserializedObject = VcGet_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<VcGet_Response> deserializationResult = VcGet_Response.LoadResponseFromString(responseJson);
+            VcGet_Response response = new ();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VcGet_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get"/></remarks>
         /// <returns><see cref="VcGet_Response"/></returns>
-        public VcGet_Response? VcGet_Sync(VcID_RPC rpc)
+        public VcGet_Response VcGet_Sync(VcID_RPC rpc)
         {
-            Task<VcGet_Response?> data = Task.Run(() => VcGet_Async(rpc));
+            Task<VcGet_Response> data = Task.Run(() => VcGet_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -65,24 +88,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get_list"/></remarks>
         /// <returns><see cref="VcGetList_Response"/></returns>
-        public async Task<VcGetList_Response?> VcGetList_Async(VcGetList_RPC rpc)
+        public async Task<VcGetList_Response> VcGetList_Async(VcGetList_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_get_list", rpc.ToString());
-            VcGetList_Response? deserializedObject = VcGetList_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<VcGetList_Response> deserializationResult = VcGetList_Response.LoadResponseFromString(responseJson);
+            VcGetList_Response response = new ();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get_list"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VcGetList_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get_list"/></remarks>
         /// <returns><see cref="VcGetList_Response"/></returns>
-        public VcGetList_Response? VcGetList_Sync(VcGetList_RPC rpc)
+        public VcGetList_Response VcGetList_Sync(VcGetList_RPC rpc)
         {
-            Task<VcGetList_Response?> data = Task.Run(() => VcGetList_Async(rpc));
+            Task<VcGetList_Response> data = Task.Run(() => VcGetList_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -94,24 +126,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get_proofs_for_root"/></remarks>
         /// <returns><see cref="VcGetProofsForRoot_Response"/></returns>
-        public async Task<VcGetProofsForRoot_Response?> VCGetProofsForRoot_Async(VcGetProofsForRoot_RPC rpc)
+        public async Task<VcGetProofsForRoot_Response> VCGetProofsForRoot_Async(VcGetProofsForRoot_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_get_proofs_for_root", rpc.ToString());
-            VcGetProofsForRoot_Response? deserializedObject = VcGetProofsForRoot_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<VcGetProofsForRoot_Response> deserializationResult = VcGetProofsForRoot_Response.LoadResponseFromString(responseJson);
+            VcGetProofsForRoot_Response response = new ();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_get_proofs_for_root"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VCGetProofsForRoot_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_get_proofs_for_root"/></remarks>
         /// <returns><see cref="VcGetProofsForRoot_Response"/></returns>
-        public VcGetProofsForRoot_Response? VCGetProofsForRoot_Sync(VcGetProofsForRoot_RPC rpc)
+        public VcGetProofsForRoot_Response VCGetProofsForRoot_Sync(VcGetProofsForRoot_RPC rpc)
         {
-            Task<VcGetProofsForRoot_Response?> data = Task.Run(() => VCGetProofsForRoot_Async(rpc));
+            Task<VcGetProofsForRoot_Response> data = Task.Run(() => VCGetProofsForRoot_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -123,24 +164,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_mint"/></remarks>
         /// <returns><see cref="VcMint_Response"/></returns>
-        public async Task<VcMint_Response?> VcMint_Async(VcMint_RPC rpc)
+        public async Task<VcMint_Response> VcMint_Async(VcMint_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_mint", rpc.ToString());
-            VcMint_Response? deserializedObject = VcMint_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<VcMint_Response> deserializationResult = VcMint_Response.LoadResponseFromString(responseJson);
+            VcMint_Response response = new ();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_mint"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VcMint_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_mint"/></remarks>
         /// <returns><see cref="VcMint_Response"/></returns>
-        public VcMint_Response? VcMint_Sync(VcMint_RPC rpc)
+        public VcMint_Response VcMint_Sync(VcMint_RPC rpc)
         {
-            Task<VcMint_Response?> data = Task.Run(() => VcMint_Async(rpc));
+            Task<VcMint_Response> data = Task.Run(() => VcMint_Async(rpc));
             data.Wait();
             return data.Result;
         }
@@ -151,24 +201,33 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_revoke"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public async Task<Success_Response?> VcRevoke_Async(VcRevoke_RPC rpc)
+        public async Task<Success_Response> VcRevoke_Async(VcRevoke_RPC rpc)
         {
             string responseJson = await SendCustomMessage_Async("vc_revoke", rpc.ToString());
-            Success_Response? deserializedObject = Success_Response.LoadResponseFromString(responseJson);
-            if (ReportResponseErrors && !(bool)deserializedObject.success)
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            Success_Response response = new ();
+
+            if (deserializationResult.Data != null)
             {
-                await ReportError.UploadFileAsync(new Error(deserializedObject, "WalletApi_VerifiableCredentials", "vc_revoke"));
+                response = deserializationResult.Data;
             }
-            return deserializedObject;
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+            }
+            return response;
         }
+
         /// <summary>
         /// Synchronous wrapper for VcRevoke_Async.
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/wallet-rpc#vc_revoke"/></remarks>
         /// <returns><see cref="Success_Response"/></returns>
-        public Success_Response? VcRevoke_Sync(VcRevoke_RPC rpc)
+        public Success_Response VcRevoke_Sync(VcRevoke_RPC rpc)
         {
-            Task<Success_Response?> data = Task.Run(() => VcRevoke_Async(rpc));
+            Task<Success_Response> data = Task.Run(() => VcRevoke_Async(rpc));
             data.Wait();
             return data.Result;
         }

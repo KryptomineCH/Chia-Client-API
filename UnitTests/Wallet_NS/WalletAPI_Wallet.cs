@@ -164,7 +164,7 @@ namespace CHIA_API_Tests.Wallet_NS
                 count = 5
             };
             GetRoutes_Response response = Testnet_Wallet.Wallet_Client.GetRoutes_Sync();
-            GetNextAddress_Response? response1 = Testnet_Wallet.Wallet_Client.GetWalletAddresses_Async(same_address).Result;
+            GetNextAddress_Response? response1 = Testnet_Wallet.Wallet_Client.GetWalletAddresses_Async(same_address).Data;
             Assert.NotNull(response1);
             if (!(response1!.success ?? false))
             {
