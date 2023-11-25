@@ -31,7 +31,7 @@
 - added transaction comparison 
 - added implicit conversion from ulong to fingerprint_rpc
 - added implicit operator for WalletID_RPC (ulong)
-
+- added implicit operator for GetTransactions_RPC (walletID_RPC &amp; ulong)
 
 2.1.1.8
 (!) added a critical workaround for chia &lt;= 2.1.1 reporting incorrect amount in OUTGOING_TRADE transactions
