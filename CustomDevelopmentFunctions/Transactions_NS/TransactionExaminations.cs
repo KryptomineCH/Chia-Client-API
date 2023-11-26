@@ -7,7 +7,7 @@ namespace CustomDevelopmentFunctions.Transactions_NS
         [Fact]
         public void ExamineCustomTransactionType()
         {
-            DirectoryInfo baseFolder = new DirectoryInfo("TestAssets\\transactions");
+            DirectoryInfo baseFolder = new DirectoryInfo(Path.Combine("TestAssets","transactions"));
             foreach (DirectoryInfo tokenType in baseFolder.EnumerateDirectories())
             {
                 foreach (DirectoryInfo transactionType in tokenType.EnumerateDirectories())

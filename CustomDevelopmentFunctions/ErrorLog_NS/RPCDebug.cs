@@ -1,4 +1,5 @@
 ﻿using CHIA_RPC.ErrorInterface_NS;
+using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
 using System;
 using System.Collections.Generic;
@@ -18,15 +19,15 @@ namespace CustomDevelopmentFunctions.ErrorLog_NS
             string fileName = "1700042585529-Transaction_DictMemos-GetPrimaryCoins()";
 
             // fixed logic
-            DirectoryInfo baseDir = new DirectoryInfo("ErrorLogs\\Rpc");
+            DirectoryInfo baseDir = new DirectoryInfo(Path.Combine("ErrorLogs","Rpc"));
             FileInfo file = new FileInfo(Path.Combine(baseDir.FullName, fileName));
             string content = File.ReadAllText(file.FullName);
             /// error object
             Error rpcError = JsonSerializer.Deserialize<Error>(content);
 
             // custom test logic
-            Transaction_NoMemo transaction = Transaction_DictMemos.LoadObjectFromString(rpcError.ObjectJson);
-            transaction.GetPrimaryCoins();
+            ActionResult<Transaction_NoMemo> transaction = Transaction_DictMemos.LoadObjectFromString(rpcError.ObjectJson);
+            transaction.Data.GetPrimaryCoins();
         }
     }
 }

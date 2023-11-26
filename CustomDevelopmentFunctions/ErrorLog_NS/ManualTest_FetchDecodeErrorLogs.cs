@@ -32,8 +32,8 @@ namespace CustomDevelopmentFunctions.ErrorLog_NS
             string baseDirClient = "/errorlog/chia-client-library/";
             string baseDirRPC = "/errorlog/chia-rpc-library/";
             
-            DirectoryInfo saveDirClient = new DirectoryInfo("ErrorLogs\\Client");
-            DirectoryInfo saveDirRPC = new DirectoryInfo("ErrorLogs\\Rpc");
+            DirectoryInfo saveDirClient = new DirectoryInfo(Path.Combine("ErrorLogs","Client"));
+            DirectoryInfo saveDirRPC = new DirectoryInfo(Path.Combine("ErrorLogs","Rpc"));
             await DownloadDecrypt(baseDirClient, saveDirClient);
             await DownloadDecrypt(baseDirRPC, saveDirRPC);
 
@@ -44,7 +44,7 @@ namespace CustomDevelopmentFunctions.ErrorLog_NS
         {
             string targetUri = "sftp.kryptomine.ch";
             string ftpUser = "errorlog";
-            string privateKeyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\.ssh\\decrypt.xml";
+            string privateKeyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) , ".ssh","decrypt.xml");
             if (!saveDir.Exists) saveDir.Create();
             // Read Private Key from embedded resources
             Stream keyStream = typeof(ReportError).Assembly.GetManifestResourceStream("Chia_Client_API.errorlog");

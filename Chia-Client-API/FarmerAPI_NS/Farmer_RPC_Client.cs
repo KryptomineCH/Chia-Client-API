@@ -37,7 +37,7 @@ namespace Chia_Client_API.FarmerAPI_NS
             {
                 _API_CertificateFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
+            ".chia","mainnet","config","ssl");
             }
             SetNewCerticifactes();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);

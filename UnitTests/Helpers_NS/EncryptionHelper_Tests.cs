@@ -1,6 +1,7 @@
 ﻿using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
 using System;
+using System.IO;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace CHIA_API_Tests.Helpers_NS
         {
             // Arrange
             string plaintext = "Hello, world!";
-            string privateKeyPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\.ssh\\decrypt.xml";
+            string privateKeyPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) , ".ssh","decrypt.xml");
 
 
             // Act

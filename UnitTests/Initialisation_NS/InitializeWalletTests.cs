@@ -20,7 +20,7 @@ namespace CHIA_API_Tests.Initialisation_NS
                 // ... initialize ...
                 string certificatePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                @".testnet\ssl\");
+                ".testnet","ssl");
                 Wallet_Client = new Wallet_RPC_Client(reportResponseErrors: false, targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
 
                 // close all old wallets (if more than 1 are open)

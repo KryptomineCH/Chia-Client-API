@@ -12,7 +12,7 @@ namespace Chia_Client_API
         /// </summary>
         public static string API_CertificateFolder = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-            @".chia\mainnet\config\ssl\");
+            ".chia","mainnet","config","ssl");
         /// <summary>
         /// returns the nuget version
         /// </summary>

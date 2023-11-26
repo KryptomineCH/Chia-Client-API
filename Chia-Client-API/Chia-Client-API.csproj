@@ -33,7 +33,7 @@
 - added implicit operator for WalletID_RPC (ulong)
 - added implicit operator for GetTransactions_RPC (walletID_RPC &amp; ulong)
 - improved client endpoints error handling. They will no longer return a null value. Please check if bool success and string error
-
+- Fixed Paths for Cross Plattform compatibility
 
 2.1.1.8
 (!) added a critical workaround for chia &lt;= 2.1.1 reporting incorrect amount in OUTGOING_TRADE transactions

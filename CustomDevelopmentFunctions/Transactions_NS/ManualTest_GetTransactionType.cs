@@ -8,7 +8,7 @@ namespace CustomDevelopmentFunctions.Transactions_NS
         [Fact]
         public void Test_TransactionTypesManual()
         {
-            DirectoryInfo testDir = new DirectoryInfo(@"TestAssets\transactions");
+            DirectoryInfo testDir = new DirectoryInfo(Path.Combine("TestAssets","transactions"));
             FileInfo[] transactionFiles = testDir.GetFiles();
             foreach(FileInfo transactionFile in transactionFiles)
             {

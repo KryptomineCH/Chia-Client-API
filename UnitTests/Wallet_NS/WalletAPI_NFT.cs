@@ -224,7 +224,7 @@ namespace CHIA_API_Tests.Wallet_NS
             Assert.NotNull(nftInfoResponse!.nft_info);
             Assert.NotNull(nftInfoResponse.nft_info!.launcher_id);
             offer.offer.Add(nftInfoResponse.nft_info.launcher_id!, -1);
-            OfferFile? offerFile = Testnet_Wallet.Wallet_Client.CreateOfferForIds(offer).Result;
+            OfferFile? offerFile = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer);
             Assert.NotNull(offerFile);
             offerFile!.SaveObjectToFile("testoffer");
             { }
