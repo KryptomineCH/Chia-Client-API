@@ -29,8 +29,8 @@ namespace CustomDevelopmentFunctions.ErrorLog_NS
         public async Task DownloadDecryptSaveDeleteAsync()
         {
             // Hardcoded values
-            string baseDirClient = "/errorlog/chia-client-library/";
-            string baseDirRPC = "/errorlog/chia-rpc-library/";
+            string baseDirClient = Path.Combine("errorlog","chia-client-library");
+            string baseDirRPC = Path.Combine("errorlog","chia-rpc-library");
             
             DirectoryInfo saveDirClient = new DirectoryInfo(Path.Combine("ErrorLogs","Client"));
             DirectoryInfo saveDirRPC = new DirectoryInfo(Path.Combine("ErrorLogs","Rpc"));
