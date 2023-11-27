@@ -397,16 +397,17 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<ulong> SeekBlockTransactionIndex(ulong block, WalletID_RPC walletId)
         {
             // Initialize the RPC call to get transactions
-            GetTransactions_RPC getTransactionRpc = new(walletId, sort_key: GetTransactionSortKey.CONFIRMED_AT_HEIGHT);
+            GetTransactions_RPC getTransactionRpc = new GetTransactions_RPC(walletId, sort_key: GetTransactionSortKey.CONFIRMED_AT_HEIGHT);
 
             // Get the count of transactions
             GetTransactionCount_Response transactionCount = await GetTransactionCount_Async(walletId);
             if (!(bool)transactionCount.success!)
                 throw new Exception("couldn't fetch transactions count: " + transactionCount.error);
-            else if (transactionCount.count == 0) return ulong.MaxValue;
+            else if (transactionCount.count == 0) 
+                return ulong.MaxValue;
             
             ulong startIndex = 0;
-            ulong endIndex = (ulong)transactionCount.count!;
+            ulong endIndex = (ulong)transactionCount.count!-1;
             ulong resultIndex = ulong.MaxValue; // Use MaxValue as an indicator for "not found"
             
             // precheck if value is within range
@@ -416,8 +417,10 @@ namespace Chia_Client_API.WalletAPI_NS
             GetTransactions_Response transaction = await GetTransactions_Async(getTransactionRpc);
             if (!(bool)transaction.success!)
                 throw new Exception("Could not fetch transactions: " + transaction.error);
-            if (transaction.transactions[0].confirmed_at_height > block) return ulong.MaxValue;
-            else if (transaction.transactions[0].confirmed_at_height == block) return startIndex;
+            if (transaction.transactions[0].confirmed_at_height > block) 
+                return ulong.MaxValue;
+            else if (transaction.transactions[0].confirmed_at_height == block) 
+                return startIndex;
             else startIndex++;
             // last transaction
             getTransactionRpc.start = endIndex;

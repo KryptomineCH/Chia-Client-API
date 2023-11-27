@@ -16,7 +16,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.1.9
+    <PackageReleaseNotes>- update offer sort key
+- fix index out of range exception with SeekBlockTransactionIndex
+
+2.1.1.9
 - added workaround for amount in cat
 - added AssetIDCache as utility class in chia_client_api.Helpers_NS useful if you need to look up asset ids often
 - added information to offer summary if the offer will generate a separate fee transaction for the person accepting the offer
