@@ -381,6 +381,87 @@ namespace Chia_Client_API.WalletAPI_NS
             Task<CheckOfferValidity_Response> data = Task.Run(() => AwaitOfferToExecuteOrCancel_Async(offer, cancellation, timeout));
             data.Wait();
             return data.Result;
-        } 
+        }
+        /// <summary>
+        /// this method is intended to be used with <see cref="GetTransaction_Async"/> in order to obtain the index of a specific block. <br/>
+        /// This is used to build a transaction history.
+        /// It is recommended to search the index of the last know (imported) block and then make sure to not duplicate import this Block.
+        /// </summary>
+        /// <remarks>
+        /// the reason this custom method exists is because the transaction history is not deterministic.
+        /// When resynchronizing the database, the indexes can be different (eg missing unconfirmed transactions, cancelled transactions on other wallet etc.)
+        /// </remarks>
+        /// <param name="block">the block which index to look up</param>
+        /// <param name="walletId">the wallet id which to look transactions up for (min = 1)</param>
+        /// <returns>index if found. ulong.MaxValue if not found</returns>
+        public async Task<ulong> SeekBlockTransactionIndex(ulong block, WalletID_RPC walletId)
+        {
+            // Initialize the RPC call to get transactions
+            GetTransactions_RPC getTransactionRpc = new(walletId, sort_key: GetTransactionSortKey.CONFIRMED_AT_HEIGHT);
+
+            // Get the count of transactions
+            GetTransactionCount_Response transactionCount = await GetTransactionCount_Async(walletId);
+            if (!(bool)transactionCount.success!)
+                throw new Exception("couldn't fetch transactions count: " + transactionCount.error);
+            else if (transactionCount.count == 0) return ulong.MaxValue;
+            
+            ulong startIndex = 0;
+            ulong endIndex = (ulong)transactionCount.count!;
+            ulong resultIndex = ulong.MaxValue; // Use MaxValue as an indicator for "not found"
+            
+            // precheck if value is within range
+            // first transaction
+            getTransactionRpc.start = startIndex;
+            getTransactionRpc.end = 1;
+            GetTransactions_Response transaction = await GetTransactions_Async(getTransactionRpc);
+            if (!(bool)transaction.success!)
+                throw new Exception("Could not fetch transactions: " + transaction.error);
+            if (transaction.transactions[0].confirmed_at_height > block) return ulong.MaxValue;
+            else if (transaction.transactions[0].confirmed_at_height == block) return startIndex;
+            else startIndex++;
+            // last transaction
+            getTransactionRpc.start = endIndex;
+            getTransactionRpc.end = endIndex+1;
+            transaction = await GetTransactions_Async(getTransactionRpc);
+            if (!(bool)transaction.success!)
+                throw new Exception("Could not fetch transactions: " + transaction.error);
+            if (transaction.transactions[0].confirmed_at_height < block) return ulong.MaxValue;
+            else if (transaction.transactions[0].confirmed_at_height == block)
+            {
+                resultIndex = endIndex;
+            }
+            else endIndex--;
+            
+            // search for value
+            while (startIndex <= endIndex)
+            {
+                ulong midIndex = startIndex + (endIndex - startIndex) / 2;
+                getTransactionRpc.start = (ulong)midIndex;
+                getTransactionRpc.end = (ulong)midIndex + 1;
+
+                // Fetch transaction at midIndex
+                transaction = await GetTransactions_Async(getTransactionRpc);
+                if (!(bool)transaction.success!)
+                    throw new Exception("Could not fetch transactions: " + transaction.error);
+
+                ulong transactionBlock = (ulong)transaction.transactions[0].confirmed_at_height;
+                if (transactionBlock == block)
+                {
+                    resultIndex = midIndex; // Found a transaction in the block
+                    endIndex = midIndex - 1; // Continue searching in the left half
+                }
+                else if (transactionBlock < block)
+                {
+                    startIndex = midIndex + 1;
+                }
+                else
+                {
+                    endIndex = midIndex - 1;
+                }
+            }
+
+            return resultIndex != long.MaxValue ? resultIndex : // Found the first transaction of the block
+                ulong.MaxValue; // did not find a transaction with the requested block
+        }
     }
 }

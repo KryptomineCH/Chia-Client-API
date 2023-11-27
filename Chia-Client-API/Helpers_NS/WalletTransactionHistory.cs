@@ -9,11 +9,12 @@ namespace Chia_Client_API.Helpers_NS
 {
     public class WalletTransactionHistory
     {
-        public WalletTransactionHistory(Wallet_RPC_Client client, ulong fingerprint ,DirectoryInfo storageDirectory)
+        public WalletTransactionHistory(Wallet_RPC_Client client, ulong fingerprint, DirectoryInfo storageDirectory)
         {
             Client = client;
             StorageDirectory = storageDirectory;
             if (!StorageDirectory.Exists) StorageDirectory.Create();
+            this.FingerPrint = fingerprint;
         }
         private Wallet_RPC_Client Client;
         /// <summary>
@@ -72,21 +73,19 @@ namespace Chia_Client_API.Helpers_NS
         }
 
         /// <summary>
-        /// checks if the cache bocomes too large and if so, removes the element which has been accessed the longest time ago
+        /// checks if the cache becomes too large and if so, removes the element which has been accessed the longest time ago
         /// </summary>
         private void EvictIfNecessary()
         {
-            if (_cache.Count > MaxCacheSize)
-            {
-                var oldest = _cache.OrderBy(pair => pair.Value.LastAccessTime).First().Key;
-                RemoveChunk(oldest);
-            }
+            if (_cache.Count <= MaxCacheSize) return;
+            var oldest = _cache.OrderBy(pair => pair.Value.LastAccessTime).First().Key;
+            RemoveChunk(oldest);
         }
 
         /// <summary>
         /// Saves a chunk to Disk (no matter if it has been changed or not)
         /// </summary>
-        /// <param name="blockHeight">the chunk id is beeing automatically calculated from it</param>
+        /// <param name="blockHeight">the chunk id is being automatically calculated from it</param>
         public void SaveChunk(ulong blockHeight)
         {
             ulong chunkID = CalculateChunkID(blockHeight);
@@ -99,14 +98,14 @@ namespace Chia_Client_API.Helpers_NS
 
         /// <summary>
         /// removes a transaction chunk from cache.<br/>
-        /// is primairly used to free up cache space (automatic process).
+        /// is primarily used to free up cache space (automatic process).
         /// </summary>
         /// <remarks>
-        /// Changes made to the chunkfile will be saved per default.<br/>
+        /// Changes made to the chunk-file will be saved per default.<br/>
         /// IMPORTANT: On changes other than <see cref="TransactionsChunk.AddTransaction(Transaction_DictMemos, bool)"/>,
         /// you need to set the <see cref="TransactionsChunk.Edited"/> flag Manually!
         /// </remarks>
-        /// <param name="blockHeight">the chunk id is beeing automatically calculated from it</param>
+        /// <param name="blockHeight">the chunk id is being automatically calculated from it</param>
         /// <param name="saveChanges">save the cache file to Disk if changes were made</param>
         public void RemoveChunk(ulong blockHeight, bool saveChanges = true)
         {
@@ -124,7 +123,7 @@ namespace Chia_Client_API.Helpers_NS
         /// </summary>
         /// <param name="blockNumber">The block number to find the chunk for.</param>
         /// <returns>The starting block number of the chunk.</returns>
-        public ulong CalculateChunkID(ulong blockNumber)
+        public static ulong CalculateChunkID(ulong blockNumber)
         {
             return blockNumber - (blockNumber % 1000);
         }
@@ -135,7 +134,7 @@ namespace Chia_Client_API.Helpers_NS
         /// <param name="transaction"></param>
         public void AddTransaction(Transaction_DictMemos transaction)
         {
-            if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed)
+            if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed!)
             {
                 return;
             }
@@ -147,13 +146,13 @@ namespace Chia_Client_API.Helpers_NS
         /// adds a set of transactions efficiently
         /// </summary>
         /// <param name="transactions"></param>
-        public void AddTransactions(Transaction_DictMemos[] transactions)
+        public void AddTransactions(IEnumerable<Transaction_DictMemos> transactions)
         {
-            ulong lastChunkID =ulong.MaxValue;
-            TransactionsChunk chunk = new TransactionsChunk();
+            var lastChunkID =ulong.MaxValue;
+            TransactionsChunk chunk = new ();
             foreach (Transaction_DictMemos transaction in transactions)
             {
-                if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed)
+                if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed!)
                 {
                     continue;
                 }
@@ -173,17 +172,13 @@ namespace Chia_Client_API.Helpers_NS
         /// <exception cref="InvalidDataException"></exception>
         public async Task PullNewTransactions()
         {
-            FingerPrint_Response? login = await Client.LogIn_Async(FingerPrint);
-            if (login == null)
-            {
-                throw new Exception("login was unsuccessful for unknown reason!");
-            }
+            FingerPrint_Response login = await Client.LogIn_Async(FingerPrint);
             if (!(bool)login.success!)
-            {
                 throw new Exception("Login was unsuccessful: "+ login.error);
-            }
-            GetWallets_Response? walletsResponse = await Client.GetWallets_Async();
-            foreach (Wallets_info wallet in walletsResponse.wallets)
+            GetWallets_Response walletsResponse = await Client.GetWallets_Async();
+            if (!(bool)walletsResponse.success!)
+                throw new Exception("Could not fetch wallets: " + walletsResponse.error);
+            foreach (Wallets_info wallet in walletsResponse.wallets!)
             {
                 GetTransactions_RPC rpc = new GetTransactions_RPC(wallet.id, start: 0, end: long.MaxValue, reverse: true);
                 GetTransactions_Response transactions = await Client.GetTransactions_Async(rpc);
