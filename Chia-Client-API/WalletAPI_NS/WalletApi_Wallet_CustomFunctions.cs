@@ -209,6 +209,7 @@ namespace Chia_Client_API.WalletAPI_NS
             }
             throw new InvalidOperationException("Operation could not be identified from the parameters");
         }
+
         /// <summary>
         /// simple function for accessing the wallet info of a secific wallet ID.<br/>
         /// Note that this function pulls all wallets. So if you need it often or are in for performance, perhaps caching the value is better.
@@ -221,6 +222,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
         /// simple function for accessing the wallet info of a secific wallet ID.<br/>
         /// Note that this function pulls all wallets. So if you need it often or are in for performance, perhaps caching the value is better.
@@ -245,6 +247,7 @@ namespace Chia_Client_API.WalletAPI_NS
             }
             throw new InvalidDataException($"Wallet with id {wallet.wallet_id} could not be found!");
         }
+
         /// <summary>
         /// waits for a transaction to fully execute or fail
         /// </summary>
@@ -292,6 +295,7 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             return await AwaitTransactionToConfirm_Async(transactionID_RPC, cancellation, timeOut: TimeSpan.FromMinutes(timeoutInMinutes));
         }
+
         /// <summary>
         /// waits for a transaction to fully execute or fail
         /// </summary>
@@ -308,6 +312,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
         /// waits for a transaction to fully execute or fail
         /// </summary>
@@ -366,6 +371,7 @@ namespace Chia_Client_API.WalletAPI_NS
             }
             return responseJson;
         }
+
         /// <summary>
         /// waits for a offer to fully execute or fail
         /// </summary>
@@ -382,25 +388,25 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
+
         /// <summary>
-        /// this method is intended to be used with <see cref="GetTransaction_Async"/> in order to obtain the index of a specific block. <br/>
-        /// This is used to build a transaction history.
-        /// It is recommended to search the index of the last know (imported) block and then make sure to not duplicate import this Block.
+        /// this method is intended to be used with <see cref="GetTransaction_Async"/> in order to obtain the index of a specific lastImportedBlock. <br/>
+        /// given the last imported Block, checks where the import needs to be continued. with 1 block overlap to make sure gaps cannot occurr<br/>
         /// </summary>
         /// <remarks>
-        /// the reason this custom method exists is because the transaction history is not deterministic.
-        /// When resynchronizing the database, the indexes can be different (eg missing unconfirmed transactions, cancelled transactions on other wallet etc.)
+        /// The reason this custom method exists is because the transaction history is not deterministic.<br/>
+        /// Please make sure to have deduplication measurements because of the oiverlap
         /// </remarks>
-        /// <param name="block">the block which index to look up</param>
+        /// <param name="lastImportedBlock">the lastImportedBlock which index to look up</param>
         /// <param name="walletId">the wallet id which to look transactions up for (min = 1)</param>
         /// <returns>index if found. ulong.MaxValue if not found</returns>
-        public async Task<ulong> SeekBlockTransactionIndex(ulong block, WalletID_RPC walletId)
+        public async Task<ulong> SeekBlockTransactionIndex(ulong lastImportedBlock, GetTransactions_RPC walletId)
         {
             // Initialize the RPC call to get transactions
-            GetTransactions_RPC getTransactionRpc = new GetTransactions_RPC(walletId, sort_key: GetTransactionSortKey.CONFIRMED_AT_HEIGHT);
+            GetTransactions_RPC getTransactionRpc = walletId.Clone();
 
             // Get the count of transactions
-            GetTransactionCount_Response transactionCount = await GetTransactionCount_Async(walletId);
+            GetTransactionCount_Response transactionCount = await GetTransactionCount_Async(getTransactionRpc.wallet_id);
             if (!(bool)transactionCount.success!)
                 throw new Exception("couldn't fetch transactions count: " + transactionCount.error);
             else if (transactionCount.count == 0) 
@@ -408,7 +414,6 @@ namespace Chia_Client_API.WalletAPI_NS
             
             ulong startIndex = 0;
             ulong endIndex = (ulong)transactionCount.count!-1;
-            ulong resultIndex = ulong.MaxValue; // Use MaxValue as an indicator for "not found"
             
             // precheck if value is within range
             // first transaction
@@ -417,30 +422,25 @@ namespace Chia_Client_API.WalletAPI_NS
             GetTransactions_Response transaction = await GetTransactions_Async(getTransactionRpc);
             if (!(bool)transaction.success!)
                 throw new Exception("Could not fetch transactions: " + transaction.error);
-            if (transaction.transactions[0].confirmed_at_height > block) 
-                return ulong.MaxValue;
-            else if (transaction.transactions[0].confirmed_at_height == block) 
-                return startIndex;
-            else startIndex++;
+            if (transaction.transactions[0].confirmed_at_height > lastImportedBlock) 
+                return 0; // all transactions are to be imported
+
             // last transaction
             getTransactionRpc.start = endIndex;
             getTransactionRpc.end = endIndex+1;
             transaction = await GetTransactions_Async(getTransactionRpc);
             if (!(bool)transaction.success!)
                 throw new Exception("Could not fetch transactions: " + transaction.error);
-            if (transaction.transactions[0].confirmed_at_height < block) return ulong.MaxValue;
-            else if (transaction.transactions[0].confirmed_at_height == block)
-            {
-                resultIndex = endIndex;
-            }
-            else endIndex--;
-            
-            // search for value
+            if (transaction.transactions[0].confirmed_at_height < lastImportedBlock) 
+                return ulong.MaxValue; // all transactions have been imported
+
+            // perform binary search
+            ulong lastBlockIndex = ulong.MaxValue; // Store the index of the last lastImportedBlock before the requested lastImportedBlock
             while (startIndex <= endIndex)
             {
                 ulong midIndex = startIndex + (endIndex - startIndex) / 2;
-                getTransactionRpc.start = (ulong)midIndex;
-                getTransactionRpc.end = (ulong)midIndex + 1;
+                getTransactionRpc.start = midIndex;
+                getTransactionRpc.end = midIndex + 1;
 
                 // Fetch transaction at midIndex
                 transaction = await GetTransactions_Async(getTransactionRpc);
@@ -448,23 +448,48 @@ namespace Chia_Client_API.WalletAPI_NS
                     throw new Exception("Could not fetch transactions: " + transaction.error);
 
                 ulong transactionBlock = (ulong)transaction.transactions[0].confirmed_at_height;
-                if (transactionBlock == block)
+                if (transactionBlock <= lastImportedBlock) // Include transactions equal to the lastImportedBlock
                 {
-                    resultIndex = midIndex; // Found a transaction in the block
-                    endIndex = midIndex - 1; // Continue searching in the left half
-                }
-                else if (transactionBlock < block)
-                {
-                    startIndex = midIndex + 1;
+                    lastBlockIndex = midIndex; // Update last lastImportedBlock index
+                    startIndex = midIndex + 1; // Search in the right half
                 }
                 else
                 {
-                    endIndex = midIndex - 1;
+                    endIndex = midIndex - 1; // Search in the left half
                 }
             }
 
-            return resultIndex != long.MaxValue ? resultIndex : // Found the first transaction of the block
-                ulong.MaxValue; // did not find a transaction with the requested block
+            // Now find the first transaction of the requested lastImportedBlock
+            if (lastBlockIndex == 0)
+                return 0;
+            ulong firstTransactionIndex = ulong.MaxValue;
+            if (lastBlockIndex != ulong.MaxValue)
+            {
+                ulong currentIndex = lastBlockIndex;
+                ulong? foundBlock = null;
+                while (currentIndex >= 0)
+                {
+                    getTransactionRpc.start = currentIndex;
+                    getTransactionRpc.end = currentIndex + 1;
+                    transaction = await GetTransactions_Async(getTransactionRpc);
+                    if (!(bool)transaction.success!)
+                        throw new Exception("Could not fetch transactions: " + transaction.error);
+
+                    if (foundBlock != null && (ulong)transaction.transactions[0].confirmed_at_height < foundBlock)
+                    {
+                        break;
+                    }
+                    if ((ulong)transaction.transactions[0].confirmed_at_height < lastImportedBlock)
+                    {
+                        firstTransactionIndex = currentIndex;
+                        foundBlock = (ulong)transaction.transactions[0].confirmed_at_height;
+                    }
+                    if (currentIndex == 0) break; // Prevent underflow
+                    currentIndex--;
+                }
+            }
+
+            return firstTransactionIndex != ulong.MaxValue ? firstTransactionIndex : ulong.MaxValue;
         }
     }
 }

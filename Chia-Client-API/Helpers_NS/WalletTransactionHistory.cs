@@ -4,6 +4,7 @@ using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Collections.Concurrent;
+using System.Text.Json.Serialization;
 
 namespace Chia_Client_API.Helpers_NS
 {
@@ -29,6 +30,7 @@ namespace Chia_Client_API.Helpers_NS
         /// The Fingerprint which to pull data from
         /// </summary>
         public ulong FingerPrint { get; set; }
+        [JsonIgnore]
         private ConcurrentDictionary<ulong, (TransactionsChunk Chunk, DateTime LastAccessTime)> _cache = new ConcurrentDictionary<ulong, (TransactionsChunk, DateTime)>();
         
         /// <summary>
@@ -166,27 +168,68 @@ namespace Chia_Client_API.Helpers_NS
         }
 
         /// <summary>
+        /// fetches the files from the storage directory in order to retrieve the latest Block number
+        /// </summary>
+        /// <returns>ulong if found, ulong.MaxValue if not found</returns>
+        private ulong? GetLastChunkFile()
+        {
+            StorageDirectory.Refresh();
+            FileInfo[] files = StorageDirectory.GetFiles();
+            ulong? maxBlockNumber = null;
+
+            foreach (var file in files)
+            {
+                if (file.Extension != "TransactionsChunk")
+                    continue;
+                if (ulong.TryParse(Path.GetFileNameWithoutExtension(file.Name), out ulong blockNumber))
+                {
+                    if (maxBlockNumber == null || blockNumber > maxBlockNumber)
+                    {
+                        maxBlockNumber = blockNumber;
+                    }
+                }
+            }
+
+            return maxBlockNumber;
+        }
+
+        /// <summary>
         /// fetches new transactions from the Blockchain
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidDataException"></exception>
         public async Task PullNewTransactions()
         {
+            // login first
             FingerPrint_Response login = await Client.LogIn_Async(FingerPrint);
             if (!(bool)login.success!)
                 throw new Exception("Login was unsuccessful: "+ login.error);
             GetWallets_Response walletsResponse = await Client.GetWallets_Async();
             if (!(bool)walletsResponse.success!)
                 throw new Exception("Could not fetch wallets: " + walletsResponse.error);
+
+            // fetch latest import state
+            ulong? lastChunkFile = GetLastChunkFile();
+            ulong latestTransactionHeight = 0;
+            if (lastChunkFile != null)
+                latestTransactionHeight = GetOrCreateChunk((ulong)lastChunkFile).LastTransactionBlock;
+
+            // Fetch all Transactions
+            List<Transaction_DictMemos> transactionsToImport = new();
             foreach (Wallets_info wallet in walletsResponse.wallets!)
             {
-                GetTransactions_RPC rpc = new GetTransactions_RPC(wallet.id, start: 0, end: long.MaxValue, reverse: true);
+                GetTransactions_RPC rpc = new GetTransactions_RPC(wallet.id, start: 0, end: long.MaxValue, reverse: false);
+                rpc.start = await Client.SeekBlockTransactionIndex(latestTransactionHeight, rpc);
+                if (rpc.start == ulong.MaxValue)
+                    continue;
                 GetTransactions_Response transactions = await Client.GetTransactions_Async(rpc);
-                foreach (Transaction_DictMemos transaction in transactions.transactions)
-                {
-
-                }
+                if (!(bool)transactions.success!)
+                    throw new Exception("Could not Fetch transactions: "+ transactions.error);
+                transactionsToImport.AddRange(transactions.transactions!);
             }
+
+            // Store all transactions
+            throw new NotImplementedException("not yet implemented");
         }
     }
 }
