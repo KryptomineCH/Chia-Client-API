@@ -70,7 +70,7 @@ namespace Chia_Client_API.Helpers_NS
 
             // Evict items if cache is too large
             EvictIfNecessary();
-
+            cachedValue.LastAccessTime = DateTime.Now;
             return cachedValue.Chunk;
         }
 
@@ -95,6 +95,15 @@ namespace Chia_Client_API.Helpers_NS
             {
                 chunk.Bundle.SaveObjectToFile(Path.Combine(StorageDirectory.FullName, chunkID.ToString()));
                 chunk.Bundle.Edited = false; // Reset the edited flag after saving
+            }
+        }
+
+        public void SaveAll()
+        {
+            foreach ((TransactionsChunk Chunk, DateTime LastAccessTime) chunk in _cache.Values)
+            {
+                chunk.Chunk.SaveObjectToFile(Path.Combine(StorageDirectory.FullName, chunk.Chunk.StartBlock.ToString()));
+                chunk.Chunk.Edited = false; // Reset the edited flag after saving
             }
         }
 
@@ -229,7 +238,10 @@ namespace Chia_Client_API.Helpers_NS
             }
 
             // Store all transactions
-            throw new NotImplementedException("not yet implemented");
+            AddTransactions(transactionsToImport);
+            
+            // save changes
+            SaveAll();
         }
     }
 }
