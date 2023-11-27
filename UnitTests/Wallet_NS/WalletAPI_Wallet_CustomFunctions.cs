@@ -29,8 +29,8 @@ namespace CHIA_API_Tests.Wallet_NS
         {
             FingerPrint_RPC? login_rpc = FingerPrint_RPC.LoadRpcFromFile("testfingerprint.rpc");
             DirectoryInfo directory = new DirectoryInfo("TestTransactionHistory");
-            if (directory.Exists) 
-                directory.Delete();
+            //if (directory.Exists) 
+                //directory.Delete();
 
             Chia_Client_API.Helpers_NS.WalletTransactionHistory history = new (Testnet_Wallet.Wallet_Client, login_rpc, directory);
             await history.PullNewTransactions();
