@@ -1,11 +1,7 @@
-﻿using Chia_Client_API.Helpers_NS;
-using CHIA_RPC.General_NS;
+﻿using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
-using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
-using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 
 namespace Chia_Client_API.WalletAPI_NS
