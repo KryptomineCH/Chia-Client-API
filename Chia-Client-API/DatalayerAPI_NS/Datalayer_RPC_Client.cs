@@ -82,10 +82,13 @@ namespace Chia_Client_API.DatalayerAPI_NS
         {
             if (_Client != null) _Client.Dispose();
             // initialize http client with proper certificate
-            var handler = new HttpClientHandler();
-            X509Certificate2 privateCertificate = CertificateLoader.GetCertificate(Endpoint.data_layer, _API_CertificateFolder);
-            handler.ServerCertificateCustomValidationCallback = (requestMessage, certificate, chain, policyErrors) => true;
-            handler.ClientCertificates.Add(privateCertificate);
+            var handler = new SocketsHttpHandler();
+            handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.data_layer, _API_CertificateFolder);
+            handler.SslOptions.RemoteCertificateValidationCallback += (sender, cert, chain, errors) =>
+            {
+                Console.WriteLine($"SSL Policy Errors: {errors}");
+                return true; // For testing purposes
+            };
             _Client = new HttpClient(handler);
         }
         /// <summary>

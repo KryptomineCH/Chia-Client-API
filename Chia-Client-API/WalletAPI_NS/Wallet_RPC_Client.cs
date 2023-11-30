@@ -1,4 +1,5 @@
 ﻿using CHIA_RPC.Wallet_NS.WalletNode_NS;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 
@@ -43,7 +44,7 @@ namespace Chia_Client_API.WalletAPI_NS
                     Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                     ".chia","mainnet","config","ssl");
             }
-            SetNewCerticifactes();
+            SetNewCertificates();
             _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
             ReportResponseErrors = reportResponseErrors;
         }
@@ -66,24 +67,35 @@ namespace Chia_Client_API.WalletAPI_NS
         public string? API_CertificateFolder 
         {
             get { return _API_CertificateFolder; } 
-            set { _API_CertificateFolder = value; SetNewCerticifactes(); } 
+            set { _API_CertificateFolder = value; SetNewCertificates(); } 
         }
         private string? _API_CertificateFolder;
         /// <summary>
-        /// this function creates a new http cliet with the set certificates
+        /// this function creates a new http client with the set certificates
         /// </summary>
-        private void SetNewCerticifactes()
+        private void SetNewCertificates()
         {
             if (_Client != null) _Client.Dispose();
-            // initialize http client with proper certificate
-            var handler = new HttpClientHandler();
+
+            // Initialize http client with proper certificate
+            
             if (_API_CertificateFolder == null)
             {
                 throw new ArgumentNullException(nameof(_API_CertificateFolder));
             }
-            X509Certificate2 privateCertificate = CertificateLoader.GetCertificate(Endpoint.wallet, _API_CertificateFolder);
-            handler.ServerCertificateCustomValidationCallback = (requestMessage, certificate, chain, policyErrors) => true;
-            handler.ClientCertificates.Add(privateCertificate);
+
+            //X509Certificate2 privateCertificate = CertificateLoader.GetCertificate(Endpoint.wallet, _API_CertificateFolder);
+
+            //handler.SslOptions.ClientCertificates = CertLoader.GetCertFromFiles(
+            //    @"C:\Users\julia\.testnet\ssl\wallet\private_wallet.crt", @"C:\Users\julia\.testnet\ssl\wallet\private_wallet.key");
+            var handler = new SocketsHttpHandler();
+            handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.wallet, _API_CertificateFolder);
+            handler.SslOptions.RemoteCertificateValidationCallback += (sender, cert, chain, errors) =>
+            {
+                Console.WriteLine($"SSL Policy Errors: {errors}");
+                return true; // For testing purposes
+            };
+
             _Client = new HttpClient(handler);
         }
         /// <summary>
