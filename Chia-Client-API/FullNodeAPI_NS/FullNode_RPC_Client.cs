@@ -1,113 +1,67 @@
-﻿using System.Net.Http.Headers;
-using System.Security.Cryptography.X509Certificates;
+﻿using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.FullNodeAPI_NS
 {
-    public partial class FullNode_RPC_Client
+    public partial class FullNodeRpcClient : FullNodeRpcBase
     {
+        private RpcClientBase _rpcClientBase;
         /// <summary>
-        /// 
+        /// Initializes a new instance of the full node_RPC_Client class that can be used to interact with a Chia full node.
         /// </summary>
-        /// <param name="reportResponseErrors">sends the following information with asymetric rsa 4096 and AES encryption to kryptomine.ch for improving the API: <br/>
-        /// ChiaVersion<br/>
-        /// ApiVersion<br/>
-        /// RpcVersion<br/>
-        /// ErrorTime<br/>
-        /// ErrorText<br/>
-        /// RawServerResponse<br/>
-        /// Preferrably use on testnet or with a testwallet<br/>
+        /// <param name="reportResponseErrors">sends the following information with asymmetric rsa 4096 and AES encryption to kryptomine.ch for improving the API:<br/>
+        /// - ChiaVersion<br/>
+        /// - ApiVersion<br/>
+        /// - RpcVersion<br/>
+        /// - ErrorTime<br/>
+        /// - ErrorText<br/>
+        /// - RawServerResponse<br/>
+        /// Preferably use on testnet or with a test full node<br/>
         /// Any responses with potential key / authentication information are omitted</param>
-        /// <param name="targetApiAddress">the ip or name where to reach the full-node server</param>
-        /// <param name="targetApiPort">the port which to coinnect to</param>
-        /// <param name="targetCertificateBaseFolder">the base (ssl) folder path</param>
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-        public FullNode_RPC_Client(bool reportResponseErrors, string targetApiAddress = "localhost", int targetApiPort = 8555, string? targetCertificateBaseFolder = null, TimeSpan? timeout = null)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        /// <param name="targetApiAddress">The IP address of the Chia full node's RPC server. Defaults to 'localhost'.</param>
+        /// <param name="targetApiPort">The port number of the Chia full node's RPC server. Defaults to 8555.</param>
+        /// <param name="targetCertificateBaseFolder">The base directory for the SSL/TLS certificate. This certificate is used to establish a secure connection with the Chia full node's RPC server. If null, the default certificate location will be used.</param>
+        /// <param name="timeout">the timeout after which the client cancels requests</param>
+        /// <remarks>
+        /// This constructor configures the connection details for the Chia full node's RPC server. It is important to ensure the correctness of these details for successful communication with the full node. 
+        /// The 'localhost' default for the targetApiAddress parameter is suitable for scenarios where the full node and the application are running on the same machine. 
+        /// For remote full nodes, provide the appropriate IP address.
+        /// The default targetApiPort is the default port number where the Chia full node RPC server is configured to listen for incoming requests.
+        /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the full node's RPC server. If left null, it assumes the certificate is in the default location.
+        /// </remarks>
+        public FullNodeRpcClient(
+            bool reportResponseErrors, 
+            string targetApiAddress = "localhost", int targetApiPort = 8555, 
+            string? targetCertificateBaseFolder = null, 
+            TimeSpan? timeout = null)
         {
-            TargetApiAddress = targetApiAddress;
-            TargetApiPort = targetApiPort;
-            // this also sets the client
-            if (targetCertificateBaseFolder != null)
-            {
-                _API_CertificateFolder = targetCertificateBaseFolder;
-            }
-            else
-            {
-                // default certificate folder
-                _API_CertificateFolder = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                    ".chia","mainnet","config","ssl");
-            }
-            SetNewCerticifactes();
-            _Client.Timeout = timeout ?? TimeSpan.FromMinutes(5);
             ReportResponseErrors = reportResponseErrors;
+            _rpcClientBase = new RpcClientBase(
+                Endpoint.full_node,
+                targetApiAddress, targetApiPort, 
+                targetCertificateBaseFolder, 
+                timeout);
         }
-        private HttpClient _Client { get; set; }
         /// <summary>
-        /// the address under which the node can be reached. Defaults to localhost (127.0.0.1)
+        /// Asynchronously sends a custom message to the daemon API.
         /// </summary>
-        public string TargetApiAddress { get; set; }
-        /// <summary>
-        /// the port which should be used. defaults to 8555
-        /// </summary>
-        public int TargetApiPort { get; set; }
-        /// <summary>
-        /// specifies if RPC response errors should be reported for api improvements
-        /// </summary>
-        public bool ReportResponseErrors { get; set; }
-        /// <summary>
-        /// the base folder is the folder where all certificates are contained within subfolders according to chias default structure
-        /// </summary>
-        public string API_CertificateFolder
+        /// <param name="function">The RPC function name.</param>
+        /// <param name="json">The JSON string to send.</param>
+        /// <returns>A Task that represents the asynchronous send operation, yielding the response string.</returns>
+        public async override Task<string> SendCustomMessageAsync(string function, string json = " { } ")
         {
-            get { return _API_CertificateFolder; }
-            set { _API_CertificateFolder = value; SetNewCerticifactes(); }
+            return await _rpcClientBase.SendCustomMessageAsync(function, json);
         }
-        private string _API_CertificateFolder;
+
         /// <summary>
-        /// this function creates a new http cliet with the set certificates
+        /// Synchronously sends a custom message to the daemon API.
         /// </summary>
-        private void SetNewCerticifactes()
+        /// <param name="function">The RPC function name.</param>
+        /// <param name="json">The JSON string to send.</param>
+        /// <returns>The response string from the daemon API.</returns>
+        public override string SendCustomMessageSync(string function, string json = " { } ")
         {
-            if (_Client != null) _Client.Dispose();
-            // initialize http client with proper certificate
-            var handler = new SocketsHttpHandler();
-            handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.full_node, _API_CertificateFolder);
-            handler.SslOptions.RemoteCertificateValidationCallback += (sender, cert, chain, errors) =>
-            {
-                Console.WriteLine($"SSL Policy Errors: {errors}");
-                return true; // For testing purposes
-            };
-            _Client = new HttpClient(handler);
+            return _rpcClientBase.SendCustomMessageSync(function, json);
         }
-        /// <summary>
-        /// with this function you can execute any RPC against the wallet api. it is internally used by the library
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public async Task<string> SendCustomMessage_Async(string function, string json = " { } ")
-        {
-            using (var request = new HttpRequestMessage(new HttpMethod("POST"), "https://" + TargetApiAddress + ":" + TargetApiPort.ToString() + "/" + function))
-            {
-                request.Content = new StringContent(json);
-                request.Content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/json");
-                var response = await _Client.SendAsync(request);
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStringAsync(); ;
-            }
-        }
-        /// <summary>
-        /// with this function you can execute any RPC against the wallet api. it is internally used by the library
-        /// </summary>
-        /// <param name="function"></param>
-        /// <param name="json"></param>
-        /// <returns></returns>
-        public string SendCustomMessage_Sync(string function, string json = " { } ")
-        {
-            Task<string> data = Task.Run(() => SendCustomMessage_Async(function, json));
-            data.Wait();
-            return data.Result;
-        }
+        // todo: add full node sync await function
     }
 }

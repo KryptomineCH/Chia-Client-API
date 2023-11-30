@@ -1,4 +1,4 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
 using CHIA_RPC.Daemon_NS.KeychainServer_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
@@ -14,7 +14,7 @@ namespace Chia_Client_API.DaemonAPI_NS
     /// This class includes methods corresponding to each available RPC call that the Farmer node can handle. For example, you can get the state of the farmer, get the reward targets and set the reward targets.
     /// Each method in this class sends an RPC request to the Farmer node, and then waits for and returns the response.
     /// </remarks>
-    public partial class Daemon_RPC_Client
+    public abstract partial class DaemonRPCBase : ChiaEndpointRouteBase
     {
         // add_private_key
         /// <summary>
@@ -24,7 +24,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="FingerPrint_Response"/></returns>
         public async Task<FingerPrint_Response> AddPrivateKey_Async(AddPrivateKey_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("add_private_key", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("add_private_key", rpc.ToString());
             ActionResult<FingerPrint_Response> deserialisationResult = FingerPrint_Response.LoadResponseFromString(responseJson);
             FingerPrint_Response response = new FingerPrint_Response();
             if (deserialisationResult.Data != null)
@@ -59,7 +59,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns>unknown</returns>
         public async Task<Success_Response> CheckKeys_Async(CheckKeys_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("check_keys", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("check_keys", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -95,7 +95,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> DeleteAllKeys_Async()
         {
-            string responseJson = await SendCustomMessage_Async("delete_all_keys");
+            string responseJson = await SendCustomMessageAsync("delete_all_keys");
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -131,7 +131,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> DeleteKeyByFingerprint_Async(FingerPrint_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("delete_key_by_fingerprint", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("delete_key_by_fingerprint", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -167,7 +167,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns>List of private keys and entropies.</returns>
         public async Task<GetAllPrivateKeys_Response> GetAllPrivateKeys_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_all_private_keys");
+            string responseJson = await SendCustomMessageAsync("get_all_private_keys");
             ActionResult<GetAllPrivateKeys_Response> deserializationResult = GetAllPrivateKeys_Response.LoadResponseFromString(responseJson);
             GetAllPrivateKeys_Response response = new GetAllPrivateKeys_Response();
             if (deserializationResult.Data != null)
@@ -203,7 +203,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns>First private key and entropy.</returns>
         public async Task<PrivateKey_Response> GetFirstPrivateKey_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_first_private_key");
+            string responseJson = await SendCustomMessageAsync("get_first_private_key");
             ActionResult<PrivateKey_Response> deserializationResult = PrivateKey_Response.LoadResponseFromString(responseJson);
             PrivateKey_Response response = new PrivateKey_Response();
             if (deserializationResult.Data != null)
@@ -239,7 +239,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns>Private key and entropy for given fingerprint.</returns>
         public async Task<PrivateKey_Response> GetKeyForFingerprint_Async(FingerPrint_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_key_for_fingerprint", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_key_for_fingerprint", rpc.ToString());
             ActionResult<PrivateKey_Response> deserializationResult = PrivateKey_Response.LoadResponseFromString(responseJson);
             PrivateKey_Response response = new PrivateKey_Response();
             if (deserializationResult.Data != null)
@@ -276,7 +276,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetKey_Response"/></returns>
         public async Task<GetKey_Response> GetKey_Async(GetKeys_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_key", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_key", rpc.ToString());
             ActionResult<GetKey_Response> deserializationResult = GetKey_Response.LoadResponseFromString(responseJson);
             GetKey_Response response = new GetKey_Response();
             if (deserializationResult.Data != null)
@@ -314,7 +314,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetKeys_Response"/></returns>
         public async Task<GetKeys_Response> GetKeys_Async(GetKeys_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_keys", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_keys", rpc.ToString());
             ActionResult<GetKeys_Response> deserializationResult = GetKeys_Response.LoadResponseFromString(responseJson);
             GetKeys_Response response = new GetKeys_Response();
             if (deserializationResult.Data != null)
@@ -352,7 +352,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetKey_Response"/></returns>
         public async Task<GetKey_Response> GetPublicKey_Async(FingerPrint_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_public_key", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_public_key", rpc.ToString());
             ActionResult<GetKey_Response> deserializationResult = GetKey_Response.LoadResponseFromString(responseJson);
             GetKey_Response response = new GetKey_Response();
             if (deserializationResult.Data != null)
@@ -389,7 +389,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetKeys_Response"/></returns>
         public async Task<GetKeys_Response> GetPublicKeys_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_public_keys");
+            string responseJson = await SendCustomMessageAsync("get_public_keys");
             ActionResult<GetKeys_Response> deserializationResult = GetKeys_Response.LoadResponseFromString(responseJson);
             GetKeys_Response response = new GetKeys_Response();
             if (deserializationResult.Data != null)
@@ -426,7 +426,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> SetLabel_Async(SetLabel_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("set_label", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("set_label", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -464,7 +464,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> DeleteLabel_Async(FingerPrint_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("delete_label", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("delete_label", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)

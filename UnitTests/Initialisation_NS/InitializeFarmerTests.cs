@@ -13,9 +13,9 @@ namespace CHIA_API_Tests.Initialisation_NS
             string certificatePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 ".testnet","ssl");
-            Farmer_Client = new Farmer_RPC_Client(reportResponseErrors: false,targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
+            Farmer_Client = new FarmerRpcClient(reportResponseErrors: false,targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
         }
-        public static Farmer_RPC_Client Farmer_Client;
+        public static FarmerRpcClient Farmer_Client;
         public void Dispose()
         {
             // ... clean up ...

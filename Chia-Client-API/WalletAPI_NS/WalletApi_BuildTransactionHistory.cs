@@ -1,14 +1,9 @@
-﻿using Chia_Client_API.Helpers_NS;
-using CHIA_RPC.General_NS;
-using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
 using CHIA_RPC.Wallet_NS.CustomTransactionHistoryObjects_NS;
-using CHIA_RPC.Wallet_NS.Wallet_NS;
-using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         public async Task<CustomChiaTransactionBundle[]> BuildtransactionHistory_Async(DirectoryInfo transactionHistoryDirectory)
         {

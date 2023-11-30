@@ -14,7 +14,7 @@ namespace Chia_Client_API.DaemonAPI_NS
     /// This class includes methods corresponding to each available RPC call that the Farmer node can handle. For example, you can get the state of the farmer, get the reward targets and set the reward targets.
     /// Each method in this class sends an RPC request to the Farmer node, and then waits for and returns the response.
     /// </remarks>
-    public partial class Daemon_RPC_Client
+    public abstract partial class DaemonRPCBase
     {
         // exit
         /// <summary>
@@ -24,7 +24,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Exit_Response"/></returns>
         public async Task<Exit_Response> Exit_Async()
         {
-            string responseJson = await SendCustomMessage_Async("exit");
+            string responseJson = await SendCustomMessageAsync("exit");
             ActionResult<Exit_Response> deserializationResult = Exit_Response.LoadResponseFromString(responseJson);
             Exit_Response response = new Exit_Response();
             if (deserializationResult.Data != null)
@@ -64,7 +64,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetRoutes_Response"/></returns>
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_routes");
+            string responseJson = await SendCustomMessageAsync("get_routes");
             ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
             GetRoutes_Response response = new GetRoutes_Response();
             if (deserializationResult.Data != null)
@@ -104,7 +104,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetStatus_Response"/></returns>
         public async Task<GetStatus_Response> GetStatus_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_status");
+            string responseJson = await SendCustomMessageAsync("get_status");
             ActionResult<GetStatus_Response> deserializationResult = GetStatus_Response.LoadResponseFromString(responseJson);
             GetStatus_Response response = new GetStatus_Response();
             if (deserializationResult.Data != null)
@@ -144,7 +144,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetVersion_Response"/></returns>
         public async Task<GetVersion_Response> GetVersion_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_version");
+            string responseJson = await SendCustomMessageAsync("get_version");
             ActionResult<GetVersion_Response> deserializationResult = GetVersion_Response.LoadResponseFromString(responseJson);
             GetVersion_Response response = new GetVersion_Response();
             if (deserializationResult.Data != null)
@@ -185,7 +185,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="GetWalletAddresses_Response"/></returns>
         public async Task<GetWalletAddresses_Response> GetWalletAddresses_Async(GetWalletAddresses_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_wallet_addresses", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_wallet_addresses", rpc.ToString());
             ActionResult<GetWalletAddresses_Response> deserializationResult = GetWalletAddresses_Response.LoadResponseFromString(responseJson);
             GetWalletAddresses_Response response = new GetWalletAddresses_Response();
             if (deserializationResult.Data != null)
@@ -226,7 +226,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="IsKeyringLocked_Response"/></returns>
         public async Task<IsKeyringLocked_Response> IsKeyringLocked_Async()
         {
-            string responseJson = await SendCustomMessage_Async("is_keyring_locked");
+            string responseJson = await SendCustomMessageAsync("is_keyring_locked");
             ActionResult<IsKeyringLocked_Response> deserializationResult = IsKeyringLocked_Response.LoadResponseFromString(responseJson);
             IsKeyringLocked_Response response = new IsKeyringLocked_Response();
             if (deserializationResult.Data != null)
@@ -263,7 +263,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="IsRunning_Response"/></returns>
         public async Task<IsRunning_Response> IsRunning_Async(Service_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("is_running", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("is_running", rpc.ToString());
             ActionResult<IsRunning_Response> deserializationResult = IsRunning_Response.LoadResponseFromString(responseJson);
             IsRunning_Response response = new IsRunning_Response();
             if (deserializationResult.Data != null)
@@ -304,7 +304,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="KeyringStatus_Response"/></returns>
         public async Task<KeyringStatus_Response> KeyringStatus_Async()
         {
-            string responseJson = await SendCustomMessage_Async("keyring_status");
+            string responseJson = await SendCustomMessageAsync("keyring_status");
             ActionResult<KeyringStatus_Response> deserializationResult = KeyringStatus_Response.LoadResponseFromString(responseJson);
             KeyringStatus_Response response = new KeyringStatus_Response();
             if (deserializationResult.Data != null)
@@ -340,7 +340,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> RegisterService_Async(Service_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("register_service", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("register_service", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -380,7 +380,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> RemoveKeyringPassphrase_Async(RemoveKeyringPassphrase_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("remove_keyring_passphrase", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("remove_keyring_passphrase", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -416,7 +416,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="RunningServices_Response"/></returns>
         public async Task<RunningServices_Response> RunningServices_Async()
         {
-            string responseJson = await SendCustomMessage_Async("running_services");
+            string responseJson = await SendCustomMessageAsync("running_services");
             ActionResult<RunningServices_Response> deserializationResult = RunningServices_Response.LoadResponseFromString(responseJson);
             RunningServices_Response response = new RunningServices_Response();
             if (deserializationResult.Data != null)
@@ -456,7 +456,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> SetKeyringPassphrase_Async(SetKeyringPassphrase_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("set_keyring_passphrase", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("set_keyring_passphrase", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -492,7 +492,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Service_Response"/></returns>
         public async Task<Service_Response> StartService_Async(Service_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("start_service", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("start_service", rpc.ToString());
             ActionResult<Service_Response> deserializationResult = Service_Response.LoadResponseFromString(responseJson);
             Service_Response response = new Service_Response();
             if (deserializationResult.Data != null)
@@ -532,7 +532,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Service_Response"/></returns>
         public async Task<Service_Response> StopService_Async(Service_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("stop_service", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("stop_service", rpc.ToString());
             ActionResult<Service_Response> deserializationResult = Service_Response.LoadResponseFromString(responseJson);
             Service_Response response = new Service_Response();
             if (deserializationResult.Data != null)
@@ -572,7 +572,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> UnlockKeyring_Async(Key_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("unlock_keyring", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("unlock_keyring", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
@@ -608,7 +608,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> ValidateKeyringPassphrase_Async(Key_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("validate_keyring_passphrase", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("validate_keyring_passphrase", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)

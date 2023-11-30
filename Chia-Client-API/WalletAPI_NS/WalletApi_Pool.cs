@@ -3,10 +3,11 @@ using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Wallet_NS.PoolWallet_NS;
 using System.Text.Json;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Absorb unspent coinbase rewards to a pool wallet<br/><br/>
@@ -17,7 +18,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> PwAbsorbRewards_Async(PwAbsorbRewards_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("pw_absorb_rewards", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("pw_absorb_rewards", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -56,7 +57,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("pw_join_pool", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("pw_join_pool", rpc.ToString());
             ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson);
             PwJoinPool_Response response = new ();
 
@@ -94,7 +95,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("pw_self_pool", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("pw_self_pool", rpc.ToString());
             ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson);
             PwJoinPool_Response response = new ();
 
@@ -132,7 +133,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<PwStatus_Response> PwStatus_Async(WalletID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("pw_status", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("pw_status", rpc.ToString());
             ActionResult<PwStatus_Response> deserializationResult = PwStatus_Response.LoadResponseFromString(responseJson);
             PwStatus_Response response = new ();
 

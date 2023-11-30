@@ -2,10 +2,11 @@
 using CHIA_RPC.FullNode_NS;
 using CHIA_RPC.FullNode_NS.Simulator_NS;
 using System.Text.Json;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.FullNodeAPI_NS
 {
-    public partial class FullNode_RPC_Client
+    public abstract partial class FullNodeRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Farm one or more blocks. Can ensure farming a transaction block if required
@@ -15,7 +16,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<FarmBlock_Response?> Simulator_FarmBlock_Async(FarmBlock_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("farm_block", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("farm_block", rpc.ToString());
             FarmBlock_Response? deserializedObject = JsonSerializer.Deserialize<FarmBlock_Response?>(responseJson);
             return deserializedObject;
         }
@@ -39,7 +40,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<GetBlocks_Response?> Simulator_GetAllBlocks_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_all_blocks");
+            string responseJson = await SendCustomMessageAsync("get_all_blocks");
             GetBlocks_Response? deserializedObject = JsonSerializer.Deserialize<GetBlocks_Response?>(responseJson);
             return deserializedObject;
         }
@@ -63,7 +64,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<GetAllCoins_Response?> Simulator_GetAllCoins_Async(GetAllCoins_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_all_coins", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_all_coins", rpc.ToString());
             GetAllCoins_Response? deserializedObject = JsonSerializer.Deserialize<GetAllCoins_Response?>(responseJson);
             return deserializedObject;
         }
@@ -87,7 +88,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<GetAllPuzzleHashes_Response?> Simulator_GetAllPuzzleHashes_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_all_puzzle_hashes\r\n");
+            string responseJson = await SendCustomMessageAsync("get_all_puzzle_hashes\r\n");
             GetAllPuzzleHashes_Response? deserializedObject = JsonSerializer.Deserialize<GetAllPuzzleHashes_Response?>(responseJson);
             return deserializedObject;
         }
@@ -110,7 +111,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<AutoFarming_Response?> Simulator_GetAutoFarming_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_auto_farming");
+            string responseJson = await SendCustomMessageAsync("get_auto_farming");
             AutoFarming_Response? deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response?>(responseJson);
             return deserializedObject;
         }
@@ -133,7 +134,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<GetFarmingPh_Response?> Simulator_GetFarmingPh_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_farming_ph");
+            string responseJson = await SendCustomMessageAsync("get_farming_ph");
             GetFarmingPh_Response? deserializedObject = JsonSerializer.Deserialize<GetFarmingPh_Response?>(responseJson);
             return deserializedObject;
         }
@@ -157,7 +158,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<NewPeakHeight_Response?> Simulator_ReorgBlocks_Async(ReorgBlocks_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("reorg_blocks", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("reorg_blocks", rpc.ToString());
             NewPeakHeight_Response? deserializedObject = JsonSerializer.Deserialize<NewPeakHeight_Response?>(responseJson);
             return deserializedObject;
         }
@@ -182,7 +183,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<NewPeakHeight_Response?> Simulator_RevertBlocks_Async(RevertBlocks_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("revert_blocks", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("revert_blocks", rpc.ToString());
             NewPeakHeight_Response? deserializedObject = JsonSerializer.Deserialize<NewPeakHeight_Response?>(responseJson);
             return deserializedObject;
         }
@@ -207,7 +208,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns></returns>
         public async Task<AutoFarming_Response?> Simulator_SetAutoFarming_Async(SetAutoFarming_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("set_auto_farming", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("set_auto_farming", rpc.ToString());
             AutoFarming_Response? deserializedObject = JsonSerializer.Deserialize<AutoFarming_Response?>(responseJson);
             return deserializedObject;
         }

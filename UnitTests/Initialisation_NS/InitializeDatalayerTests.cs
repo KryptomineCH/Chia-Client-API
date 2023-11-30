@@ -13,9 +13,9 @@ namespace CHIA_API_Tests.Initialisation_NS
             string certificatePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 ".testnet","ssl");
-            Datalayer_Client = new Datalayer_RPC_Client(reportResponseErrors: false,targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
+            Datalayer_Client = new DatalayerRpcClient(reportResponseErrors: false,targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
         }
-        public static Datalayer_RPC_Client Datalayer_Client;
+        public static DatalayerRpcClient Datalayer_Client;
         
         public void Dispose()
         {

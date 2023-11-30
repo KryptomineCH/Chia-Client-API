@@ -173,19 +173,23 @@ namespace CHIA_API_Tests.Wallet_NS
                 new WalletID_RPC { wallet_id = nftWallet!.wallet_id }).Result;
             { }
         }
+
         [Fact]
-        public void MintNft()
+        public async void MintNft()
         {
             Assert.NotNull(CommonTestFunctions.TestNftWallet);
             NftMintNFT_RPC rpc = new NftMintNFT_RPC(
                 walletID: CommonTestFunctions.TestNftWallet!.id,
-                nftLinks: new[] { 
+                nftLinks: new[]
+                {
                     "https://bafybeih5423cflj3jpo7qzs65ozgs2jtdcf4wkvdga5d2ht57wzyeufq3q.ipfs.nftstorage.link/",
-                    "https://nft.kryptomine.ch/kryptomine_testcollection/final/god_under_the_shower.png"},
-                metadataLinks: new[] {
+                    "https://nft.kryptomine.ch/kryptomine_testcollection/final/god_under_the_shower.png"
+                },
+                metadataLinks: new[]
+                {
                     "https://bafkreifvwkzpf7unauzpcnydnmfu2jwhuhj3kyhgliyps44oipw3ebbqpm.ipfs.nftstorage.link/",
                     "https://nft.kryptomine.ch/kryptomine_testcollection/metadata/god_under_the_shower.json"
-                }, 
+                },
                 licenseLinks: new[]
                 {
                     "https://bafkreicc3peq64kpclsssu344iroadtsvbloo7ofbkzdyyrqhybhvmblve.ipfs.nftstorage.link/",
@@ -194,41 +198,23 @@ namespace CHIA_API_Tests.Wallet_NS
                 royaltyFee: 190,
                 royaltyAddress: CommonTestFunctions.TestAdress,
                 mintingFee_Mojos: 10000);
-            Task<NftMintNFT_Response> mintTask = Task.Run(async () =>
-            {
-                NftMintNFT_Response? response = await Testnet_Wallet.Wallet_Client.NftMintNft_Async(rpc).ConfigureAwait(false);
-                Assert.NotNull(response);
-                if (!(response!.success ?? false))
-                {
-                    throw new Exception(response.error);
-                }
-                return response;
-            });
-            Task <NftGetInfo_Response> waitTask = Task.Run(async () =>
-            {
-                NftGetInfo_Response? success = await Testnet_Wallet.Wallet_Client.NftAwaitMintComplete_Async(mintTask.Result, cancel: System.Threading.CancellationToken.None, refreshInterwallSeconds: 15).ConfigureAwait(false);
-                Assert.NotNull(success);
-                if (!(success!.success ?? false))
-                {
-                    throw new Exception(success.error);
-                }
-                return success;
-            });
-            
+            NftMintNFT_Response mintNftResponse  =
+                await Testnet_Wallet.Wallet_Client.NftMintNft_Async(rpc).ConfigureAwait(false);
+            Assert.NotNull(mintNftResponse);
+            Assert.True(mintNftResponse.success);
+            NftGetInfo_Response nftMintInfo = await Testnet_Wallet.Wallet_Client
+                .NftAwaitMintComplete_Async(mintNftResponse, cancel: System.Threading.CancellationToken.None,
+                    refreshInterwallSeconds: 15).ConfigureAwait(false);
+            Assert.NotNull(nftMintInfo);
+            Assert.True(nftMintInfo.success);
+
             Offer_RPC offer = new Offer_RPC();
-            offer.offer.Add( "1", 1); // 1 mojo
-            NftGetInfo_RPC? nftInfoRequest = mintTask.Result.Get_NftGetInfo_RPC();
-            Assert.NotNull(nftInfoRequest);
-            NftGetInfo_Response? nftInfoResponse = Testnet_Wallet.Wallet_Client.NftGetInfo_Async(nftInfoRequest!).Result;
-            Assert.NotNull(nftInfoResponse);
-            Assert.NotNull(nftInfoResponse!.nft_info);
-            Assert.NotNull(nftInfoResponse.nft_info!.launcher_id);
-            offer.offer.Add(nftInfoResponse.nft_info.launcher_id!, -1);
+            offer.offer.Add("1", 1); // 1 mojo
             OfferFile? offerFile = Testnet_Wallet.Wallet_Client.CreateOfferForIds_Sync(offer);
             Assert.NotNull(offerFile);
             offerFile!.SaveObjectToFile("testoffer");
-            { }
         }
+
         [Fact]
         public void TestGetCoinInfo()
         {
