@@ -1,10 +1,11 @@
 ﻿using Chia_Client_API.ChiaClient_NS;
+using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API.HarvesterAPI_NS
 {
     public partial class HarvesterRpcClient : HarvesterRpcBase
     {
-        private RpcClientBase _rpcClientBase;
+        private RpcClient _rpcClient;
         /// <summary>
         /// specifies if errors in the response should be reported to kryptomine.ch for api improvements.
         /// </summary>
@@ -40,7 +41,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
             TimeSpan? timeout = null)
         {
             ReportResponseErrors = reportResponseErrors;
-            _rpcClientBase = new RpcClientBase(
+            _rpcClient = new RpcClient(
                 Endpoint.harvester,
                 targetApiAddress, targetApiPort, 
                 targetCertificateBaseFolder, 
@@ -54,7 +55,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns>A Task that represents the asynchronous send operation, yielding the response string.</returns>
         public async override Task<string> SendCustomMessageAsync(string function, string json = " { } ")
         {
-            return await _rpcClientBase.SendCustomMessageAsync(function, json);
+            return await _rpcClient.SendCustomMessageAsync(function, json);
         }
 
         /// <summary>
@@ -65,7 +66,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns>The response string from the daemon API.</returns>
         public override string SendCustomMessageSync(string function, string json = " { } ")
         {
-            return _rpcClientBase.SendCustomMessageSync(function, json);
+            return _rpcClient.SendCustomMessageSync(function, json);
         }
     }
 }

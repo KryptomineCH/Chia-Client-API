@@ -2,6 +2,7 @@
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Collections.Concurrent;
+using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API
 {

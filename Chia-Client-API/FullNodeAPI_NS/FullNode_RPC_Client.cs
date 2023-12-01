@@ -1,10 +1,11 @@
 ﻿using Chia_Client_API.ChiaClient_NS;
+using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API.FullNodeAPI_NS
 {
     public partial class FullNodeRpcClient : FullNodeRpcBase
     {
-        private RpcClientBase _rpcClientBase;
+        private RpcClient _rpcClient;
         /// <summary>
         /// Initializes a new instance of the full node_RPC_Client class that can be used to interact with a Chia full node.
         /// </summary>
@@ -35,7 +36,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
             TimeSpan? timeout = null)
         {
             ReportResponseErrors = reportResponseErrors;
-            _rpcClientBase = new RpcClientBase(
+            _rpcClient = new RpcClient(
                 Endpoint.full_node,
                 targetApiAddress, targetApiPort, 
                 targetCertificateBaseFolder, 
@@ -49,7 +50,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns>A Task that represents the asynchronous send operation, yielding the response string.</returns>
         public async override Task<string> SendCustomMessageAsync(string function, string json = " { } ")
         {
-            return await _rpcClientBase.SendCustomMessageAsync(function, json);
+            return await _rpcClient.SendCustomMessageAsync(function, json);
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         /// <returns>The response string from the daemon API.</returns>
         public override string SendCustomMessageSync(string function, string json = " { } ")
         {
-            return _rpcClientBase.SendCustomMessageSync(function, json);
+            return _rpcClient.SendCustomMessageSync(function, json);
         }
         // todo: add full node sync await function
     }

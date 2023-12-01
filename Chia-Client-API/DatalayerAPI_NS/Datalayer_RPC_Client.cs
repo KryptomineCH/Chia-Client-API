@@ -1,4 +1,5 @@
 ﻿using Chia_Client_API.ChiaClient_NS;
+using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API.DatalayerAPI_NS
 {
@@ -7,7 +8,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
     /// </summary>
     public partial class DatalayerRpcClient : DatalayerRpcBase
     {
-        private RpcClientBase _rpcClientBase;
+        private RpcClient _rpcClient;
         /// <summary>
         /// Initializes a new instance of the Datalayer_RPC_Client class that can be used to interact with a Chia datalayer.
         /// </summary>
@@ -38,7 +39,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
             TimeSpan? timeout = null)
         {
             ReportResponseErrors = reportResponseErrors;
-            _rpcClientBase = new RpcClientBase(
+            _rpcClient = new RpcClient(
                 Endpoint.data_layer,
                 targetApiAddress, targetApiPort, 
                 targetCertificateBaseFolder, 
@@ -52,7 +53,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <returns>A Task that represents the asynchronous send operation, yielding the response string.</returns>
         public async override Task<string> SendCustomMessageAsync(string function, string json = " { } ")
         {
-            return await _rpcClientBase.SendCustomMessageAsync(function, json);
+            return await _rpcClient.SendCustomMessageAsync(function, json);
         }
 
         /// <summary>
@@ -63,7 +64,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
         /// <returns>The response string from the daemon API.</returns>
         public override string SendCustomMessageSync(string function, string json = " { } ")
         {
-            return _rpcClientBase.SendCustomMessageSync(function, json);
+            return _rpcClient.SendCustomMessageSync(function, json);
         }
     }
 }

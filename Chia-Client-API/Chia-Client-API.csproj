@@ -18,6 +18,7 @@
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
     <PackageReleaseNotes>- update offer sort key
 - fix index out of range exception with SeekBlockTransactionIndex
+- update cert loading to support tls 1.3
 
 2.1.1.9
 - added workaround for amount in cat
@@ -121,6 +122,7 @@ see https://github.com/Chia-Network/chia-blockchain/issues/16842 for more detail
 
   <ItemGroup>
     <PackageReference Include="CHIA-RPC" Version="2.1.0.1" />
+    <PackageReference Include="Multithreading_Library" Version="1.2.1" />
     <PackageReference Include="SSH.NET" Version="2023.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
   </ItemGroup>

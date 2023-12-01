@@ -1,11 +1,12 @@
 namespace Chia_Client_API.ChiaClient_NS;
 
+using CHIA_RPC.General_NS;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-public class RpcClientBase : ChiaClientBase
+public class RpcClient : ChiaClientBase
 {
     
     /// <summary>
@@ -13,7 +14,7 @@ public class RpcClientBase : ChiaClientBase
     /// </summary>
     private HttpClient? _Client { get; set; }
     // Constructor
-    public RpcClientBase(
+    public RpcClient(
         Endpoint endpoint,
         string targetApiAddress = "localhost", int targetApiPort = 8559,
         string? targetCertificateBaseFolder = null, 

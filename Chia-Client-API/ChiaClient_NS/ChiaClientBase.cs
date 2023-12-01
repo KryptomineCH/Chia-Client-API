@@ -1,3 +1,5 @@
+using CHIA_RPC.General_NS;
+
 namespace Chia_Client_API.ChiaClient_NS;
 
 public abstract class ChiaClientBase : ChiaCommunicationBase
