@@ -1,3 +1,5 @@
+using System.Net;
+
 namespace Chia_Client_API.ChiaClient_NS;
 
 using CHIA_RPC.General_NS;
@@ -33,7 +35,7 @@ public class WebsocketClient : ChiaClientBase
     /// <param name="timeout"></param>
     public WebsocketClient(
         Endpoint endpoint,
-        string targetApiAddress = "localhost", int targetApiPort = 58444,
+        string targetApiAddress = "localhost", int targetApiPort = 55400,
         string? targetCertificateBaseFolder = null, 
         TimeSpan? timeout = null)
         : base(endpoint, targetApiAddress, targetApiPort, targetCertificateBaseFolder, timeout)
@@ -81,9 +83,10 @@ public class WebsocketClient : ChiaClientBase
         {
             throw new ArgumentNullException(nameof(_API_CertificateFolder));
         }
-            
+
         _Client = new ClientWebSocket();
         _Client.Options.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.daemon, _API_CertificateFolder);
+        _Client.Options.RemoteCertificateValidationCallback += ValidateServerCertificate;
         AsyncHelper.RunSync(() => _Client.ConnectAsync(new Uri("wss://" + TargetApiAddress+":"+ TargetApiPort), CancellationToken.None));
     }
     private RequestIDGenerator _RequestID = new();

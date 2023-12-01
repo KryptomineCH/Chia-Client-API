@@ -41,7 +41,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// </remarks>
         public WalletWebSocketClient(
             bool reportResponseErrors, 
-            string targetApiAddress = "localhost", int targetApiPort = 58444, 
+            string targetApiAddress = "localhost", int targetApiPort = 55400, 
             string? targetCertificateBaseFolder = null, 
             TimeSpan? timeout = null)
         {

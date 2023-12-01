@@ -1,3 +1,5 @@
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API.ChiaClient_NS;
@@ -51,5 +53,18 @@ public abstract class ChiaClientBase : ChiaCommunicationBase
         /// </summary>
         protected abstract void SetNewCertificates();
 
-        
+        protected static bool ValidateServerCertificate(object sender, X509Certificate? certificate, X509Chain? chain, SslPolicyErrors sslPolicyErrors)
+        {
+            // uncomment these checks to change remote cert validaiton requirements
+
+            // require remote ca to be trusted on this machine
+            //if ((sslPolicyErrors & SslPolicyErrors.RemoteCertificateChainErrors) == SslPolicyErrors.RemoteCertificateChainErrors) 
+            //    return false;
+
+            // require server name to be validated in the cert
+            //if ((sslPolicyErrors & SslPolicyErrors.RemoteCertificateNameMismatch) == SslPolicyErrors.RemoteCertificateNameMismatch)
+            //    return false;
+
+            return !((sslPolicyErrors & SslPolicyErrors.RemoteCertificateNotAvailable) == SslPolicyErrors.RemoteCertificateNotAvailable);
+        }
     }

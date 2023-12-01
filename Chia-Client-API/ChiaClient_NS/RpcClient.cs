@@ -43,14 +43,11 @@ public class RpcClient : ChiaClientBase
         var handler = new SocketsHttpHandler();
         handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(_EndpointNode, _API_CertificateFolder);
         // TODO: Actually validate certificate
-        handler.SslOptions.RemoteCertificateValidationCallback += (sender, cert, chain, errors) =>
-        {
-            Console.WriteLine($"SSL Policy Errors: {errors}");
-            return true; // For testing purposes
-        };
+        handler.SslOptions.RemoteCertificateValidationCallback += ValidateServerCertificate;
 
         _Client = new HttpClient(handler);
     }
+    
 
     /// <summary>
     /// with this function you can execute any RPC against the wallet api. it is internally used by the library
