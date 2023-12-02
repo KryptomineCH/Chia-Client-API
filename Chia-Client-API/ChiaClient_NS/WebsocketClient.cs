@@ -18,7 +18,7 @@ using Multithreading_Library.ThreadControl;
 /// </summary>
 public class WebsocketClient : ChiaClientBase
 {
-    // TODO: Certificate error. Check with chia dotnet if config correct
+    // TODO: Certificate error. Check with chia dotnet if config correct (waiting for 2.1.2)
     /// <summary>
     /// the client that is being used for communication
     /// </summary>
@@ -104,7 +104,7 @@ public class WebsocketClient : ChiaClientBase
             throw new NullReferenceException(nameof(_Client));
         }
         int requestID = _RequestID.GetNextRequestId();
-        WebSocket_RPC rpc = new WebSocket_RPC(function, _EndpointNode, json, requestID, $"chia-Client-Api_{_EndpointNode}");
+        WebSocket_RPC rpc = new WebSocket_RPC(function, _EndpointNode, json, requestID, $"");
         await Send(rpc, true);
         WebSocket_Response response = await ReceiveStatusUpdate(requestID);
         return "not implemented";
@@ -166,29 +166,21 @@ public class WebsocketClient : ChiaClientBase
     /// <remarks>
     /// id 1 & 2 are reserved for pingpong and time request
     /// </remarks>
-    /// <param name="context"></param>
+    /// <param name="context"></param> 
     /// <param name="connectionvalidate">checks if the websocket is open</param>
     private async Task Send(WebSocket_RPC rpc, bool connectionvalidate)
     {
-        var encoded = Encoding.UTF8.GetBytes(rpc.ToString());
+        // TODO: Remove test
+        string test =
+            "{\"destination\": \"daemon\", \"command\": \"register_service\", \"request_id\": \"123456ca\", \"origin\": \"\", \"data\": { \"service\": 'chia_agent'}}";
+        var encoded = Encoding.UTF8.GetBytes(test);
+        //var encoded = Encoding.UTF8.GetBytes(rpc.ToString());
         var buffer = new ArraySegment<byte>(encoded, 0, encoded.Length);
-        try
-        {
             if (!connectionvalidate || (_Client.State == WebSocketState.Open && !Reconnecting))
             {
                 await _Client.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
             }
-        }
-        catch (System.AggregateException ex)
-        {
-            var _ = ex.Message;
-            { }
-        }
-        catch (Exception ex)
-        {
-            var _ = ex.Message;
-            { }
-        }
+            {}
     }
     /// <summary>
     /// waits until there is a status update with a specific id in queue and returns it
