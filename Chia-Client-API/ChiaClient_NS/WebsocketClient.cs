@@ -1,5 +1,3 @@
-using System.Net;
-
 namespace Chia_Client_API.ChiaClient_NS;
 
 using CHIA_RPC.General_NS;
@@ -12,6 +10,8 @@ using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 using Multithreading_Library.ThreadControl;
+using CHIA_RPC.Daemon_NS.Server_NS.ServerObjects_NS;
+using CHIA_RPC.Daemon_NS.Server_NS;
 
 /// <summary>
 /// NOTE: set daemon_allow_tls_1_2: True  in chia config!
@@ -25,6 +25,7 @@ public class WebsocketClient : ChiaClientBase
     private ClientWebSocket? _Client { get; set; }
     public DateTime ConnectionAlive;
     private bool Reconnecting = false;
+    private ChiaService _Service {  get; set; }
     /// <summary>
     /// NOTE: set daemon_allow_tls_1_2: True  in chia config!
     /// </summary>
@@ -35,6 +36,7 @@ public class WebsocketClient : ChiaClientBase
     /// <param name="timeout"></param>
     public WebsocketClient(
         Endpoint endpoint,
+        ChiaService service,
         string targetApiAddress = "localhost", int targetApiPort = 55400,
         string? targetCertificateBaseFolder = null, 
         TimeSpan? timeout = null)
@@ -72,7 +74,7 @@ public class WebsocketClient : ChiaClientBase
     /// <summary>
     /// this function creates a new http client with the set certificates
     /// </summary>
-    protected override void SetNewCertificates()
+    protected override async void SetNewCertificates()
     {
         if (_Client != null) 
             _Client.Dispose();
@@ -88,16 +90,30 @@ public class WebsocketClient : ChiaClientBase
         _Client.Options.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.daemon, _API_CertificateFolder);
         _Client.Options.RemoteCertificateValidationCallback += ValidateServerCertificate;
         AsyncHelper.RunSync(() => _Client.ConnectAsync(new Uri("wss://" + TargetApiAddress+":"+ TargetApiPort), CancellationToken.None));
+        string registerDaemonResult = SendCustomMessageSync("register_service", new Service_RPC(ChiaService.daemon).ToString());
+        string registerServiceResult = SendCustomMessageSync("register_service", new Service_RPC(_Service).ToString());
+        { }
     }
     private RequestIDGenerator _RequestID = new();
 
     /// <summary>
-    /// with this function you can execute any RPC against the wallet api. it is internally used by the library
+    /// with this function you can execute any RPC against the websocket api. it is internally used by the library
     /// </summary>
     /// <param name="function"></param>
     /// <param name="json"></param>
     /// <returns></returns>
     public override async Task<string> SendCustomMessageAsync(string function, string json = " { } ")
+    {
+        return await SendCustomMessageAsync(function, json);
+    }
+    /// <summary>
+    /// with this function you can execute any RPC against the websocket api. it is internally used by the library
+    /// </summary>
+    /// <param name="function"></param>
+    /// <param name="json"></param>
+    /// <param name="endpoint">the target endpoint of this request for the router</param>
+    /// <returns></returns>
+    public async Task<string> SendCustomMessageAsync(string function, string json = " { } ", CHIA_RPC.General_NS.Endpoint? endpoint = null)
     {
         if (_Client == null)
         {
@@ -105,10 +121,26 @@ public class WebsocketClient : ChiaClientBase
         }
         int requestID = _RequestID.GetNextRequestId();
         WebSocket_RPC rpc = new WebSocket_RPC(function, _EndpointNode, json, requestID, $"");
+        if (endpoint != null)
+            rpc.destination = endpoint.Value;
         await Send(rpc, true);
         WebSocket_Response response = await ReceiveStatusUpdate(requestID);
         return "not implemented";
     }
+    /// <summary>
+    /// with this function you can execute any RPC against the wallet api. it is internally used by the library
+    /// </summary>
+    /// <param name="function"></param>
+    /// <param name="json"></param>
+    /// <returns></returns>
+    public string SendCustomMessageSync(string function, string json = " { } ", CHIA_RPC.General_NS.Endpoint? endpoint = null)
+    {
+        // TODO: apparently, this can be improved
+        Task<string> data = Task.Run(() => SendCustomMessageAsync(function, json,endpoint));
+        data.Wait();
+        return data.Result;
+    }
+
     private ConcurrentDictionary<int, WebSocket_Response> StatusResults = new ConcurrentDictionary<int, WebSocket_Response>();
     private byte[] BufferArray = new byte[8192];
     private List<DateTime> FailureCounter = new List<DateTime>();

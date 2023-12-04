@@ -1,4 +1,5 @@
 ﻿using Chia_Client_API.ChiaClient_NS;
+using CHIA_RPC.Daemon_NS.Server_NS.ServerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.WalletNode_NS;
 
@@ -47,7 +48,8 @@ namespace Chia_Client_API.WalletAPI_NS
         {
             ReportResponseErrors = reportResponseErrors;
             _WebSocketClient = new WebsocketClient(
-                Endpoint.wallet,
+                CHIA_RPC.General_NS.Endpoint.wallet,
+                ChiaService.wallet_ui,
                 targetApiAddress, targetApiPort, 
                 targetCertificateBaseFolder, 
                 timeout);
