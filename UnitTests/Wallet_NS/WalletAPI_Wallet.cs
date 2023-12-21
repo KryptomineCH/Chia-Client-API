@@ -71,12 +71,12 @@ namespace CHIA_API_Tests.Wallet_NS
         public void GetTransactions()
         {
             WalletID_RPC id = new WalletID_RPC { wallet_id = 1 };
-            bool success = Testnet_Wallet.Wallet_Client.AwaitWalletSync_Async(CancellationToken.None).Result;
+            bool success = Testnet_Wallet.Wallet_WebSocket_Client.AwaitWalletSync_Async(CancellationToken.None).Result;
             if (!success)
             {
                 throw new Exception("wallet could not be synced!");
             }
-            GetTransactions_Response? response = Testnet_Wallet.Wallet_Client.GetTransactions_Async(id).Result;
+            GetTransactions_Response? response = Testnet_Wallet.Wallet_WebSocket_Client.GetTransactions_Async(id).Result;
             Assert.NotNull(response);
             if (!(response!.success ?? false))
             {

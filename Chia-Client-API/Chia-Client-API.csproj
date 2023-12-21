@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.1.1.9</Version>
+    <Version>2.1.3</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,8 +16,22 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>- update offer sort key
+    <PackageReleaseNotes>2.1.3
+- removed ammount_correct_custom as it was a workaround for a bug in outgoing trades in previous chia versions
+- Compatible with chia 2.1.2
+
+2.1.1.10 - Critical BugFix
+Critical:
+fixed a bug where the client could not load the endpoint. Leaving the API Library unable to establish a connection to the Nodes.
+
+Otner:
+- update offer sort key
 - fix index out of range exception with SeekBlockTransactionIndex
+- update cert loading
+- update offer sort key
+- add Websocket implementation (only compatible with linux &lt; chia 2.1.2)
+   requires tls 1.2 allowance in chia config for windows on chia &gt;= 2.1.2
+
 
 2.1.1.9
 - added workaround for amount in cat
@@ -121,6 +135,7 @@ see https://github.com/Chia-Network/chia-blockchain/issues/16842 for more detail
 
   <ItemGroup>
     <PackageReference Include="CHIA-RPC" Version="2.1.0.1" />
+    <PackageReference Include="Multithreading_Library" Version="1.2.1" />
     <PackageReference Include="SSH.NET" Version="2023.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="7.0.1" />
   </ItemGroup>

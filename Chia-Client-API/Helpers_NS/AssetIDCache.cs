@@ -17,14 +17,14 @@ namespace Chia_Client_API.Helpers_NS
         /// </summary>
         /// <remarks>Switching wallet does not clear the cache automatically!</remarks>
         /// <param name="client"></param>
-        public AssetIDCache(Wallet_RPC_Client client)
+        public AssetIDCache(WalletRpcClient client)
         {
             Client = client;
         }
         /// <summary>
         /// the client from which to pull Data if nessesary
         /// </summary>
-        public Wallet_RPC_Client Client { get; set; }
+        public WalletRpcClient Client { get; set; }
         /// <summary>
         /// contains the raw cache
         /// </summary>

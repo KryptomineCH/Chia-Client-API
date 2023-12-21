@@ -1,19 +1,24 @@
 ﻿using Chia_Client_API.ChiaClient_NS;
+using CHIA_RPC.Daemon_NS.Server_NS.ServerObjects_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Wallet_NS.WalletNode_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public class WalletRpcClient : WalletRpcBase
+    /// <summary>
+    /// NOTE: set `daemon_allow_tls_1_2: True`  in chia config!
+    /// </summary>
+    public class WalletWebSocketClient : WalletRpcBase
     {
-        private RpcClient _rpcClient;
+        private WebsocketClient _WebSocketClient;
         /// <summary>
         /// specifies if errors in the response should be reported to kryptomine.ch for api improvements.
         /// </summary>
         /// <remarks>Reported data is anonymous</remarks>
         public bool ReportResponseErrors { get; set; }
         /// <summary>
-        /// Initializes a new instance of the Wallet_RPC_Client class that can be used to interact with a Chia wallet.
+        /// Initializes a new instance of the Wallet_RPC_Client class that can be used to interact with a Chia wallet.<br/><br/>
+        /// NOTE: set daemon_allow_tls_1_2: True  in chia config!
         /// </summary>
         /// <param name="reportResponseErrors">sends the following information with asymmetric rsa 4096 and AES encryption to kryptomine.ch for improving the API:<br/>
         /// - ChiaVersion<br/>
@@ -35,15 +40,16 @@ namespace Chia_Client_API.WalletAPI_NS
         /// The default targetApiPort is the default port number where the Chia Wallet RPC server is configured to listen for incoming requests.
         /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the wallet's RPC server. If left null, it assumes the certificate is in the default location.
         /// </remarks>
-        public WalletRpcClient(
+        public WalletWebSocketClient(
             bool reportResponseErrors, 
-            string targetApiAddress = "localhost", int targetApiPort = 9256, 
+            string targetApiAddress = "localhost", int targetApiPort = 55400, 
             string? targetCertificateBaseFolder = null, 
             TimeSpan? timeout = null)
         {
             ReportResponseErrors = reportResponseErrors;
-            _rpcClient = new RpcClient(
-                Endpoint.wallet,
+            _WebSocketClient = new WebsocketClient(
+                CHIA_RPC.General_NS.Endpoint.wallet,
+                ChiaService.wallet_ui,
                 targetApiAddress, targetApiPort, 
                 targetCertificateBaseFolder, 
                 timeout);
@@ -56,7 +62,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns>A Task that represents the asynchronous send operation, yielding the response string.</returns>
         public async override Task<string> SendCustomMessageAsync(string function, string json = " { } ")
         {
-            return await _rpcClient.SendCustomMessageAsync(function, json);
+            return await _WebSocketClient.SendCustomMessageAsync(function, json);
         }
 
         /// <summaWallry>
@@ -67,7 +73,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns>The response string from the daemon API.</returns>
         public override string SendCustomMessageSync(string function, string json = " { } ")
         {
-            return _rpcClient.SendCustomMessageSync(function, json);
+            return _WebSocketClient.SendCustomMessageSync(function, json);
         }
         
         /// <summary>

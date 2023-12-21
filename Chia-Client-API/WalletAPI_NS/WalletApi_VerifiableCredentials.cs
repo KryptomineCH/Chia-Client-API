@@ -3,10 +3,11 @@ using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Wallet_NS.VerifiableCredentials_NS;
 using System.Text.Json;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         // vc_add_proofs
         /// <summary>
@@ -16,7 +17,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> VCAddProofs_Async(VcAddProofs_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_add_proofs", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_add_proofs", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -53,7 +54,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="VcGet_Response"/></returns>
         public async Task<VcGet_Response> VcGet_Async(VcID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_get", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_get", rpc.ToString());
             ActionResult<VcGet_Response> deserializationResult = VcGet_Response.LoadResponseFromString(responseJson);
             VcGet_Response response = new ();
 
@@ -90,7 +91,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="VcGetList_Response"/></returns>
         public async Task<VcGetList_Response> VcGetList_Async(VcGetList_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_get_list", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_get_list", rpc.ToString());
             ActionResult<VcGetList_Response> deserializationResult = VcGetList_Response.LoadResponseFromString(responseJson);
             VcGetList_Response response = new ();
 
@@ -128,7 +129,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="VcGetProofsForRoot_Response"/></returns>
         public async Task<VcGetProofsForRoot_Response> VCGetProofsForRoot_Async(VcGetProofsForRoot_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_get_proofs_for_root", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_get_proofs_for_root", rpc.ToString());
             ActionResult<VcGetProofsForRoot_Response> deserializationResult = VcGetProofsForRoot_Response.LoadResponseFromString(responseJson);
             VcGetProofsForRoot_Response response = new ();
 
@@ -166,7 +167,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="VcMint_Response"/></returns>
         public async Task<VcMint_Response> VcMint_Async(VcMint_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_mint", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_mint", rpc.ToString());
             ActionResult<VcMint_Response> deserializationResult = VcMint_Response.LoadResponseFromString(responseJson);
             VcMint_Response response = new ();
 
@@ -203,7 +204,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns><see cref="Success_Response"/></returns>
         public async Task<Success_Response> VcRevoke_Async(VcRevoke_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("vc_revoke", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("vc_revoke", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 

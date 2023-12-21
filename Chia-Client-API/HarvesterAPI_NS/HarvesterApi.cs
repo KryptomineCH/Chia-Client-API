@@ -1,4 +1,5 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
+using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Harvester_NS;
 using CHIA_RPC.HelperFunctions_NS;
@@ -14,7 +15,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
     /// It ensures that proof of space is available for a given plot when the challenge comes in. 
     /// The RPC client allows the user to perform a variety of tasks related to managing and interfacing with the harvester service.
     /// </remarks>
-    public partial class Harvester_RPC_Client
+    public abstract partial class HarvesterRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Add a new plot directory<br/><br/>
@@ -25,7 +26,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> AddPlotDirectory_Async(AddPlotDirectory_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("add_plot_directory", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("add_plot_directory", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
 
@@ -69,7 +70,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> DeletePlot_Async(DeletePlot_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("delete_plot", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("delete_plot", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
 
@@ -115,7 +116,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<GetPlots_Response> GetPlots_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_plots");
+            string responseJson = await SendCustomMessageAsync("get_plots");
             ActionResult<GetPlots_Response> deserializationResult = GetPlots_Response.LoadResponseFromString(responseJson);
             GetPlots_Response response = new GetPlots_Response();
 
@@ -159,7 +160,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<GetPlotDirectories_Response> GetPlotDirectories_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_plot_directories");
+            string responseJson = await SendCustomMessageAsync("get_plot_directories");
             ActionResult<GetPlotDirectories_Response> deserializationResult = GetPlotDirectories_Response.LoadResponseFromString(responseJson);
             GetPlotDirectories_Response response = new GetPlotDirectories_Response();
 
@@ -199,7 +200,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_routes");
+            string responseJson = await SendCustomMessageAsync("get_routes");
             ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
             GetRoutes_Response response = new GetRoutes_Response();
 
@@ -238,7 +239,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> RefreshPlots_Async()
         {
-            string responseJson = await SendCustomMessage_Async("refresh_plots");
+            string responseJson = await SendCustomMessageAsync("refresh_plots");
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
 
@@ -280,7 +281,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> RemovePlotDirectory_Async(RemovePlotDirectory_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("remove_plot_directory", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("remove_plot_directory", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new Success_Response();
 

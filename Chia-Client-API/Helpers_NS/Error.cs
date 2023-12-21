@@ -6,7 +6,7 @@ namespace Chia_Client_API.Helpers_NS
 {
     public class Error
     {
-        public Error(IResponseTemplate response, string endpoint, string function, Daemon_RPC_Client? client = null)
+        public Error(IResponseTemplate response, string endpoint, string function, DaemonRpcClient? client = null)
         {
             ApiVersion = GlobalVar.PackageVersion;
             RpcVersion = CHIA_RPC.General_NS.GlobalVar.PackageVersion;

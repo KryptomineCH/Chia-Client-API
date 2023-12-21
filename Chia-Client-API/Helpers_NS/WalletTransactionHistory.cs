@@ -9,14 +9,14 @@ namespace Chia_Client_API.Helpers_NS
 {
     public class WalletTransactionHistory
     {
-        public WalletTransactionHistory(Wallet_RPC_Client client, ulong fingerprint, DirectoryInfo storageDirectory)
+        public WalletTransactionHistory(WalletRpcClient client, ulong fingerprint, DirectoryInfo storageDirectory)
         {
             Client = client;
             StorageDirectory = storageDirectory;
             if (!StorageDirectory.Exists) StorageDirectory.Create();
             this.FingerPrint = fingerprint;
         }
-        private Wallet_RPC_Client Client;
+        private WalletRpcClient Client;
         /// <summary>
         /// the directory where to store the history Data
         /// </summary>

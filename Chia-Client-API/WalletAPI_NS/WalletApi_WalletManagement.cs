@@ -1,4 +1,5 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
+using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
@@ -8,7 +9,7 @@ using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// create a new cat subwallet
@@ -17,7 +18,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewCatWallet_Async(CreateNewCatWallet_RPC createNewCatWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewCatWallet_RPC.ToString());
+            string responseJson = await SendCustomMessageAsync("create_new_wallet", createNewCatWallet_RPC.ToString());
             ActionResult<CreateNewWallet_Response> deserializationResult = CreateNewWallet_Response.LoadResponseFromString(responseJson);
             CreateNewWallet_Response response = new ();
 
@@ -55,7 +56,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewDidWallet_Async(CreateNewDIDWallet_RPC createNewDIDWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewDIDWallet_RPC.ToString());
+            string responseJson = await SendCustomMessageAsync("create_new_wallet", createNewDIDWallet_RPC.ToString());
             ActionResult<CreateNewWallet_Response> deserializationResult = CreateNewWallet_Response.LoadResponseFromString(responseJson);
             CreateNewWallet_Response response = new ();
 
@@ -94,7 +95,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> CreateNewNftWallet_Async(CreateNewNFTWallet_RPC createNewNFTWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet", createNewNFTWallet_RPC.ToString());
+            string responseJson = await SendCustomMessageAsync("create_new_wallet", createNewNFTWallet_RPC.ToString());
             ActionResult<CreateNewWallet_Response> deserializationResult = CreateNewWallet_Response.LoadResponseFromString(responseJson);
             CreateNewWallet_Response response = new ();
 
@@ -133,7 +134,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetWallets_Response> GetWallets_Async(GetWallets_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_wallets", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_wallets", rpc.ToString());
             ActionResult<GetWallets_Response> deserializationResult = GetWallets_Response.LoadResponseFromString(responseJson);
             GetWallets_Response response = new ();
 
@@ -208,7 +209,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<CreateNewWallet_Response> ModifyCatWallet_Async(ModifyCatWallet_RPC modifyCatWallet_RPC)
         {
-            string responseJson = await SendCustomMessage_Async("create_new_wallet ", modifyCatWallet_RPC.ToString());
+            string responseJson = await SendCustomMessageAsync("create_new_wallet ", modifyCatWallet_RPC.ToString());
             ActionResult<CreateNewWallet_Response> deserializationResult = CreateNewWallet_Response.LoadResponseFromString(responseJson);
             CreateNewWallet_Response response = new ();
 

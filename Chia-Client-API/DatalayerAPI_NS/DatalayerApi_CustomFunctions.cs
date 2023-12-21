@@ -6,7 +6,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
     /// <summary>
     /// this class can be used to query the chia datalayer
     /// </summary>
-    public partial class Datalayer_RPC_Client
+    public abstract partial class DatalayerRpcBase
     {
         /// <summary>
         /// Checks if the given key exists in the store.
@@ -193,7 +193,7 @@ namespace Chia_Client_API.DatalayerAPI_NS
                     };        
                 }
             }
-            string response = await SendCustomMessage_Async("insert", rpc.ToString());
+            string response = await SendCustomMessageAsync("insert", rpc.ToString());
             CHIA_RPC.General_NS.TxID_Response? deserializedObject = JsonSerializer.Deserialize<CHIA_RPC.General_NS.TxID_Response>(response);
             return deserializedObject;
         }

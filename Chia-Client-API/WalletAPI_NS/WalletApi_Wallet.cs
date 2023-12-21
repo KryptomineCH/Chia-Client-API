@@ -1,12 +1,8 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
-using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
-using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
-using CHIA_RPC.Wallet_NS.WalletManagement_NS;
-
 
 namespace Chia_Client_API.WalletAPI_NS
 {
@@ -26,7 +22,7 @@ namespace Chia_Client_API.WalletAPI_NS
     /// Make sure the connection details provided are for the correct wallet you intend to 
     /// work with.
     /// </remarks>
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Create a signed transaction from the given wallet<br/><br/>
@@ -36,7 +32,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransaction_Response> CreateSignedTransaction_Async(CreateSignedTransaction_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("create_signed_transaction", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("create_signed_transaction", rpc.ToString());
             ActionResult<GetTransaction_Response> deserializationResult = GetTransaction_Response.LoadResponseFromString(responseJson);
             GetTransaction_Response response = new ();
 
@@ -75,7 +71,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> DeleteNotifications_Async(DeleteNotifications_RPC rpc)
         {
             string rpcString = rpc?.ToString() ?? "";
-            string responseJson = await SendCustomMessage_Async("delete_notifications", rpcString);
+            string responseJson = await SendCustomMessageAsync("delete_notifications", rpcString);
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -113,7 +109,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> DeleteUnconfirmedTransactions_Async(WalletID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("delete_unconfirmed_transactions", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("delete_unconfirmed_transactions", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -151,7 +147,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Index_Response> ExtendDerivationIndex_Async(Index_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("extend_derivation_index", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("extend_derivation_index", rpc.ToString());
             ActionResult<Index_Response> deserializationResult = Index_Response.LoadResponseFromString(responseJson);
             Index_Response response = new ();
 
@@ -189,7 +185,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetCoinRecords_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_coin_records_by_names", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_coin_records_by_names", rpc.ToString());
             ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
             GetCoinRecords_Response response = new ();
 
@@ -226,7 +222,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Index_Response> GetCurrentDerivationIndex_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_current_derivation_index");
+            string responseJson = await SendCustomMessageAsync("get_current_derivation_index");
             ActionResult<Index_Response> deserializationResult = Index_Response.LoadResponseFromString(responseJson);
             Index_Response response = new ();
 
@@ -262,7 +258,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetFarmedAmount_Response> GetFarmedAmount_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_farmed_amount");
+            string responseJson = await SendCustomMessageAsync("get_farmed_amount");
             ActionResult<GetFarmedAmount_Response> deserializationResult = GetFarmedAmount_Response.LoadResponseFromString(responseJson);
             GetFarmedAmount_Response response = new ();
 
@@ -299,7 +295,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetNextAddress_Response> GetNextAddress_Async(GetNextAddress_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_next_address", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_next_address", rpc.ToString());
             ActionResult<GetNextAddress_Response> deserializationResult = GetNextAddress_Response.LoadResponseFromString(responseJson);
             GetNextAddress_Response response = new ();
 
@@ -329,19 +325,19 @@ namespace Chia_Client_API.WalletAPI_NS
             return data.Result;
         }
         /*
-        public GetNextAddress_Response? GetWalletAddresses_Sync(GetWalletAddresses_RPC rpc)
-        {
-            Task<GetNextAddress_Response?> data = Task.Run(() => GetWalletAddresses_Async(rpc));
-            data.Wait();
-            return data.Data;
-        }
-        public async Task<GetNextAddress_Response?> GetWalletAddresses_Async(GetWalletAddresses_RPC rpc)
-        {
-            string responseJson = await SendCustomMessage_Async("get_wallet_addresses", rpc.ToString());
-            GetNextAddress_Response? deserializedObject = GetNextAddress_Response.LoadResponseFromString(responseJson);
-            return deserializedObject;
-        }
-        */
+    public GetNextAddress_Response? GetWalletAddresses_Sync(GetWalletAddresses_RPC rpc)
+    {
+        Task<GetNextAddress_Response?> data = Task.Run(() => GetWalletAddresses_Async(rpc));
+        data.Wait();
+        return data.Data;
+    }
+    public async Task<GetNextAddress_Response?> GetWalletAddresses_Async(GetWalletAddresses_RPC rpc)
+    {
+        string responseJson = await SendCustomMessageAsync("get_wallet_addresses", rpc.ToString());
+        GetNextAddress_Response? deserializedObject = GetNextAddress_Response.LoadResponseFromString(responseJson);
+        return deserializedObject;
+    }
+    */
         /// <summary>
         /// Obtain current notifications
         /// </summary>
@@ -351,7 +347,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetNotifications_Response> GetNotifications_Async(GetNotifications_RPC rpc)
         {
             string rpcString = rpc?.ToString() ?? "";
-            string responseJson = await SendCustomMessage_Async("get_notifications", rpcString);
+            string responseJson = await SendCustomMessageAsync("get_notifications", rpcString);
             ActionResult<GetNotifications_Response> deserializationResult = GetNotifications_Response.LoadResponseFromString(responseJson);
             GetNotifications_Response response = new ();
 
@@ -389,7 +385,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetSpendableCoins_Response> GetSpendableCoins_Async(GetSpendableCoins_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_spendable_coins", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_spendable_coins", rpc.ToString());
             ActionResult<GetSpendableCoins_Response> deserializationResult = GetSpendableCoins_Response.LoadResponseFromString(responseJson);
             GetSpendableCoins_Response response = new ();
 
@@ -438,7 +434,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransaction_Response> GetTransaction_Async(TransactionID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_transaction", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_transaction", rpc.ToString());
             ActionResult<GetTransaction_Response> deserializationResult = GetTransaction_Response.LoadResponseFromString(responseJson);
             GetTransaction_Response response = new ();
 
@@ -498,7 +494,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransactions_Response> GetTransactions_Async(GetTransactions_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_transactions", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_transactions", rpc.ToString());
             ActionResult<GetTransactions_Response> deserializationResult = GetTransactions_Response.LoadResponseFromString(responseJson);
             GetTransactions_Response response = new ();
 
@@ -558,7 +554,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransactionCount_Response> GetTransactionCount_Async(WalletID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_transaction_count", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_transaction_count", rpc.ToString());
             ActionResult<GetTransactionCount_Response> deserializationResult = GetTransactionCount_Response.LoadResponseFromString(responseJson);
             GetTransactionCount_Response response = new ();
 
@@ -607,7 +603,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Memo_Response> GetTransactionMemo_Async(TransactionID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_transaction_memo", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_transaction_memo", rpc.ToString());
             ActionResult<Memo_Response> deserializationResult = Memo_Response.LoadResponseFromString(responseJson);
             Memo_Response response = new ();
 
@@ -645,7 +641,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetWalletBalance_Response> GetWalletBalance_Async(WalletID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_wallet_balance", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_wallet_balance", rpc.ToString());
             ActionResult<GetWalletBalance_Response> deserializationResult = GetWalletBalance_Response.LoadResponseFromString(responseJson);
             GetWalletBalance_Response response = new ();
 
@@ -683,7 +679,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<SelectCoins_Response> SelectCoins_Async(SelectCoins_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("select_coins", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("select_coins", rpc.ToString());
             ActionResult<SelectCoins_Response> deserializationResult = SelectCoins_Response.LoadResponseFromString(responseJson);
             SelectCoins_Response response = new ();
 
@@ -721,7 +717,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<SendNotification_Response> SendNotification_Async(SendNotification_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("send_notification", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("send_notification", rpc.ToString());
             ActionResult<SendNotification_Response> deserializationResult = SendNotification_Response.LoadResponseFromString(responseJson);
             SendNotification_Response response = new ();
 
@@ -759,7 +755,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransaction_Response> SendTransaction_Async(SendTransaction_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("send_transaction", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("send_transaction", rpc.ToString());
             ActionResult<GetTransaction_Response> deserializationResult = GetTransaction_Response.LoadResponseFromString(responseJson);
             GetTransaction_Response response = new ();
 
@@ -798,7 +794,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTransaction_Response> SendTransactionMulti_Async(SendTransactionMulti_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("send_transaction_multi", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("send_transaction_multi", rpc.ToString());
             ActionResult<GetTransaction_Response> deserializationResult = GetTransaction_Response.LoadResponseFromString(responseJson);
             GetTransaction_Response response = new ();
 
@@ -837,7 +833,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<SignMessage_Response> SignMessageByAddress_Async(SignMessageByAddress_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("sign_message_by_address", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("sign_message_by_address", rpc.ToString());
             ActionResult<SignMessage_Response> deserializationResult = SignMessage_Response.LoadResponseFromString(responseJson);
             SignMessage_Response response = new ();
 
@@ -875,7 +871,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<SignMessage_Response> SignMessageByID_Async(SignMessageByID_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("sign_message_by_id", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("sign_message_by_id", rpc.ToString());
             ActionResult<SignMessage_Response> deserializationResult = SignMessage_Response.LoadResponseFromString(responseJson);
             SignMessage_Response response = new ();
 
@@ -914,7 +910,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<SignMessage_Response> VerifySignature_Async(VerifySignature_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("verify_signature", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("verify_signature", rpc.ToString());
             ActionResult<SignMessage_Response> deserializationResult = SignMessage_Response.LoadResponseFromString(responseJson);
             SignMessage_Response response = new ();
 

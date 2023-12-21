@@ -4,10 +4,11 @@ using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.WalletNode_NS;
 using System.Text.Json;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Show the block height to which the current wallet is synced
@@ -16,7 +17,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetHeightInfo_Response> GetHeightInfo_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_height_info");
+            string responseJson = await SendCustomMessageAsync("get_height_info");
             ActionResult<GetHeightInfo_Response> deserializationResult = GetHeightInfo_Response.LoadResponseFromString(responseJson);
             GetHeightInfo_Response response = new ();
 
@@ -52,7 +53,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_network_info");
+            string responseJson = await SendCustomMessageAsync("get_network_info");
             ActionResult<GetNetworkInfo_Response> deserializationResult = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
             GetNetworkInfo_Response response = new ();
 
@@ -88,7 +89,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetWalletSyncStatus_Response> GetSyncStatus_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_sync_status");
+            string responseJson = await SendCustomMessageAsync("get_sync_status");
             ActionResult<GetWalletSyncStatus_Response> deserializationResult = GetWalletSyncStatus_Response.LoadResponseFromString(responseJson);
             GetWalletSyncStatus_Response response = new ();
 
@@ -125,7 +126,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetTimestampForHeight_Response> GetTimestampForHeight_Async(Height_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("get_timestamp_for_height", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("get_timestamp_for_height", rpc.ToString());
             ActionResult<GetTimestampForHeight_Response> deserializationResult = GetTimestampForHeight_Response.LoadResponseFromString(responseJson);
             GetTimestampForHeight_Response response = new ();
 
@@ -165,7 +166,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PushTx_Response> PushTransactions_Async(SpendBundle[] bundles)
         {
             PushTransactions_RPC rpc = new () { transactions = bundles };
-            string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("push_tx", rpc.ToString());
             ActionResult<PushTx_Response> deserializationResult = PushTx_Response.LoadResponseFromString(responseJson);
             PushTx_Response response = new ();
 
@@ -206,7 +207,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PushTx_Response> PushTx_Async(SpendBundle spendBundle)
         {
             PushTx_RPC rpc = new () { spend_bundle = spendBundle };
-            string responseJson = await SendCustomMessage_Async("push_tx", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("push_tx", rpc.ToString());
             ActionResult<PushTx_Response> deserializationResult = PushTx_Response.LoadResponseFromString(responseJson);
             PushTx_Response response = new ();
 
@@ -245,7 +246,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> SetWalletResyncOnStartup_Async(SetWalletResyncOnStartup_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("set_wallet_resync_on_startup", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("set_wallet_resync_on_startup", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 

@@ -6,10 +6,11 @@ using CHIA_RPC.Wallet_NS.NFT_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 using System.Text.Json;
 using System.Threading;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// This function is used to check if an NFT minting operation has completed successfully. 
