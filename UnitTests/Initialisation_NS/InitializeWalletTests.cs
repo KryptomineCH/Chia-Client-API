@@ -22,7 +22,7 @@ namespace CHIA_API_Tests.Initialisation_NS
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 ".testnet","ssl");
                 Wallet_Client = new WalletRpcClient(reportResponseErrors: false, targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
-                Wallet_WebSocket_Client = new WalletWebSocketClient(reportResponseErrors: false, targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
+                //Wallet_WebSocket_Client = new WalletWebSocketClient(reportResponseErrors: false, targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
                 // close all old wallets (if more than 1 are open)
                 GetPublicKeys_Response? pre_wallets = Wallet_Client.GetPublicKeys_Async().Result;
                 Assert.NotNull(pre_wallets);
