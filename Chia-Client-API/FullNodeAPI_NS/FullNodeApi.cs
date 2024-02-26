@@ -55,6 +55,47 @@ namespace Chia_Client_API.FullNodeAPI_NS
         }
 
         /// <summary>
+        /// Returns the additional data used for AGG_SIG conditions for the current network
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_aggsig_additional_data"/></remarks>
+        /// <returns></returns>
+        public async Task<GetAggsigAdditionalData_Response> GetAggsigAdditionalData_Async()
+        {
+            // TODO: Xunit Test
+            string responseJson = await SendCustomMessageAsync("get_aggsig_additional_data");
+            ActionResult<GetAggsigAdditionalData_Response> deserializationResult = GetAggsigAdditionalData_Response.LoadResponseFromString(responseJson);
+            GetAggsigAdditionalData_Response response = new GetAggsigAdditionalData_Response();
+
+            if (deserializationResult.Data != null)
+            {
+                response = deserializationResult.Data;
+            }
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                response.RawContent = deserializationResult.RawJson;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Fullnode", "get_aggsig_additional_data"));
+                }
+            }
+            return response;
+        }
+
+        /// <summary>
+        /// Returns the additional data used for AGG_SIG conditions for the current network
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_aggsig_additional_data"/></remarks>
+        /// <returns></returns>
+        public GetAggsigAdditionalData_Response GetAggsigAdditionalData_Sync()
+        {
+            Task<GetAggsigAdditionalData_Response> data = Task.Run(() => GetAggsigAdditionalData_Async());
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
         /// Returns all items in the mempool
         /// </summary>
         /// <remarks><see href="https://docs.chia.net/full-node-rpc#get_all_mempool_items"/></remarks>

@@ -19,6 +19,7 @@
     <PackageReleaseNotes>2.1.4
 - Implement Datalayer get_proof
 - implement Datalayer verify_proof
+- implement get_aggsig_additional_data
 
 2.1.3
 - removed ammount_correct_custom as it was a workaround for a bug in outgoing trades in previous chia versions
