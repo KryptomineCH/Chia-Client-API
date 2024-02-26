@@ -761,6 +761,46 @@ namespace Chia_Client_API.DatalayerAPI_NS
         }
 
         /// <summary>
+        /// Obtains a merkle proof of inclusion for a given key
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_proof"/></remarks>
+        /// <returns></returns>
+        public async Task<GetProof_Response> GetProof_Async(GetProof_RPC rpc)
+        {
+            string responseJson = await SendCustomMessageAsync("get_proof", rpc.ToString());
+            ActionResult<GetProof_Response> deserializationResult = GetProof_Response.LoadResponseFromString(responseJson);
+            GetProof_Response response = new GetProof_Response();
+            if (deserializationResult.Data != null)
+            {
+                response = deserializationResult.Data;
+            }
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Datalayer", "get_proof"));
+                }
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
+        }
+
+
+        /// <summary>
+        /// Obtains a merkle proof of inclusion for a given key
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/datalayer-rpc#get_proof"/></remarks>
+        /// <returns></returns>
+        public GetProof_Response GetProof_Sync(GetProof_RPC rpc)
+        {
+            Task<GetProof_Response> data = Task.Run(() => GetProof_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+
+        /// <summary>
         /// Get the root hash and timestamp of a given store ID. 
         /// If it is a subscribed store, this command will return an invalid hash (see example). 
         /// In this case, use <see cref="GetLocalRoot_Async(ID_RPC)"/> instead
@@ -1370,6 +1410,47 @@ namespace Chia_Client_API.DatalayerAPI_NS
         public VerifyOffer_Response VerifyOffer_Sync(VerifyOffer_RPC rpc)
         {
             Task<VerifyOffer_Response> data = Task.Run(() => VerifyOffer_Async(rpc));
+            data.Wait();
+            return data.Result;
+        }
+        /// <summary>
+        /// Verifies a merkle proof of inclusion
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/datalayer-rpc#verify_proof"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public async Task<VerifyProof_Response> VerifyProof_Async(VerifyProof_RPC rpc)
+        {
+            string responseJson = await SendCustomMessageAsync("verify_proof", rpc.ToString());
+            ActionResult<VerifyProof_Response> deserializationResult = VerifyProof_Response.LoadResponseFromString(responseJson);
+            VerifyProof_Response response = new VerifyProof_Response();
+            if (deserializationResult.Data != null)
+            {
+                response = deserializationResult.Data;
+            }
+            else
+            {
+                response.success = deserializationResult.Success;
+                response.error = deserializationResult.Error;
+                if (ReportResponseErrors && !(bool)response.success)
+                {
+                    await ReportError.UploadFileAsync(new Error(response, "Datalayer", "verify_proof"));
+                }
+            }
+            response.RawContent = deserializationResult.RawJson;
+            return response;
+        }
+
+
+        /// <summary>
+        /// Verifies a merkle proof of inclusion
+        /// </summary>
+        /// <remarks><see href="https://docs.chia.net/datalayer-rpc#verify_proof"/></remarks>
+        /// <param name="rpc"></param>
+        /// <returns></returns>
+        public VerifyProof_Response VerifyProof_Sync(VerifyProof_RPC rpc)
+        {
+            Task<VerifyProof_Response> data = Task.Run(() => VerifyProof_Async(rpc));
             data.Wait();
             return data.Result;
         }
