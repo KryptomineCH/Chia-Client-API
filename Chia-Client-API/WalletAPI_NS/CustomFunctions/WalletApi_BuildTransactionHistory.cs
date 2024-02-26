@@ -1,4 +1,5 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
+using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
@@ -8,11 +9,11 @@ using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public partial class WalletRpcClient : WalletRpcBase
     {
         public async Task<CustomChiaTransactionBundle[]> BuildtransactionHistory_Async(DirectoryInfo transactionHistoryDirectory)
         {
-            /*
+            
             // Nessesary Helpers
             AssetIDCache assetIDCache = new AssetIDCache(this);
             // create directories
@@ -33,115 +34,18 @@ namespace Chia_Client_API.WalletAPI_NS
                 throw new NotImplementedException("");
             }
 
-            // fetch orders
-            GetAllOffers_RPC getAllOffers_RPC = new GetAllOffers_RPC(
-                start: heightInfo.ImportedOfferHeight.SequenceHeight,
-                end: long.MaxValue,
-                exclude_my_offers: false,
-                exclude_taken_offers: false,
-                include_completed: true,
-                sort_key: null,//"created_at_time",
-                reverse: true,
-                file_contents: true);
-            
-
-
-            OfferFiles offerFiles = await GetAllOffers_Async(getAllOffers_RPC);
-            if (!offerFiles.success)
-            {
-                throw new Exception(offerFiles.error);
-            }
-            //List<OfferFile> allOffers = new List<OfferFile>();
-            Dictionary<ulong?, List<OfferFile>> allOffersByBlock = new Dictionary<ulong?, List<OfferFile>>();
-            Dictionary<string, List<OfferFile>> allOffersByAssetIDAvalue = new Dictionary<string, List<OfferFile>>();
-            if (offerFiles.offers != null)
-            {
-                if (offerFiles.offers.Length != offerFiles.trade_records.Length)
-                {
-                    throw new InvalidDataException("the trade record length dons not match the offers length!");
-                }
-                
-                for(int i = 0; i < offerFiles.offers.Length; i++)
-                {
-                    OfferFile file = new OfferFile();
-                    file.offer = offerFiles.offers[i];
-                    file.trade_record = offerFiles.trade_records[i];
-                    // add to transactions height
-                    if (allOffersByBlock.TryGetValue(file.trade_record.confirmed_at_index.Value, out List<OfferFile> offerListBlock))
-                    {
-                        offerListBlock.Add(file);
-                    }
-                    else
-                    {
-                        allOffersByBlock[file.trade_record.confirmed_at_index.Value] = new List<OfferFile> { file };
-                    }
-                    // add to value asset id identifier
-                    List<string> identifiers = new List<string>();
-                    foreach (KeyValuePair<string, ulong> offered in file.trade_record.summary.offered)
-                    {
-                        identifiers.Add(offered.Value + offered.Key);
-                    }
-                    foreach (KeyValuePair<string, ulong> requested in file.trade_record.summary.requested)
-                    {
-                        identifiers.Add(requested.Value + requested.Key);
-                    }
-                    foreach(string identifier in identifiers)
-                    {
-                        if (allOffersByAssetIDAvalue.TryGetValue(identifier, out List<OfferFile> offerListAssetID))
-                        {
-                            offerListAssetID.Add(file);
-                        }
-                        else
-                        {
-                            allOffersByAssetIDAvalue[identifier] = new List<OfferFile> { file };
-                        }
-                    }
-                    
-                }
-            }
-
             // fetch all transactions
             Dictionary<ulong, List<Transaction_DictMemos>> transactionsByBlock = new Dictionary<ulong, List<Transaction_DictMemos>>();
-            Dictionary<string, List<Transaction_DictMemos>> transactionsByAssetIDValue = new Dictionary<string, List<Transaction_DictMemos>>();
-            //List<Transaction_DictMemos> relevantTransactions = new List<Transaction_DictMemos>();
-            GetWallets_Response walletsResponse = await GetWallets_Async();
-            foreach (Wallets_info wallet in walletsResponse.wallets)
-            {
-                GetTransactions_RPC rpc = new GetTransactions_RPC(wallet.id,start: 0, end: long.MaxValue, reverse: true);
-                GetTransactions_Response transactions = await GetTransactions_Async(rpc);
-                foreach (Transaction_DictMemos transaction in transactions.transactions)
-                {
-                    if (transaction.confirmed == true)
-                    {
-                        // security checks
-                        if (transaction.confirmed_at_height == null || transaction.confirmed_at_height == 0)
-                        {
-                            throw new InvalidDataException("transaction height is null!");
-                        }
-                        // add to transactions height
-                        if (transactionsByBlock.TryGetValue(transaction.confirmed_at_height.Value, out List<Transaction_DictMemos> transactionsListBlock))
-                        {
-                            transactionsListBlock.Add(transaction);
-                        }
-                        else
-                        {
-                            transactionsByBlock[transaction.confirmed_at_height.Value] = new List<Transaction_DictMemos> { transaction };
-                        }
-                        // add to value asset id identifier
-                        CatGetAssetId_Response response =  await CatGetAssetID_Async(transaction);
-                        string identifier = transaction.amount_correct_custom.ToString()+response.asset_id;
-                        if (transactionsByAssetIDValue.TryGetValue(identifier, out List<Transaction_DictMemos> transactionsListAssetID))
-                        {
-                            transactionsListAssetID.Add(transaction);
-                        }
-                        else
-                        {
-                            transactionsByAssetIDValue[identifier] = new List<Transaction_DictMemos> { transaction };
-                        }
+            Dictionary<string, List<Transaction_DictMemos>> transactionsByAssetID = new Dictionary<string, List<Transaction_DictMemos>>();
+            (transactionsByBlock, transactionsByAssetID) = await FetchAndOrganizeTransactions(heightInfo.ImportedOfferHeight.SequenceHeight);
 
-                    }
-                }
-            }
+            // fetch all offers
+            Dictionary<ulong?, List<OfferFile>> allOffersByBlock;
+            Dictionary<string, List<OfferFile>> allOffersByAssetID;
+            (allOffersByBlock, allOffersByAssetID) = await FetchAndOrganizeOffers(heightInfo.ImportedOfferHeight.SequenceHeight, transactionsByAssetID);
+
+
+            List<Transaction_DictMemos> relevantTransactions = new List<Transaction_DictMemos>();
             relevantTransactions = relevantTransactions.OrderBy(t => t.confirmed_at_height).ToList();
             { }
             // Build history
@@ -183,7 +87,7 @@ namespace Chia_Client_API.WalletAPI_NS
                         // perhaps an offer?
                         List<OfferFile> matchingOffers = new List<OfferFile> ();
                         bool foundOffer = false;
-                        foreach (OfferFile offerFile in allOffers)
+                        foreach (OfferFile offerFile in new OfferFile[] { })
                         {
                             foundOffer = false;
                             if (offerFile.trade_record.is_my_offer == null)
@@ -251,7 +155,7 @@ namespace Chia_Client_API.WalletAPI_NS
                                         }
                                         // determine if transaction is incoming or outgoing                   
                                         if (assetID == offerAssetID
-                                            && blockTransactions[i].amount_correct_custom == offerAssetAmount)
+                                            && blockTransactions[i].amount == offerAssetAmount)
                                         {
                                             
                                             if (IsOutgoingTransaction(blockTransactions[i])
@@ -294,7 +198,7 @@ namespace Chia_Client_API.WalletAPI_NS
                                         if (transactionIsOutgoing
                                             && blockTransactions[i].wallet_id == 1
                                             && blockTransactions[i].fee_amount == offerFile.trade_record.summary.fees
-                                            && blockTransactions[i].amount_correct_custom == 0)
+                                            && blockTransactions[i].amount == 0)
                                         {
                                             offerBundle.OutgoingAssets.Add(blockTransactions[i]);
                                             blockTransactions.RemoveAt(i);
@@ -332,7 +236,7 @@ namespace Chia_Client_API.WalletAPI_NS
                             bundle.Time = blockTransactions[0].created_at_time_dateTime.Value;
                             bundle.Type = CustomChiaTransactionType.Transfer;
 
-                            if (IsOutgoingTransaction(blockTransactions[i]) && blockTransactions[i].amount_correct_custom != 0)
+                            if (IsOutgoingTransaction(blockTransactions[i]) && blockTransactions[i].amount != 0)
                             {
                                 bundle.OutgoingAssets.Add(blockTransactions[i]);
                                 // cat transaction fee
@@ -402,7 +306,7 @@ namespace Chia_Client_API.WalletAPI_NS
             
 
             // Finito
-            return transactionHistory.ToArray();*/
+            return transactionHistory.ToArray();
             return null;
         }
         

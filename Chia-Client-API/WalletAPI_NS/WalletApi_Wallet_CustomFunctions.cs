@@ -1,4 +1,5 @@
-﻿using Chia_Client_API.Helpers_NS;
+﻿using Chia_Client_API.ChiaClient_NS;
+using Chia_Client_API.Helpers_NS;
 using CHIA_RPC.General_NS;
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
@@ -25,7 +26,7 @@ namespace Chia_Client_API.WalletAPI_NS
     /// Make sure the connection details provided are for the correct wallet you intend to 
     /// work with.
     /// </remarks>
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         // Custom Functions
 

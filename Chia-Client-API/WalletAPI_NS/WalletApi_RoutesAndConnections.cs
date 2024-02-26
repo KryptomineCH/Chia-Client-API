@@ -4,10 +4,11 @@ using CHIA_RPC.General_NS;
 using CHIA_RPC.HelperFunctions_NS;
 using CHIA_RPC.Wallet_NS.RoutesAndConnections_NS;
 using System.Text.Json;
+using Chia_Client_API.ChiaClient_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public partial class Wallet_RPC_Client
+    public abstract partial class WalletRpcBase : ChiaEndpointRouteBase
     {
         /// <summary>
         /// Close an active connection
@@ -17,7 +18,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> CloseConnection_Async(CloseConnection_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("close_connection", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("close_connection", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -54,7 +55,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetConnections_Response> GetConnections_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_connections");
+            string responseJson = await SendCustomMessageAsync("get_connections");
             ActionResult<GetConnections_Response> deserializationResult = GetConnections_Response.LoadResponseFromString(responseJson);
             GetConnections_Response response = new ();
 
@@ -90,7 +91,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
-            string responseJson = await SendCustomMessage_Async("get_routes");
+            string responseJson = await SendCustomMessageAsync("get_routes");
             ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
             GetRoutes_Response response = new ();
 
@@ -127,7 +128,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> OpenConnection_Async(OpenConnection_RPC rpc)
         {
-            string responseJson = await SendCustomMessage_Async("open_connection", rpc.ToString());
+            string responseJson = await SendCustomMessageAsync("open_connection", rpc.ToString());
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
@@ -164,7 +165,7 @@ namespace Chia_Client_API.WalletAPI_NS
         /// <returns></returns>
         public async Task<Success_Response> StopNode_Async()
         {
-            string responseJson = await SendCustomMessage_Async("stop_node");
+            string responseJson = await SendCustomMessageAsync("stop_node");
             ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
             Success_Response response = new ();
 
