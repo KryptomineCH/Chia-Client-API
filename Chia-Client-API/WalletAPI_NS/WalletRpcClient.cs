@@ -4,7 +4,7 @@ using CHIA_RPC.Wallet_NS.WalletNode_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
-    public class WalletRpcClient : WalletRpcBase
+    public partial class WalletRpcClient : WalletRpcBase
     {
         private RpcClient _rpcClient;
         /// <summary>
