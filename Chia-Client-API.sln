@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA_RPC_Tests", "..\CHIA-R
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CHIA-RPC", "..\CHIA-RPC\CHIA-RPC\CHIA-RPC.csproj", "{1E17E79C-F104-4D52-85FF-4F1B7C8A0B7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomDevelopmentFunctions", "CustomDevelopmentFunctions\CustomDevelopmentFunctions.csproj", "{21F2E3E1-0C67-47E0-9F13-1FB07396B939}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TransactionTypeTests", "CustomDevelopmentFunctions\TransactionTypeTests.csproj", "{21F2E3E1-0C67-47E0-9F13-1FB07396B939}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
