@@ -8,16 +8,16 @@ using System.Text.Json.Serialization;
 
 namespace Chia_Client_API.Helpers_NS
 {
-    public class WalletTransactionHistory
+    public class WalletOfferHistory
     {
-        public WalletTransactionHistory(WalletRpcClient client, ulong fingerprint, DirectoryInfo storageDirectory)
+        public WalletOfferHistory(Wallet_RPC_Client client, ulong fingerprint, DirectoryInfo storageDirectory)
         {
             Client = client;
             StorageDirectory = storageDirectory;
             if (!StorageDirectory.Exists) StorageDirectory.Create();
             this.FingerPrint = fingerprint;
         }
-        private WalletRpcClient Client;
+        private Wallet_RPC_Client Client;
         /// <summary>
         /// the directory where to store the history Data
         /// </summary>
@@ -31,14 +31,14 @@ namespace Chia_Client_API.Helpers_NS
         /// </summary>
         public ulong FingerPrint { get; set; }
         [JsonIgnore]
-        private ConcurrentDictionary<ulong, (TransactionsChunk Chunk, DateTime LastAccessTime)> _cache = new ConcurrentDictionary<ulong, (TransactionsChunk, DateTime)>();
+        private ConcurrentDictionary<ulong, (OffersChunk Chunk, DateTime LastAccessTime)> _cache = new ();
         
         /// <summary>
         /// Fetches the Chunkfile of a given Block. If it doesnt exist in cache or disk yet, creates a new Chunk
         /// </summary>
         /// <param name="blockHeight">the chunk id is beeing automatically calculated from it</param>
         /// <returns></returns>
-        public TransactionsChunk GetOrCreateChunk(ulong blockHeight)
+        public OffersChunk GetOrCreateChunk(ulong blockHeight)
         {
             ulong chunkID = CalculateChunkID(blockHeight);
             // First, try to get the value from the cache
@@ -46,15 +46,15 @@ namespace Chia_Client_API.Helpers_NS
             {
                 // If not in cache, try loading from disk
                 FileInfo file = new FileInfo(Path.Combine(StorageDirectory.FullName, chunkID.ToString()));
-                TransactionsChunk chunk;
-                if (TransactionsChunk.FileExists(file))
+                OffersChunk chunk;
+                if (OffersChunk.FileExists(file))
                 {
-                    chunk = TransactionsChunk.LoadObjectFromFile(file);
+                    chunk = OffersChunk.LoadObjectFromFile(file);
                 }
                 else
                 {
                     // If file does not exist on disk, create new
-                    chunk = new TransactionsChunk { StartBlock = chunkID };
+                    chunk = new OffersChunk { StartBlock = chunkID };
                 }
 
                 // Add or update the cache with the new bundle and current time
@@ -91,7 +91,7 @@ namespace Chia_Client_API.Helpers_NS
         public void SaveChunk(ulong blockHeight)
         {
             ulong chunkID = CalculateChunkID(blockHeight);
-            if (_cache.TryGetValue(chunkID, out (TransactionsChunk Bundle, DateTime LastAccessTime) chunk) && chunk.Bundle.Edited)
+            if (_cache.TryGetValue(chunkID, out (OffersChunk Bundle, DateTime LastAccessTime) chunk) && chunk.Bundle.Edited)
             {
                 chunk.Bundle.SaveObjectToFile(Path.Combine(StorageDirectory.FullName, chunkID.ToString()));
                 chunk.Bundle.Edited = false; // Reset the edited flag after saving
@@ -100,7 +100,7 @@ namespace Chia_Client_API.Helpers_NS
 
         public void SaveAll()
         {
-            foreach ((TransactionsChunk Chunk, DateTime LastAccessTime) chunk in _cache.Values)
+            foreach ((OffersChunk Chunk, DateTime LastAccessTime) chunk in _cache.Values)
             {
                 chunk.Chunk.SaveObjectToFile(Path.Combine(StorageDirectory.FullName, chunk.Chunk.StartBlock.ToString()));
                 chunk.Chunk.Edited = false; // Reset the edited flag after saving
@@ -108,13 +108,13 @@ namespace Chia_Client_API.Helpers_NS
         }
 
         /// <summary>
-        /// removes a transaction chunk from cache.<br/>
+        /// removes an offer chunk from cache.<br/>
         /// is primarily used to free up cache space (automatic process).
         /// </summary>
         /// <remarks>
         /// Changes made to the chunk-file will be saved per default.<br/>
-        /// IMPORTANT: On changes other than <see cref="TransactionsChunk.AddTransaction(Transaction_DictMemos, bool)"/>,
-        /// you need to set the <see cref="TransactionsChunk.Edited"/> flag Manually!
+        /// IMPORTANT: On changes other than <see cref="OffersChunk.AddOffer(OfferFile, bool)"/>,
+        /// you need to set the <see cref="OffersChunk.Edited"/> flag Manually!
         /// </remarks>
         /// <param name="blockHeight">the chunk id is being automatically calculated from it</param>
         /// <param name="saveChanges">save the cache file to Disk if changes were made</param>
@@ -142,8 +142,8 @@ namespace Chia_Client_API.Helpers_NS
         /// <summary>
         /// adds a transaction to the transaction history
         /// </summary>
-        /// <param name="transaction"></param>
-        public void AddTransaction(Transaction_DictMemos transaction)
+        /// <param name="offer"></param>
+        public void AddOffer(OfferFile offer)
         {
             if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed!)
             {
@@ -156,12 +156,12 @@ namespace Chia_Client_API.Helpers_NS
         /// <summary>
         /// adds a set of transactions efficiently
         /// </summary>
-        /// <param name="transactions"></param>
-        public void AddTransactions(IEnumerable<Transaction_DictMemos> transactions)
+        /// <param name="offers"></param>
+        public void AddOffers(IEnumerable<OfferFile> offers)
         {
             var lastChunkID =ulong.MaxValue;
-            TransactionsChunk chunk = new ();
-            foreach (Transaction_DictMemos transaction in transactions)
+            OffersChunk chunk = new ();
+            foreach (OfferFile offer in transactions)
             {
                 if (transaction.confirmed_at_height == null || !(bool)transaction.confirmed!)
                 {
@@ -188,7 +188,7 @@ namespace Chia_Client_API.Helpers_NS
 
             foreach (var file in files)
             {
-                if (file.Extension != "TransactionsChunk")
+                if (file.Extension != "OffersChunk")
                     continue;
                 if (ulong.TryParse(Path.GetFileNameWithoutExtension(file.Name), out ulong blockNumber))
                 {
@@ -207,7 +207,7 @@ namespace Chia_Client_API.Helpers_NS
         /// </summary>
         /// <returns></returns>
         /// <exception cref="InvalidDataException"></exception>
-        public async Task PullNewTransactions()
+        public async Task PullNewOffers()
         {
             // login first
             FingerPrint_Response login = await Client.LogIn_Async(FingerPrint);
@@ -224,7 +224,7 @@ namespace Chia_Client_API.Helpers_NS
                 latestTransactionHeight = GetOrCreateChunk((ulong)lastChunkFile).LastTransactionBlock;
 
             // Fetch all Transactions
-            List<Transaction_DictMemos> transactionsToImport = new();
+            List<OfferFile> transactionsToImport = new();
             foreach (Wallets_info wallet in walletsResponse.wallets!)
             {
                 GetTransactions_RPC rpc = new GetTransactions_RPC(wallet.id, start: 0, end: long.MaxValue, reverse: false);
