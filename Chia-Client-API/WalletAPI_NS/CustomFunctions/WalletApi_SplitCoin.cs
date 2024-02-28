@@ -1,17 +1,26 @@
-﻿using Chia_Client_API.ChiaClient_NS;
-using CHIA_RPC.FullNode_NS;
-using CHIA_RPC.General_NS;
-using CHIA_RPC.Objects_NS;
+﻿using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
-using System.Diagnostics;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class WalletRpcClient
     {
+        /// <summary>
+        /// splits a given coin into multiple smaller ones, as per request
+        /// </summary>
+        /// <remarks>
+        /// numberOfCoins * amountPerCoin + feeMojos must be smaller than coinToSplit.amount<br/>
+        /// if there is a rest, you will get one additional coin which contains all the restValue
+        /// </remarks>
+        /// <param name="walletId">thes wallet where the coins are</param>
+        /// <param name="feeMojos">an optional blockchain fee in mojos</param>
+        /// <param name="numberOfCoins">the number of coins to create</param>
+        /// <param name="amountPerCoin">the size of each subcoin</param>
+        /// <param name="coinToSplit">the input coin which will be consumed</param>
+        /// <returns></returns>
         public async Task<GetTransaction_Response> SplitCoin(
-            ulong walletId, ulong feeMojos, ulong numberOfCoins, decimal amountPerCoin, Coin coinToSplit)
+            ulong walletId,  ulong numberOfCoins, decimal amountPerCoin, Coin coinToSplit, ulong? feeMojos = null)
         {
             GetTransaction_Response response = new GetTransaction_Response();
             response.success = true;
@@ -37,8 +46,8 @@ namespace Chia_Client_API.WalletAPI_NS
                 mojosPerUnit = CHIA_RPC.General_NS.GlobalVar.OneCatInMojos;
             ulong finalMojoAmountPerCoin = (ulong)(amountPerCoin * mojosPerUnit);
             ulong totalMojoAmount = finalMojoAmountPerCoin * numberOfCoins;
-            if (isXchTransaction)
-                totalMojoAmount += feeMojos;
+            if (isXchTransaction && feeMojos != null)
+                totalMojoAmount += feeMojos.Value;
             // verify the coin is large enough to split
             if (coinToSplit.amount < totalMojoAmount)
             {

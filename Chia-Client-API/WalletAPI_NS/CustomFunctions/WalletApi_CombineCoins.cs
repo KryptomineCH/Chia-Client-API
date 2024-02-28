@@ -1,17 +1,20 @@
-﻿using Chia_Client_API.ChiaClient_NS;
-using CHIA_RPC.FullNode_NS;
-using CHIA_RPC.General_NS;
-using CHIA_RPC.Objects_NS;
+﻿using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.Wallet_NS;
 using CHIA_RPC.Wallet_NS.WalletManagement_NS;
-using System.Diagnostics;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class WalletRpcClient
     {
+        /// <summary>
+        /// this function takes an array of coins and combines them within the same wallet
+        /// </summary>
+        /// <param name="walletId">the wallet where the coins are in</param>
+        /// <param name="feeMojos">an optional blockchain fee in xch mojos</param>
+        /// <param name="coinsToCombine">the coins which are to be combined into one large coin</param>
+        /// <returns></returns>
         public async Task<GetTransaction_Response> CombineCoins(
-            ulong walletId, ulong feeMojos, Coin[] coinsToCombine)
+            ulong walletId, Coin[] coinsToCombine, ulong? feeMojos)
         {
             GetTransaction_Response response = new GetTransaction_Response();
             response.success = false;
@@ -37,8 +40,8 @@ namespace Chia_Client_API.WalletAPI_NS
             {
                 totalMojoAmount += coin.amount.Value;
             }
-            if (isXchTransaction)
-                totalMojoAmount -= feeMojos;
+            if (isXchTransaction && feeMojos != null)
+                totalMojoAmount -= feeMojos.Value;
 
             // Generate addition
             GetNextAddress_Response address_Response = await GetNextAddress_Async(new GetNextAddress_RPC(walletId, true));
