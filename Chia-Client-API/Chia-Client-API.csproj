@@ -24,6 +24,11 @@
 - removed parameter from nft_nft_get_nfts according to documentation update
 - removed Transaction History References which are for another branch
 - added GetSortedCoins to GetSpendableCoins_Response
+- added GetSortedCoins to GetSpendableCoins_Response
+- added Bech32 helperFunctions
+- implemented and tested curtom coin merge functionality
+- Reverse engineered, fixed and tested send_transaction_multi
+- Reverse engineered and implemented custom function of coin_split, same as the cli command
 
 2.1.3
 - removed ammount_correct_custom as it was a workaround for a bug in outgoing trades in previous chia versions

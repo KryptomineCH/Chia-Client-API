@@ -20,8 +20,23 @@ namespace TransactionTypeTests.Transactions_NS
             await client.LogIn_Async(2960367160);
             await client.AwaitWalletSync_Async(CancellationToken.None);
             var spendableCoins_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
-            var splitResult = await client.SplitCoin(1, 1000, 5, 0.1m, spendableCoins_Response.confirmed_records[0].coin);
+            var splitResult = await client.SplitCoin(1, 1000, 5, 0.001m, spendableCoins_Response.confirmed_records[0].coin);
             Assert.True(splitResult.success);
+            var spendableCoinsAfter_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
+            Assert.True(spendableCoins_Response.confirmed_records.Length < spendableCoinsAfter_Response.confirmed_records.Length);
+        }
+
+        [Fact]
+        [Trait("Category", "Manual")]
+        public async void Test_CombineCoinsManual()
+        {
+            string certificatePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".testnet", "testnetclientSsl");
+            WalletRpcClient client = new WalletRpcClient(reportResponseErrors: true, targetApiAddress: "kryp-chiatestclient", targetCertificateBaseFolder: certificatePath);
+            await client.LogIn_Async(2960367160);
+            await client.AwaitWalletSync_Async(CancellationToken.None);
+            var spendableCoins_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
+            var mergeResult = await client.CombineCoins( walletId: 1, feeMojos: 1000, coinsToCombine: spendableCoins_Response.GetSortedCoins());
+            Assert.True(mergeResult.success);
             var spendableCoinsAfter_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
             Assert.True(spendableCoins_Response.confirmed_records.Length < spendableCoinsAfter_Response.confirmed_records.Length);
         }

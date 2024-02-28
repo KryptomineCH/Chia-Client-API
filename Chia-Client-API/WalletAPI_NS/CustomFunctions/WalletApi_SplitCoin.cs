@@ -51,7 +51,6 @@ namespace Chia_Client_API.WalletAPI_NS
             List<MultiTransactionRecipient> additions = new List<MultiTransactionRecipient>();
             for (ulong i = 0; i < numberOfCoins; i++)
             {
-
                 GetNextAddress_Response address_Response = await GetNextAddress_Async(addressRpc);
                 additions.Add(new MultiTransactionRecipient(finalMojoAmountPerCoin, address_Response.address));
             }
