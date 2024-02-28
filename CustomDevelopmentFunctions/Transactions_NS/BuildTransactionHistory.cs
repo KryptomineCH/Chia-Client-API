@@ -9,7 +9,7 @@ namespace CustomDevelopmentFunctions.Transactions_NS
         [Trait("Category", "Manual")]
         public async void Test_BuildTransactionHistoryManual()
         {
-            DirectoryInfo testDir = new DirectoryInfo(Path.Combine("TestAssets","ransactionHistory"));
+            DirectoryInfo testDir = new DirectoryInfo(Path.Combine("TestAssets","TransactionHistory"));
             if (testDir.Exists) testDir.Delete(true);
             string certificatePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".testnet","testnetclientSsl");
             WalletRpcClient client = new WalletRpcClient(reportResponseErrors: true, targetApiAddress: "kryp-chiatestclient", targetCertificateBaseFolder: certificatePath);

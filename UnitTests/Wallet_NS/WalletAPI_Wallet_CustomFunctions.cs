@@ -32,8 +32,8 @@ namespace CHIA_API_Tests.Wallet_NS
             //if (directory.Exists) 
                 //directory.Delete();
 
-            Chia_Client_API.Helpers_NS.WalletTransactionHistory history = new (Testnet_Wallet.Wallet_Client, login_rpc, directory);
-            await history.PullNewTransactions();
+            //Chia_Client_API.Helpers_NS.WalletTransactionHistory history = new (Testnet_Wallet.Wallet_Client, login_rpc, directory);
+            //await history.PullNewTransactions();
         }
     }
 }
