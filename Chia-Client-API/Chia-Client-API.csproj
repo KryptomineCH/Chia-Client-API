@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net7.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
     <RootNamespace>Chia_Client_API</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.1.4</Version>
+    <Version>2.2.0</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,10 +16,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.1.4
+    <PackageReleaseNotes>2.2.0
 - Implement Datalayer get_proof
 - implement Datalayer verify_proof
 - implement get_aggsig_additional_data
+- add custom DustSmallCoins function which can clean a wallet and combine small coins
 - add implicit conversion to GetSpendableCoins_RPC
 - removed parameter from nft_nft_get_nfts according to documentation update
 - removed Transaction History References which are for another branch
@@ -29,6 +30,7 @@
 - implemented and tested curtom coin merge functionality
 - Reverse engineered, fixed and tested send_transaction_multi
 - Reverse engineered and implemented custom function of coin_split, same as the cli command
+- add support for .net 8
 
 2.1.3
 - removed ammount_correct_custom as it was a workaround for a bug in outgoing trades in previous chia versions
