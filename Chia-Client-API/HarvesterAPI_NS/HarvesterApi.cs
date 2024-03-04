@@ -27,7 +27,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<Success_Response> AddPlotDirectory_Async(AddPlotDirectory_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("add_plot_directory", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -71,7 +71,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<Success_Response> DeletePlot_Async(DeletePlot_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("delete_plot", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -117,7 +117,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<GetPlots_Response> GetPlots_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_plots");
-            ActionResult<GetPlots_Response> deserializationResult = GetPlots_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPlots_Response> deserializationResult = GetPlots_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPlots_Response response = new GetPlots_Response();
 
             if (deserializationResult.Data != null)
@@ -161,7 +161,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<GetPlotDirectories_Response> GetPlotDirectories_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_plot_directories");
-            ActionResult<GetPlotDirectories_Response> deserializationResult = GetPlotDirectories_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPlotDirectories_Response> deserializationResult = GetPlotDirectories_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPlotDirectories_Response response = new GetPlotDirectories_Response();
 
             if (deserializationResult.Data != null)
@@ -201,7 +201,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_routes");
-            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetRoutes_Response response = new GetRoutes_Response();
 
             if (deserializationResult.Data != null)
@@ -240,7 +240,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<Success_Response> RefreshPlots_Async()
         {
             string responseJson = await SendCustomMessageAsync("refresh_plots");
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -282,7 +282,7 @@ namespace Chia_Client_API.HarvesterAPI_NS
         public async Task<Success_Response> RemovePlotDirectory_Async(RemovePlotDirectory_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("remove_plot_directory", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)

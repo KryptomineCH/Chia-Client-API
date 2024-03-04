@@ -33,9 +33,11 @@ namespace Chia_Client_API.FarmerAPI_NS
             bool reportResponseErrors, 
             string targetApiAddress = "localhost", int targetApiPort = 8559, 
             string? targetCertificateBaseFolder = null, 
-            TimeSpan? timeout = null)
+            TimeSpan? timeout = null,
+            bool includeRawServerResponse = false)
         {
             ReportResponseErrors = reportResponseErrors;
+            IncludeRawServerResponse = includeRawServerResponse;
             _rpcClient = new RpcClient(
                 Endpoint.farmer,
                 targetApiAddress, targetApiPort, 

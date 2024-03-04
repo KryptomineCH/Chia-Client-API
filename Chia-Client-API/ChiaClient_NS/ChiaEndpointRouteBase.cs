@@ -7,4 +7,9 @@ public abstract class ChiaEndpointRouteBase : ChiaCommunicationBase
     /// </summary>
     /// <remarks>Reported data is anonymous</remarks>
     public bool ReportResponseErrors { get; set; }
+
+    /// <summary>
+    /// defines if the raw server response should be included or not
+    /// </summary>
+    public bool IncludeRawServerResponse { get; set; } = true;
 }

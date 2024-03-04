@@ -21,7 +21,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAdditionsAndRemovals_Response> GetAdditionsAndRemovals_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_additions_and_removals", rpc.ToString());
-            ActionResult<GetAdditionsAndRemovals_Response> deserializationResult = GetAdditionsAndRemovals_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetAdditionsAndRemovals_Response> deserializationResult = GetAdditionsAndRemovals_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetAdditionsAndRemovals_Response response = new GetAdditionsAndRemovals_Response();
 
             if (deserializationResult.Data != null)
@@ -63,7 +63,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         {
             // TODO: Xunit Test
             string responseJson = await SendCustomMessageAsync("get_aggsig_additional_data");
-            ActionResult<GetAggsigAdditionalData_Response> deserializationResult = GetAggsigAdditionalData_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetAggsigAdditionalData_Response> deserializationResult = GetAggsigAdditionalData_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetAggsigAdditionalData_Response response = new GetAggsigAdditionalData_Response();
 
             if (deserializationResult.Data != null)
@@ -103,7 +103,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAllMempoolItems_Response> GetAllMempoolItems_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_all_mempool_items");
-            ActionResult<GetAllMempoolItems_Response> deserializationResult = GetAllMempoolItems_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetAllMempoolItems_Response> deserializationResult = GetAllMempoolItems_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetAllMempoolItems_Response response = new GetAllMempoolItems_Response();
 
             if (deserializationResult.Data != null)
@@ -143,7 +143,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetAllMempoolTxIDs_Response> GetAllMempoolTxIDs_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_all_mempool_tx_ids");
-            ActionResult<GetAllMempoolTxIDs_Response> deserializationResult = GetAllMempoolTxIDs_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetAllMempoolTxIDs_Response> deserializationResult = GetAllMempoolTxIDs_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetAllMempoolTxIDs_Response response = new GetAllMempoolTxIDs_Response();
 
             if (deserializationResult.Data != null)
@@ -184,7 +184,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlock_Response> GetBlock_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_block", rpc.ToString());
-            ActionResult<GetBlock_Response> deserializationResult = GetBlock_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlock_Response> deserializationResult = GetBlock_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlock_Response response = new GetBlock_Response();
 
             if (deserializationResult.Data != null)
@@ -225,7 +225,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockchainState_Response> GetBlockchainState_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_blockchain_state");
-            ActionResult<GetBlockchainState_Response> deserializationResult = GetBlockchainState_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockchainState_Response> deserializationResult = GetBlockchainState_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockchainState_Response response = new GetBlockchainState_Response();
 
             if (deserializationResult.Data != null)
@@ -267,7 +267,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlocks_Response> GetBlocks_Async(GetBlocks_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_blocks", rpc.ToString());
-            ActionResult<GetBlocks_Response> deserializationResult = GetBlocks_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlocks_Response> deserializationResult = GetBlocks_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlocks_Response response = new GetBlocks_Response();
 
             if (deserializationResult.Data != null)
@@ -315,7 +315,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockCountMetrics_Response> GetBlockCountMetrics_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_block_count_metrics");
-            ActionResult<GetBlockCountMetrics_Response> deserializationResult = GetBlockCountMetrics_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockCountMetrics_Response> deserializationResult = GetBlockCountMetrics_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockCountMetrics_Response response = new GetBlockCountMetrics_Response();
 
             if (deserializationResult.Data != null)
@@ -360,7 +360,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByParentIDs_Async(GetCoinRecordsByParentIDs_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_records_by_parent_ids", rpc.ToString());
-            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecords_Response response = new GetCoinRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -402,7 +402,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecord_Response> GetBlockRecord_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_block_record", rpc.ToString());
-            ActionResult<GetBlockRecord_Response> deserializationResult = GetBlockRecord_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockRecord_Response> deserializationResult = GetBlockRecord_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockRecord_Response response = new GetBlockRecord_Response();
 
             if (deserializationResult.Data != null)
@@ -444,7 +444,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecords_Response> GetBlockRecords_Async(StartEnd_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_block_records", rpc.ToString());
-            ActionResult<GetBlockRecords_Response> deserializationResult = GetBlockRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockRecords_Response> deserializationResult = GetBlockRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockRecords_Response response = new GetBlockRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -486,7 +486,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockRecord_Response> GetBlockRecordByHeight_Async(Height_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_block_record_by_height", rpc.ToString());
-            ActionResult<GetBlockRecord_Response> deserializationResult = GetBlockRecord_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockRecord_Response> deserializationResult = GetBlockRecord_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockRecord_Response response = new GetBlockRecord_Response();
 
             if (deserializationResult.Data != null)
@@ -528,7 +528,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetBlockSpends_Response> GetBlockSpends_Async(HeaderHash_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_block_spends", rpc.ToString());
-            ActionResult<GetBlockSpends_Response> deserializationResult = GetBlockSpends_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetBlockSpends_Response> deserializationResult = GetBlockSpends_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetBlockSpends_Response response = new GetBlockSpends_Response();
 
             if (deserializationResult.Data != null)
@@ -570,7 +570,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByHint_Async(GetCoinRecordsByHint_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_records_by_hint", rpc.ToString());
-            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecords_Response response = new GetCoinRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -612,7 +612,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByPuzzleHash_Async(GetCoinRecordsByPuzzleHash_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_records_by_puzzle_hash", rpc.ToString());
-            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecords_Response response = new GetCoinRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -654,7 +654,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByPuzzleHashes_Async(GetCoinRecordsByPuzzleHashes_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_records_by_puzzle_hashes", rpc.ToString());
-            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecords_Response response = new GetCoinRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -696,7 +696,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecordByName_Response> GetCoinRecordByName_Async(GetCoinRecordByName_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_record_by_name", rpc.ToString());
-            ActionResult<GetCoinRecordByName_Response> deserializationResult = GetCoinRecordByName_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecordByName_Response> deserializationResult = GetCoinRecordByName_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecordByName_Response response = new GetCoinRecordByName_Response();
 
             if (deserializationResult.Data != null)
@@ -738,7 +738,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetCoinRecords_Response> GetCoinRecordsByNames_Async(GetCoinRecordsByNames_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_coin_records_by_names", rpc.ToString());
-            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetCoinRecords_Response response = new GetCoinRecords_Response();
 
             if (deserializationResult.Data != null)
@@ -786,7 +786,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetFeeEstimate_Response> GetFeeEstimate_Async(GetFeeEstimate_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_fee_estimate", rpc.ToString());
-            ActionResult<GetFeeEstimate_Response> deserializationResult = GetFeeEstimate_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetFeeEstimate_Response> deserializationResult = GetFeeEstimate_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetFeeEstimate_Response response = new GetFeeEstimate_Response();
 
             if (deserializationResult.Data != null)
@@ -834,7 +834,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetMempoolItemByTxID_Response> GetMempoolItemByTxID_Async(GetMempoolItemByTxID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_mempool_item_by_tx_id", rpc.ToString());
-            ActionResult<GetMempoolItemByTxID_Response> deserializationResult = GetMempoolItemByTxID_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetMempoolItemByTxID_Response> deserializationResult = GetMempoolItemByTxID_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetMempoolItemByTxID_Response response = new GetMempoolItemByTxID_Response();
 
             if (deserializationResult.Data != null)
@@ -875,7 +875,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetNetworkInfo_Response> GetNetworkInfo_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_network_info");
-            ActionResult<GetNetworkInfo_Response> deserializationResult = GetNetworkInfo_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetNetworkInfo_Response> deserializationResult = GetNetworkInfo_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetNetworkInfo_Response response = new GetNetworkInfo_Response();
 
             if (deserializationResult.Data != null)
@@ -916,7 +916,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetNetworkSpace_Response> GetNetworkSpace_Async(GetNetworkSpace_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_network_space", rpc.ToString());
-            ActionResult<GetNetworkSpace_Response> deserializationResult = GetNetworkSpace_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetNetworkSpace_Response> deserializationResult = GetNetworkSpace_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetNetworkSpace_Response response = new GetNetworkSpace_Response();
 
             if (deserializationResult.Data != null)
@@ -959,7 +959,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetPuzzleAndSolution_Response> GetPuzzleAndSolution_Async(GetPuzzleAndSolution_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_puzzle_and_solution", rpc.ToString());
-            ActionResult<GetPuzzleAndSolution_Response> deserializationResult = GetPuzzleAndSolution_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPuzzleAndSolution_Response> deserializationResult = GetPuzzleAndSolution_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPuzzleAndSolution_Response response = new GetPuzzleAndSolution_Response();
 
             if (deserializationResult.Data != null)
@@ -1002,7 +1002,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetRecentSignagePointOrEos_Response> GetRecentSignagePointOrEos_Async(GetRecentSignagePointOrEos_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_recent_signage_point_or_eos", rpc.ToString());
-            ActionResult<GetRecentSignagePointOrEos_Response> deserializationResult = GetRecentSignagePointOrEos_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetRecentSignagePointOrEos_Response> deserializationResult = GetRecentSignagePointOrEos_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetRecentSignagePointOrEos_Response response = new GetRecentSignagePointOrEos_Response();
 
             if (deserializationResult.Data != null)
@@ -1043,7 +1043,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_routes");
-            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetRoutes_Response response = new GetRoutes_Response();
 
             if (deserializationResult.Data != null)
@@ -1083,7 +1083,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<GetUnfinishedBlockHeaders_Response> GetUnfinishedBlockHeaders_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_unfinished_block_headers");
-            ActionResult<GetUnfinishedBlockHeaders_Response> deserializationResult = GetUnfinishedBlockHeaders_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetUnfinishedBlockHeaders_Response> deserializationResult = GetUnfinishedBlockHeaders_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetUnfinishedBlockHeaders_Response response = new GetUnfinishedBlockHeaders_Response();
 
             if (deserializationResult.Data != null)
@@ -1123,7 +1123,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<Success_Response> HealthZ_Async()
         {
             string responseJson = await SendCustomMessageAsync("healthz");
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -1164,7 +1164,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
         public async Task<PushTx_Response> PushTx_Async(PushTx_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("push_tx", rpc.ToString());
-            ActionResult<PushTx_Response> deserializationResult = PushTx_Response.LoadResponseFromString(responseJson);
+            ActionResult<PushTx_Response> deserializationResult = PushTx_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             PushTx_Response response = new PushTx_Response();
 
             if (deserializationResult.Data != null)

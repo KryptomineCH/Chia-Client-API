@@ -33,9 +33,11 @@ namespace Chia_Client_API.DaemonAPI_NS
             bool reportResponseErrors, 
             string targetApiAddress = "localhost", int targetApiPort = 55400, 
             string? targetCertificateBaseFolder = null, 
-            TimeSpan? timeout = null)
+            TimeSpan? timeout = null,
+            bool includeRawServerResponse = false)
         {
             ReportResponseErrors = reportResponseErrors;
+            IncludeRawServerResponse = includeRawServerResponse;
             _rpcClient = new RpcClient(
                 Endpoint.daemon,
                 targetApiAddress, targetApiPort, 

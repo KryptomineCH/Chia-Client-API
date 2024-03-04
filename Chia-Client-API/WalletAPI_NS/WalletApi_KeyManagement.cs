@@ -17,7 +17,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<FingerPrint_Response> AddKey_Async(AddKey_RPC mnemonic)
         {
             string responseJson = await SendCustomMessageAsync("add_key", mnemonic.ToString());
-            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson);
+            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             FingerPrint_Response response = new FingerPrint_Response();
 
             if (deserializationResult.Data != null)
@@ -56,7 +56,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CheckDeleteKey_Response> CheckDeleteKey_Async(CheckDeleteKey_RPC checkDeleteKey_RPC)
         {
             string responseJson = await SendCustomMessageAsync("check_delete_key", checkDeleteKey_RPC.ToString());
-            ActionResult<CheckDeleteKey_Response> deserializationResult = CheckDeleteKey_Response.LoadResponseFromString(responseJson);
+            ActionResult<CheckDeleteKey_Response> deserializationResult = CheckDeleteKey_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             CheckDeleteKey_Response response = new CheckDeleteKey_Response();
 
             if (deserializationResult.Data != null)
@@ -101,7 +101,7 @@ namespace Chia_Client_API.WalletAPI_NS
                 throw new ArgumentException("WARNING: This deletes ALL keys! If this is really what you want to do, please set I_AM_SURE to true!");
             }
             string responseJson = await SendCustomMessageAsync("delete_all_keys");
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -142,7 +142,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> DeleteKey_Async(FingerPrint_RPC fingerprint)
         {
             string responseJson = await SendCustomMessageAsync("delete_key", fingerprint.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -180,7 +180,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GenerateMnemonic_Response> GenerateMnemonic_Async()
         {
             string responseJson = await SendCustomMessageAsync("generate_mnemonic");
-            ActionResult<GenerateMnemonic_Response> deserializationResult = GenerateMnemonic_Response.LoadResponseFromString(responseJson);
+            ActionResult<GenerateMnemonic_Response> deserializationResult = GenerateMnemonic_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GenerateMnemonic_Response response = new GenerateMnemonic_Response();
 
             if (deserializationResult.Data != null)
@@ -216,7 +216,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<FingerPrint_Response> GetLoggedInFingerprint_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_logged_in_fingerprint");
-            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson);
+            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             FingerPrint_Response response = new FingerPrint_Response();
 
             if (deserializationResult.Data != null)
@@ -254,7 +254,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetPrivateKey_Response> GetPrivateKey_Async(FingerPrint_RPC fingerprint)
         {
             string responseJson = await SendCustomMessageAsync("get_private_key", fingerprint.ToString());
-            ActionResult<GetPrivateKey_Response> deserializationResult = GetPrivateKey_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPrivateKey_Response> deserializationResult = GetPrivateKey_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPrivateKey_Response response = new GetPrivateKey_Response();
 
             if (deserializationResult.Data != null)
@@ -293,7 +293,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetPublicKeys_Response> GetPublicKeys_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_public_keys");
-            ActionResult<GetPublicKeys_Response> deserializationResult = GetPublicKeys_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPublicKeys_Response> deserializationResult = GetPublicKeys_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPublicKeys_Response response = new GetPublicKeys_Response();
 
             if (deserializationResult.Data != null)
@@ -331,7 +331,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<FingerPrint_Response> LogIn_Async(FingerPrint_RPC fingerprint)
         {
             string responseJson = await SendCustomMessageAsync("log_in", fingerprint.ToString());
-            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson);
+            ActionResult<FingerPrint_Response> deserializationResult = FingerPrint_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             FingerPrint_Response response = new FingerPrint_Response();
 
             if (deserializationResult.Data != null)

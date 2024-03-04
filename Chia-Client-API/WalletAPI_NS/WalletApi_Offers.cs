@@ -19,7 +19,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CancelOffer_Async(CancelOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("cancel_offer", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -57,7 +57,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> CancelOffers_Async(CancelOffers_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("cancel_offers", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -95,7 +95,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CheckOfferValidity_Response> CheckOfferValidity_Async(CheckOfferValidity_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("check_offer_validity", rpc.ToString());
-            ActionResult<CheckOfferValidity_Response> deserializationResult = CheckOfferValidity_Response.LoadResponseFromString(responseJson);
+            ActionResult<CheckOfferValidity_Response> deserializationResult = CheckOfferValidity_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             CheckOfferValidity_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -261,7 +261,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<GetOfferSummary_Response> GetOfferSummary_Async(GetOfferSummary_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_offer_summary", rpc.ToString());
-            ActionResult<GetOfferSummary_Response> deserializationResult = GetOfferSummary_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetOfferSummary_Response> deserializationResult = GetOfferSummary_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetOfferSummary_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -299,7 +299,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<TradeRecord_Response> TakeOffer_Async(TakeOffer_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("take_offer", rpc.ToString());
-            ActionResult<TradeRecord_Response> deserializationResult = TradeRecord_Response.LoadResponseFromString(responseJson);
+            ActionResult<TradeRecord_Response> deserializationResult = TradeRecord_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             TradeRecord_Response response = new ();
 
             if (deserializationResult.Data != null)

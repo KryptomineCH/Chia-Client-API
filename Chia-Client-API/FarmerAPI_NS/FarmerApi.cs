@@ -26,7 +26,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesters_Response> GetHarvesters_Async()
     {
         string responseJson = await SendCustomMessageAsync("get_harvesters");
-        ActionResult<GetHarvesters_Response> deserializationResult = GetHarvesters_Response.LoadResponseFromString(responseJson);
+        ActionResult<GetHarvesters_Response> deserializationResult = GetHarvesters_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
         GetHarvesters_Response response = new GetHarvesters_Response();
         if (deserializationResult.Data != null)
         {
@@ -64,7 +64,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvestersSummary_Response> GetHarvestersSummary_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_harvesters_summary");
-            ActionResult<GetHarvestersSummary_Response> deserializationResult = GetHarvestersSummary_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetHarvestersSummary_Response> deserializationResult = GetHarvestersSummary_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetHarvestersSummary_Response response = new GetHarvestersSummary_Response();
             if (deserializationResult.Data != null)
             {
@@ -103,7 +103,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsDuplicates_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_harvester_plots_duplicates", rpc.ToString());
-            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetHarvesterPlots_Response response = new GetHarvesterPlots_Response();
             if (deserializationResult.Data != null)
             {
@@ -143,7 +143,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlotsInvalid_Response> GetHarvesterPlotsInvalid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_harvester_plots_invalid", rpc.ToString());
-            ActionResult<GetHarvesterPlotsInvalid_Response> deserializationResult = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetHarvesterPlotsInvalid_Response> deserializationResult = GetHarvesterPlotsInvalid_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetHarvesterPlotsInvalid_Response response = new GetHarvesterPlotsInvalid_Response();
             if (deserializationResult.Data != null)
             {
@@ -184,7 +184,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsKeysMissing_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_harvester_plots_keys_missing", rpc.ToString());
-            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetHarvesterPlots_Response response = new GetHarvesterPlots_Response();
             if (deserializationResult.Data != null)
             {
@@ -225,7 +225,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetHarvesterPlots_Response> GetHarvesterPlotsValid_Async(GetHarvesterPlots_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_harvester_plots_valid", rpc.ToString());
-            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetHarvesterPlots_Response> deserializationResult = GetHarvesterPlots_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetHarvesterPlots_Response response = new GetHarvesterPlots_Response();
             if (deserializationResult.Data != null)
             {
@@ -266,7 +266,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetPoolLoginLink_Response> GetPoolLoginLink_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_pool_login_link", rpc.ToString());
-            ActionResult<GetPoolLoginLink_Response> deserializationResult = GetPoolLoginLink_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPoolLoginLink_Response> deserializationResult = GetPoolLoginLink_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPoolLoginLink_Response response = new GetPoolLoginLink_Response();
             if (deserializationResult.Data != null)
             {
@@ -306,7 +306,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetPoolState_Response> GetPoolState_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_pool_state");
-            ActionResult<GetPoolState_Response> deserializationResult = GetPoolState_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPoolState_Response> deserializationResult = GetPoolState_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPoolState_Response response = new GetPoolState_Response();
             if (deserializationResult.Data != null)
             {
@@ -346,7 +346,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetRewardTargets_Response> GetRewardTargets_Async(GetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_reward_targets", rpc.ToString());
-            ActionResult<GetRewardTargets_Response> deserializationResult = GetRewardTargets_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetRewardTargets_Response> deserializationResult = GetRewardTargets_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetRewardTargets_Response response = new GetRewardTargets_Response();
             if (deserializationResult.Data != null)
             {
@@ -386,7 +386,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetRoutes_Response> GetRoutes_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_routes");
-            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetRoutes_Response> deserializationResult = GetRoutes_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetRoutes_Response response = new GetRoutes_Response();
             if (deserializationResult.Data != null)
             {
@@ -426,7 +426,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<SignagePointWithProofs> GetSignagePoint_Async(GetSignagePoint_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_signage_point", rpc.ToString());
-            ActionResult<SignagePointWithProofs> deserializationResult = SignagePointWithProofs.LoadResponseFromString(responseJson);
+            ActionResult<SignagePointWithProofs> deserializationResult = SignagePointWithProofs.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SignagePointWithProofs response = new SignagePointWithProofs();
             if (deserializationResult.Data != null)
             {
@@ -466,7 +466,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<GetSignagePoints_Response> GetSignagePoints_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_signage_points");
-            ActionResult<GetSignagePoints_Response> deserializationResult = GetSignagePoints_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetSignagePoints_Response> deserializationResult = GetSignagePoints_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetSignagePoints_Response response = new GetSignagePoints_Response();
             if (deserializationResult.Data != null)
             {
@@ -506,7 +506,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<Success_Response> SetPayoutInstructions_Async(SetPayoutInstructions_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("set_payout_instructions", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
             {
@@ -547,7 +547,7 @@ namespace Chia_Client_API.FarmerAPI_NS
         public async Task<Success_Response> SetRewardTargets_Async(SetRewardTargets_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("set_reward_targets", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
             {

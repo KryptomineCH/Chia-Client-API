@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.2.0.7</Version>
+    <Version>2.2.0.10</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -23,6 +23,9 @@
 - Add implicit conversions from block record to header hash
 - Fix response raw content
 - Add fee_xch to Mempool item
+- User can now decide if raw response should be included or not
+- added raw response option to constructor
+- implement get_wallet_adresses
 
 2.2.0
 - Implement Datalayer get_proof

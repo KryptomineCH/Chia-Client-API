@@ -25,7 +25,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         public async Task<GetKeysForPlotting_Response> GetKeysForPlotting_Async(FingerPrints_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("get_keys_for_plotting", rpc.ToString());
-            ActionResult<GetKeysForPlotting_Response> deserializationResult = GetKeysForPlotting_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetKeysForPlotting_Response> deserializationResult = GetKeysForPlotting_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetKeysForPlotting_Response response = new GetKeysForPlotting_Response();
             if (deserializationResult.Data != null)
             {
@@ -61,7 +61,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         public async Task<GetPlotters_Response> GetPlotters_Async()
         {
             string responseJson = await SendCustomMessageAsync("get_plotters");
-            ActionResult<GetPlotters_Response> deserializationResult = GetPlotters_Response.LoadResponseFromString(responseJson);
+            ActionResult<GetPlotters_Response> deserializationResult = GetPlotters_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             GetPlotters_Response response = new GetPlotters_Response();
             if (deserializationResult.Data != null)
             {
@@ -101,7 +101,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         public async Task<Success_Response> StartPlotting_Async(StartPlotting_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("start_plotting", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
             {
@@ -141,7 +141,7 @@ namespace Chia_Client_API.DaemonAPI_NS
         public async Task<Success_Response> StopPlotting_Async(ID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("stop_plotting", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
             if (deserializationResult.Data != null)
             {

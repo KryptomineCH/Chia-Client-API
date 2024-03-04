@@ -18,7 +18,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<CreateNewDL_Response> CreateNewDL_Async(CreateNewDL_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("create_new_dl", rpc.ToString());
-            ActionResult<CreateNewDL_Response> deserializationResult = CreateNewDL_Response.LoadResponseFromString(responseJson);
+            ActionResult<CreateNewDL_Response> deserializationResult = CreateNewDL_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             CreateNewDL_Response response = new CreateNewDL_Response();
 
             if (deserializationResult.Data != null)
@@ -60,7 +60,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlNewMirror_Response> DlNewMirror_Async(DlNewMirror_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_new_mirror", rpc.ToString());
-            ActionResult<DlNewMirror_Response> deserializationResult = DlNewMirror_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlNewMirror_Response> deserializationResult = DlNewMirror_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlNewMirror_Response response = new DlNewMirror_Response();
 
             if (deserializationResult.Data != null)
@@ -102,7 +102,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlGetMirrors_Response> DlGetMirrors_Async()
         {
             string responseJson = await SendCustomMessageAsync("dl_get_mirrors");
-            ActionResult<DlGetMirrors_Response> deserializationResult = DlGetMirrors_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlGetMirrors_Response> deserializationResult = DlGetMirrors_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlGetMirrors_Response response = new DlGetMirrors_Response();
 
             if (deserializationResult.Data != null)
@@ -143,7 +143,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlHistory_Response> DlHistory_Async(DlHistory_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_history", rpc.ToString());
-            ActionResult<DlHistory_Response> deserializationResult = DlHistory_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlHistory_Response> deserializationResult = DlHistory_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlHistory_Response response = new DlHistory_Response();
 
             if (deserializationResult.Data != null)
@@ -185,7 +185,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlLatestSingleton_Response> DlLatestSingleton_Async(DlLatestSingleton_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_latest_singleton", rpc.ToString());
-            ActionResult<DlLatestSingleton_Response> deserializationResult = DlLatestSingleton_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlLatestSingleton_Response> deserializationResult = DlLatestSingleton_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlLatestSingleton_Response response = new DlLatestSingleton_Response();
 
             if (deserializationResult.Data != null)
@@ -227,7 +227,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlNewMirror_Response> DlDeleteMirror_Async(DlDeleteMirror_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_delete_mirror", rpc.ToString());
-            ActionResult<DlNewMirror_Response> deserializationResult = DlNewMirror_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlNewMirror_Response> deserializationResult = DlNewMirror_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlNewMirror_Response response = new DlNewMirror_Response();
 
             if (deserializationResult.Data != null)
@@ -268,7 +268,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<DlOwnedSingletons_Response> DlOwnedSingletons_Async()
         {
             string responseJson = await SendCustomMessageAsync("dl_owned_singletons");
-            ActionResult<DlOwnedSingletons_Response> deserializationResult = DlOwnedSingletons_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlOwnedSingletons_Response> deserializationResult = DlOwnedSingletons_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlOwnedSingletons_Response response = new DlOwnedSingletons_Response();
 
             if (deserializationResult.Data != null)
@@ -309,7 +309,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<DlSingletonsByRoot_Response> DlSingletonsByRoot_Async(DlSingletonsByRoot_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_singletons_by_root", rpc.ToString());
-            ActionResult<DlSingletonsByRoot_Response> deserializationResult = DlSingletonsByRoot_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlSingletonsByRoot_Response> deserializationResult = DlSingletonsByRoot_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlSingletonsByRoot_Response response = new DlSingletonsByRoot_Response();
 
             if (deserializationResult.Data != null)
@@ -351,7 +351,7 @@ namespace Chia_Client_API.WalletAPI_NS
 		public async Task<Success_Response> DlStopTracking_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_stop_tracking", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -393,7 +393,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> DlTrackNew_Async(LauncherID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_track_new", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -435,7 +435,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DlUpdateRoot_Response> DlUpdateRoot_Async(DlUpdateRoot_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("dl_update_root", rpc.ToString());
-            ActionResult<DlUpdateRoot_Response> deserializationResult = DlUpdateRoot_Response.LoadResponseFromString(responseJson);
+            ActionResult<DlUpdateRoot_Response> deserializationResult = DlUpdateRoot_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DlUpdateRoot_Response response = new DlUpdateRoot_Response();
 
             if (deserializationResult.Data != null)

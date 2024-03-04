@@ -39,9 +39,11 @@ namespace Chia_Client_API.WalletAPI_NS
             bool reportResponseErrors, 
             string targetApiAddress = "localhost", int targetApiPort = 9256, 
             string? targetCertificateBaseFolder = null, 
-            TimeSpan? timeout = null)
+            TimeSpan? timeout = null,
+            bool includeRawServerResponse = false)
         {
             ReportResponseErrors = reportResponseErrors;
+            IncludeRawServerResponse = includeRawServerResponse;
             _rpcClient = new RpcClient(
                 Endpoint.wallet,
                 targetApiAddress, targetApiPort, 

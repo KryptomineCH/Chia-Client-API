@@ -16,7 +16,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SpendBundle_Response> NftAddURI_Async(NftAddURI_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_add_uri", rpc.ToString());
-            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SpendBundle_Response response = new SpendBundle_Response();
 
             if (deserializationResult.Data != null)
@@ -54,7 +54,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftCalculateRoyalties_Response> NftCalculateRoyalties_Async(NftCalculateRoyalties_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_calculate_royalties", rpc.ToString());
-            ActionResult<NftCalculateRoyalties_Response> deserializationResult = NftCalculateRoyalties_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftCalculateRoyalties_Response> deserializationResult = NftCalculateRoyalties_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftCalculateRoyalties_Response response = new NftCalculateRoyalties_Response();
 
             if (deserializationResult.Data != null)
@@ -92,7 +92,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftCountNfts_Response> NftCountNfts_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_count_nfts", rpc.ToString());
-            ActionResult<NftCountNfts_Response> deserializationResult = NftCountNfts_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftCountNfts_Response> deserializationResult = NftCountNfts_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftCountNfts_Response response = new NftCountNfts_Response();
 
             if (deserializationResult.Data != null)
@@ -131,7 +131,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<WalletID_Response> NftGetByDID_Async(DidID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_get_by_did", rpc.ToString());
-            ActionResult<WalletID_Response> deserializationResult = WalletID_Response.LoadResponseFromString(responseJson);
+            ActionResult<WalletID_Response> deserializationResult = WalletID_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             WalletID_Response response = new WalletID_Response();
 
             if (deserializationResult.Data != null)
@@ -169,7 +169,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftGetInfo_Response> NftGetInfo_Async(NftGetInfo_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_get_info", rpc.ToString());
-            ActionResult<NftGetInfo_Response> deserializationResult = NftGetInfo_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftGetInfo_Response> deserializationResult = NftGetInfo_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftGetInfo_Response response = new NftGetInfo_Response();
 
             if (deserializationResult.Data != null)
@@ -207,7 +207,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftGetNfts_Response> NftGetNfts_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_get_nfts", rpc.ToString());
-            ActionResult<NftGetNfts_Response> deserializationResult = NftGetNfts_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftGetNfts_Response> deserializationResult = NftGetNfts_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftGetNfts_Response response = new NftGetNfts_Response();
 
             if (deserializationResult.Data != null)
@@ -244,7 +244,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftGetWalletsWithDIDs_Response> NftGetWalletsWithDIDs_Async()
         {
             string responseJson = await SendCustomMessageAsync("nft_get_wallets_with_dids");
-            ActionResult<NftGetWalletsWithDIDs_Response> deserializationResult = NftGetWalletsWithDIDs_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftGetWalletsWithDIDs_Response> deserializationResult = NftGetWalletsWithDIDs_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftGetWalletsWithDIDs_Response response = new NftGetWalletsWithDIDs_Response();
 
             if (deserializationResult.Data != null)
@@ -281,7 +281,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<DidID_Response> NftGetWalletDID_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_get_wallet_did", rpc.ToString());
-            ActionResult<DidID_Response> deserializationResult = DidID_Response.LoadResponseFromString(responseJson);
+            ActionResult<DidID_Response> deserializationResult = DidID_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             DidID_Response response = new DidID_Response();
 
             if (deserializationResult.Data != null)
@@ -321,7 +321,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SpendBundle_Response> NftMintBulk_Async(NftMintBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_mint_bulk", rpc.ToString());
-            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SpendBundle_Response response = new SpendBundle_Response();
 
             if (deserializationResult.Data != null)
@@ -363,7 +363,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftMintNFT_Response> NftMintNft_Async(NftMintNFT_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_mint_nft", rpc.ToString());
-            ActionResult<NftMintNFT_Response> deserializationResult = NftMintNFT_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftMintNFT_Response> deserializationResult = NftMintNFT_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftMintNFT_Response response = new NftMintNFT_Response();
 
             if (deserializationResult.Data != null)
@@ -403,7 +403,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SpendBundle_MultiWallet_Response> NftSetDIDBulk_Async(NftSetDidBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_set_did_bulk", rpc.ToString());
-            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SpendBundle_MultiWallet_Response response = new SpendBundle_MultiWallet_Response();
 
             if (deserializationResult.Data != null)
@@ -441,7 +441,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<NftSetNftDID_Response> NftSetNftDID_Async(NftSetNftDID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_set_nft_did", rpc.ToString());
-            ActionResult<NftSetNftDID_Response> deserializationResult = NftSetNftDID_Response.LoadResponseFromString(responseJson);
+            ActionResult<NftSetNftDID_Response> deserializationResult = NftSetNftDID_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             NftSetNftDID_Response response = new NftSetNftDID_Response();
 
             if (deserializationResult.Data != null)
@@ -479,7 +479,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> NftSetNftStatus_Async(NftSetNftStatus_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_set_nft_status", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new Success_Response();
 
             if (deserializationResult.Data != null)
@@ -519,7 +519,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SpendBundle_Response> NftTransferNft_Async(NftTransferNft_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_transfer_nft", rpc.ToString());
-            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson);
+            ActionResult<SpendBundle_Response> deserializationResult = SpendBundle_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SpendBundle_Response response = new SpendBundle_Response();
 
             if (deserializationResult.Data != null)
@@ -559,7 +559,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<SpendBundle_MultiWallet_Response> NftTransferBulk_Async(NftTransferBulk_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("nft_transfer_bulk", rpc.ToString());
-            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson);
+            ActionResult<SpendBundle_MultiWallet_Response> deserializationResult = SpendBundle_MultiWallet_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             SpendBundle_MultiWallet_Response response = new SpendBundle_MultiWallet_Response();
 
             if (deserializationResult.Data != null)

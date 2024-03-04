@@ -19,7 +19,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<Success_Response> PwAbsorbRewards_Async(PwAbsorbRewards_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("pw_absorb_rewards", rpc.ToString());
-            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson);
+            ActionResult<Success_Response> deserializationResult = Success_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             Success_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -58,7 +58,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwJoinPool_Response> PwJoinPool_Async(PwJoinPool_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("pw_join_pool", rpc.ToString());
-            ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             PwJoinPool_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -96,7 +96,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwJoinPool_Response> PwSelfPool_Async(PwSelfPool_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("pw_self_pool", rpc.ToString());
-            ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson);
+            ActionResult<PwJoinPool_Response> deserializationResult = PwJoinPool_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             PwJoinPool_Response response = new ();
 
             if (deserializationResult.Data != null)
@@ -134,7 +134,7 @@ namespace Chia_Client_API.WalletAPI_NS
         public async Task<PwStatus_Response> PwStatus_Async(WalletID_RPC rpc)
         {
             string responseJson = await SendCustomMessageAsync("pw_status", rpc.ToString());
-            ActionResult<PwStatus_Response> deserializationResult = PwStatus_Response.LoadResponseFromString(responseJson);
+            ActionResult<PwStatus_Response> deserializationResult = PwStatus_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
             PwStatus_Response response = new ();
 
             if (deserializationResult.Data != null)

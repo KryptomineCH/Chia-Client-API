@@ -36,7 +36,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
             while (!cancel.IsCancellationRequested && DateTime.Now < endTime)
             {
                 string responseJson = await SendCustomMessageAsync("get_coin_records_by_puzzle_hash", rpc.ToString());
-                ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson);
+                ActionResult<GetCoinRecords_Response> deserializationResult = GetCoinRecords_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
                 GetCoinRecords_Response response = new GetCoinRecords_Response();
 
                 if (deserializationResult.Data != null)
