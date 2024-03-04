@@ -52,7 +52,7 @@ namespace TransactionTypeTests.Transactions_NS
             WalletRpcClient client = new WalletRpcClient(reportResponseErrors: true);
             //await client.LogIn_Async(2960367160);
             await client.AwaitWalletSync_Async(CancellationToken.None);
-            await client.CleanDust(CancellationToken.None, 5, 1000);
+            GetTransaction_Response result = await client.CleanDust(CancellationToken.None, 5, 1000,maximumBatchSize:200);
             var spendableCoinsAfter_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(5));
             { }
         }

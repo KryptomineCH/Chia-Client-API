@@ -273,6 +273,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
             if (deserializationResult.Data != null)
             {
                 response = deserializationResult.Data;
+                response.RawContent = deserializationResult.RawJson;
             }
             else
             {
@@ -284,6 +285,7 @@ namespace Chia_Client_API.FullNodeAPI_NS
                     await ReportError.UploadFileAsync(new Error(response, "Fullnode", "get_blocks"));
                 }
             }
+            
             return response;
         }
 
