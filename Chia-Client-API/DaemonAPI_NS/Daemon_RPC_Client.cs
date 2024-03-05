@@ -27,7 +27,8 @@ namespace Chia_Client_API.DaemonAPI_NS
         /// The 'localhost' default for the targetApiAddress parameter is suitable for scenarios where the daemon and the application are running on the same machine. 
         /// For remote daemons, provide the appropriate IP address.
         /// The default targetApiPort is the default port number where the Chia Daemon RPC server is configured to listen for incoming requests.
-        /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. This is required to establish a secure (HTTPS) connection to the daemon's RPC server. If left null, it assumes the certificate is in the default location.
+        /// The targetCertificateBaseFolder parameter needs to point to a directory containing a valid SSL/TLS certificate. 
+        /// This is required to establish a secure (HTTPS) connection to the daemon's RPC server. If left null, it assumes the certificate is in the default location.
         /// </remarks>
         public DaemonRpcClient(
             bool reportResponseErrors, 

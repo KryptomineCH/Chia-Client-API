@@ -324,31 +324,7 @@ namespace Chia_Client_API.WalletAPI_NS
             data.Wait();
             return data.Result;
         }
-        
-    public GetWalletAddresses_Response GetWalletAddresses_Sync(GetWalletAddresses_RPC rpc)
-    {
-        Task<GetWalletAddresses_Response?> data = Task.Run(() => GetWalletAddresses_Async(rpc));
-        data.Wait();
-        return data.Result;
-    }
-    public async Task<GetWalletAddresses_Response?> GetWalletAddresses_Async(GetWalletAddresses_RPC rpc)
-    {
-        string responseJson = await SendCustomMessageAsync("get_wallet_addresses", rpc.ToString());
-        ActionResult<GetWalletAddresses_Response> deserializationResult = GetWalletAddresses_Response.LoadResponseFromString(responseJson,IncludeRawServerResponse);
-            GetWalletAddresses_Response response = new();
-
-            if (deserializationResult.Data != null)
-            {
-                response = deserializationResult.Data;
-            }
-            else
-            {
-                response.success = deserializationResult.Success;
-                response.error = deserializationResult.Error;
-                response.RawContent = deserializationResult.RawJson;
-            }
-            return response;
-        }
+       
     
         /// <summary>
         /// Obtain current notifications
