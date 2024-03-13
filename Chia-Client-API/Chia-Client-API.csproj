@@ -7,7 +7,7 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Chia client api to interact with the chia client</Title>
-    <Version>2.2.0.13</Version>
+    <Version>2.2.0.15</Version>
     <Authors>KryptoMine.ch, Julian Bechtold</Authors>
     <Company>KryptoMine.ch</Company>
     <Description>CHIA-RPC is a C# Nuget library that allows developers to easily communicate with the Chia client. It provides a wrapper for making requests, sending transactions, and minting, making it a versatile tool for interacting with the Chia blockchain. With CHIA-RPC, you can easily integrate Chia functionality into your C# projects.</Description>
@@ -16,7 +16,10 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/KryptomineCH/Chia-Client-API</RepositoryUrl>
     <PackageTags>Chia;Blockchain;API;C#;.NET;NuGet;Cryptocurrency;Client;Wrapper;Transactions;HTTP;JSON;REST;Communication;Library;Websocket;XCH</PackageTags>
-    <PackageReleaseNotes>2.2.0.X
+    <PackageReleaseNotes>2.2.0.15
+- implemented clean expired offers custom function according to https://github.com/Chia-Network/chia-blockchain/issues/17476
+
+2.2.0.14
 - Fix Mempool related objects for get_all_mempool_items
 - Add Custom Property FeePerCost to Mempool Item
 - Update Block RPC
@@ -27,6 +30,7 @@
 - added raw response option to constructor
 - implement get_wallet_adresses
 - fix file sorting issue when loading certificates. Noiw properly selects the private key
+- fix certificate loader in some occasions on ubuntu
 
 2.2.0
 - Implement Datalayer get_proof
