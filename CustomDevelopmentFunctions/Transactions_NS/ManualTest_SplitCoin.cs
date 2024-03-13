@@ -13,21 +13,6 @@ namespace TransactionTypeTests.Transactions_NS
 {
     public class ManualTest_MultiTransaction
     {
-        [Fact]
-        [Trait("Category", "Manual")]
-        public async void Test_SplitCoinManual()
-        {
-            //string certificatePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".testnet", "testnetclientSsl");
-            //WalletRpcClient client = new WalletRpcClient(reportResponseErrors: true, targetApiAddress: "kryp-chiatestclient", targetCertificateBaseFolder: certificatePath);
-            WalletRpcClient client = new WalletRpcClient(reportResponseErrors: true);
-            await client.LogIn_Async(2960367160);
-            await client.AwaitWalletSync_Async(CancellationToken.None);
-            var spendableCoins_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
-            var splitResult = await client.SplitCoin(1, 10, 0.001m, spendableCoins_Response.confirmed_records[1].coin, 1001);
-            Assert.True(splitResult.success);
-            var spendableCoinsAfter_Response = await client.GetSpendableCoins_Async(new WalletID_RPC(1));
-            Assert.True(spendableCoins_Response.confirmed_records.Length < spendableCoinsAfter_Response.confirmed_records.Length);
-        }
 
         [Fact]
         [Trait("Category", "Manual")]

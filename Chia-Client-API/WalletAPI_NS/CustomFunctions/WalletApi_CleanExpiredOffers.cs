@@ -2,19 +2,14 @@
 using CHIA_RPC.Objects_NS;
 using CHIA_RPC.Wallet_NS.CATsAndTrading_NS;
 using CHIA_RPC.Wallet_NS.Offer_NS;
-using CHIA_RPC.Wallet_NS.Wallet_NS;
-using CHIA_RPC.Wallet_NS.WalletManagement_NS;
 
 namespace Chia_Client_API.WalletAPI_NS
 {
     public partial class WalletRpcClient
     {
         /// <summary>
-        /// this function takes an array of coins and combines them within the same wallet
+        /// this function cancels all offers in the wallet which have been expired off chain to release the locked funds
         /// </summary>
-        /// <param name="walletId">the wallet where the coins are in</param>
-        /// <param name="feeMojos">an optional blockchain fee in xch mojos</param>
-        /// <param name="coinsToCombine">the coins which are to be combined into one large coin</param>
         /// <returns></returns>
         public async Task<Success_Response> CleanExpiredOffers()
         {
