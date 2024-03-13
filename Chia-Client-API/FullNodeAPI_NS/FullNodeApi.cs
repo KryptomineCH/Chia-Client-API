@@ -1196,8 +1196,6 @@ namespace Chia_Client_API.FullNodeAPI_NS
             data.Wait();
             return data.Result;
         }
-        
-        /* Custom Functions */
 
     }
 }
