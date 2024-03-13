@@ -27,8 +27,8 @@ namespace Chia_Client_API
 
             var endpointCertificateDirectory = new DirectoryInfo(Path.Combine(basePath, endpoint.ToString()));
             var files = endpointCertificateDirectory.GetFiles();
-            FileInfo? certFile = files.FirstOrDefault(f => f.Name.EndsWith(".crt"));
-            FileInfo? keyFile = files.FirstOrDefault(f => f.Name.EndsWith(".key"));
+            FileInfo? certFile = files.FirstOrDefault(f => f.Name.EndsWith(".crt") && f.Name.Contains("private"));
+            FileInfo? keyFile = files.FirstOrDefault(f => f.Name.EndsWith(".key") && f.Name.Contains("private"));
 
             if (certFile == null || keyFile == null)
             {
@@ -72,6 +72,10 @@ namespace Chia_Client_API
         /// <returns>A collection containing the deserialized certificate.</returns>
         public static X509Certificate2Collection DeserializeCert(string certBlob, string keyBlob)
         {
+            //Console.WriteLine("certBlob:");
+            //Console.WriteLine(certBlob);
+            //Console.WriteLine("keyBlob:");
+            //Console.WriteLine(keyBlob);
             if (string.IsNullOrEmpty(certBlob))
             {
                 throw new ArgumentNullException(nameof(certBlob), "Certificate data is empty.");
@@ -99,12 +103,14 @@ namespace Chia_Client_API
             const string EndPrivateKey = "-----END PRIVATE KEY-----";
 
             var rsa = RSA.Create();
+            //Console.WriteLine(serializedKey);
             if (serializedKey.StartsWith(BeginRsaPrivateKey, StringComparison.Ordinal))
             {
                 var base64 = serializedKey.Replace(BeginRsaPrivateKey, string.Empty)
                                            .Replace(EndRsaPrivateKey, string.Empty);
                 var keyBytes = Convert.FromBase64String(base64);
                 rsa.ImportRSAPrivateKey(keyBytes, out _);
+                
             }
             else
             {
