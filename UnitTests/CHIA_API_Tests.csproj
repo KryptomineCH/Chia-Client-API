@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
 
     <IsPackable>false</IsPackable>
@@ -22,6 +22,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Chia-Client-API\Chia-Client-API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="xunit.core">
+      <HintPath>..\..\..\.nuget\packages\xunit.extensibility.core\2.4.2\lib\netstandard1.1\xunit.core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
