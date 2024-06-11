@@ -41,7 +41,7 @@ public class RpcClient : ChiaClientBase
         }
             
         var handler = new SocketsHttpHandler();
-        handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(_EndpointNode, _API_CertificateFolder);
+        handler.SslOptions.ClientCertificates = CertificateLoader.GetCertificate(TargetApiAddress, TargetApiPort,_EndpointNode, _API_CertificateFolder);
         // TODO: Actually validate certificate
         handler.SslOptions.RemoteCertificateValidationCallback += ValidateServerCertificate;
 

@@ -1,0 +1,30 @@
+{
+  "additions": [
+    {
+      "amount": 367747922895,
+      "parent_coin_info": "0xe9358b8602e83c3987edb92ae2b51518b91351fcd317c940e996f5eaf8a27085",
+      "puzzle_hash": "0x26bde8d76cfc8679119b895b4f1ceb07fa72ccfd71c08f6b768abf33323431f7"
+    }
+  ],
+  "amount": 367747923895,
+  "confirmed": true,
+  "confirmed_at_height": 3409857,
+  "created_at_time": 1698846764,
+  "fee_amount": 1000,
+  "name": "0x69f5f395412314f567b691644dff30279c3b27d5080362222ba40dc01c9cba0c",
+  "removals": [
+    {
+      "amount": 367747923895,
+      "parent_coin_info": "0x50c99173d22a91290366174b434610ed06cad88a0e46e21f04b42f1520f36afa",
+      "puzzle_hash": "0x39ee689bb66865d0766552ce6dc9b8e068a6e4b66a4333fac1b72ab2e2e6c0c0"
+    }
+  ],
+  "sent": 10,
+  "sent_to": [],
+  "spend_bundle": null,
+  "to_address": "txch1y67734mvljr8jyvm39d5788tqla89n8aw8qg76mk32lnxv35x8msgh2k4p",
+  "to_puzzle_hash": "0x26bde8d76cfc8679119b895b4f1ceb07fa72ccfd71c08f6b768abf33323431f7",
+  "trade_id": null,
+  "type": 0,
+  "wallet_id": 1
+}

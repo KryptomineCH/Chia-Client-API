@@ -6,21 +6,55 @@ using CHIA_RPC.General_NS;
 
 namespace Chia_Client_API
 {
-    internal class CertificateLoader
+    internal class CompositeKey : IEquatable<CompositeKey>
     {
-        private static ConcurrentDictionary<Endpoint, X509Certificate2Collection> Certificates = new ConcurrentDictionary<Endpoint, X509Certificate2Collection>();
+        public string Host { get; }
+        public int Port { get; }
+        public Endpoint Endpoint { get; }
+
+        public CompositeKey(string host, int port, Endpoint endpoint)
+        {
+            Host = host;
+            Port = port;
+            Endpoint = endpoint;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as CompositeKey);
+        }
+
+        public bool Equals(CompositeKey other)
+        {
+            return other != null &&
+                   Host == other.Host &&
+                   Port == other.Port &&
+                   EqualityComparer<Endpoint>.Default.Equals(Endpoint, other.Endpoint);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Host, Port, Endpoint);
+        }
+    }
+    internal static class CertificateLoader
+    {
+        private static ConcurrentDictionary<CompositeKey, X509Certificate2Collection> Certificates = new ConcurrentDictionary<CompositeKey, X509Certificate2Collection>();
 
         /// <summary>
         /// Retrieves a certificate collection for a given endpoint, loading it from files if necessary.
         /// </summary>
+        /// <param name="host">The target host.</param>
+        /// <param name="port">The target port.</param>
         /// <param name="endpoint">The endpoint for which to retrieve the certificate.</param>
         /// <param name="basePath">The base file path for certificate files.</param>
         /// <returns>A collection of X509 certificates.</returns>
         /// <exception cref="FileNotFoundException">Thrown when the certificate file or key file is not found.</exception>
         /// <exception cref="InvalidOperationException">Thrown when the certificate or key file is not correctly formatted.</exception>
-        internal static X509Certificate2Collection GetCertificate(Endpoint endpoint, string basePath)
+        internal static X509Certificate2Collection GetCertificate(string host, int port, Endpoint endpoint, string basePath)
         {
-            if (Certificates.TryGetValue(endpoint, out var certificateCollection))
+            var key = new CompositeKey(host, port, endpoint);
+            if (Certificates.TryGetValue(key, out var certificateCollection))
             {
                 return certificateCollection;
             }
@@ -36,7 +70,7 @@ namespace Chia_Client_API
             }
 
             var newCertCollection = LoadCertificateFromFiles(certFile.FullName, keyFile.FullName);
-            Certificates[endpoint] = newCertCollection; // This ensures the dictionary doesn't grow indefinitely
+            Certificates[key] = newCertCollection; // This ensures the dictionary doesn't grow indefinitely
             return newCertCollection;
         }
 
@@ -72,10 +106,6 @@ namespace Chia_Client_API
         /// <returns>A collection containing the deserialized certificate.</returns>
         public static X509Certificate2Collection DeserializeCert(string certBlob, string keyBlob)
         {
-            //Console.WriteLine("certBlob:");
-            //Console.WriteLine(certBlob);
-            //Console.WriteLine("keyBlob:");
-            //Console.WriteLine(keyBlob);
             if (string.IsNullOrEmpty(certBlob))
             {
                 throw new ArgumentNullException(nameof(certBlob), "Certificate data is empty.");
@@ -95,6 +125,7 @@ namespace Chia_Client_API
 
             return new X509Certificate2Collection(ephemeralX509Cert);
         }
+
         private static RSA DeserializePrivateKey(string serializedKey)
         {
             const string BeginRsaPrivateKey = "-----BEGIN RSA PRIVATE KEY-----";
@@ -103,14 +134,13 @@ namespace Chia_Client_API
             const string EndPrivateKey = "-----END PRIVATE KEY-----";
 
             var rsa = RSA.Create();
-            //Console.WriteLine(serializedKey);
+
             if (serializedKey.StartsWith(BeginRsaPrivateKey, StringComparison.Ordinal))
             {
                 var base64 = serializedKey.Replace(BeginRsaPrivateKey, string.Empty)
                                            .Replace(EndRsaPrivateKey, string.Empty);
                 var keyBytes = Convert.FromBase64String(base64);
                 rsa.ImportRSAPrivateKey(keyBytes, out _);
-                
             }
             else
             {
@@ -121,6 +151,18 @@ namespace Chia_Client_API
             }
 
             return rsa;
+        }
+
+        /// <summary>
+        /// Clears the certificate cache for the specified composite key.
+        /// </summary>
+        /// <param name="host">The target host.</param>
+        /// <param name="port">The target port.</param>
+        /// <param name="endpoint">The endpoint for which to clear the cache.</param>
+        public static void ClearCacheForEndpoint(string host, int port, Endpoint endpoint)
+        {
+            var key = new CompositeKey(host, port, endpoint);
+            Certificates.TryRemove(key, out _);
         }
     }
 }

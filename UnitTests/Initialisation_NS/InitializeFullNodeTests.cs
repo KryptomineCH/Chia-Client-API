@@ -13,7 +13,12 @@ namespace CHIA_API_Tests.Initialisation_NS
             string certificatePath = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
                 ".testnet","ssl");
-            Fullnode_Client = new FullNodeRpcClient(reportResponseErrors: false, targetApiAddress: "192.168.1.117", targetCertificateBaseFolder: certificatePath);
+            Fullnode_Client = new FullNodeRpcClient(
+                reportResponseErrors: false, 
+                targetApiAddress: "192.168.1.117", 
+                targetCertificateBaseFolder: certificatePath,
+                targetApiPort:8800);
+            {}
         }
         public static FullNodeRpcClient Fullnode_Client;
         public void Dispose()

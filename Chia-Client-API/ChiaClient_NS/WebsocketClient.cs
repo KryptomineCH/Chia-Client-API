@@ -87,7 +87,7 @@ public class WebsocketClient : ChiaClientBase
         }
 
         _Client = new ClientWebSocket();
-        _Client.Options.ClientCertificates = CertificateLoader.GetCertificate(Endpoint.daemon, _API_CertificateFolder);
+        _Client.Options.ClientCertificates = CertificateLoader.GetCertificate(TargetApiAddress,TargetApiPort,Endpoint.daemon, _API_CertificateFolder);
         _Client.Options.RemoteCertificateValidationCallback += ValidateServerCertificate;
         AsyncHelper.RunSync(() => _Client.ConnectAsync(new Uri("wss://" + TargetApiAddress+":"+ TargetApiPort), CancellationToken.None));
         string registerDaemonResult = SendCustomMessageSync("register_service", new Service_RPC(ChiaService.daemon).ToString());
